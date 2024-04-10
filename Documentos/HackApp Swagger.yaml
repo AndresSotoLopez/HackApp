@@ -1,0 +1,774 @@
+---
+openapi: 3.0.0
+info:
+  title: HackAPP
+  description: Endpoints para la aplicación móvil HackAPP.
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/DREW11PLAYSTATION/HackAPP/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /v1/auth:
+    post:
+      tags:
+      - Usuario
+      summary: Inicio de sesión.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_auth_body'
+        required: true
+      responses:
+        "200":
+          description: Operación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Error de solicitud.
+        "401":
+          description: Credenciales inválidas.
+        "404":
+          description: Usuario no encontrado.
+        "500":
+          description: Error del servidor.
+    delete:
+      tags:
+      - Usuario
+      summary: Cierra la sesion del usuario.
+      description: Elimina el token de usuario de la base de datos.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      responses:
+        "204":
+          description: Sesion cerrada exitosamente.
+        "401":
+          description: Token inválido.
+        "404":
+          description: Token no encontrado.
+        "500":
+          description: Error del servidor.
+  /v1/cuenta:
+    post:
+      tags:
+      - Usuario
+      summary: Registro de un nuevo usuario.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_cuenta_body'
+        required: true
+      responses:
+        "200":
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Error de solicitud o usuario ya registrado
+        "401":
+          description: Credenciales inválidas
+        "500":
+          description: Error del servidor
+    delete:
+      tags:
+      - Usuario
+      summary: Elimina la cuenta del usuario
+      description: Elimina el la cuenta del usuario de la base de datos.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      responses:
+        "204":
+          description: Cuenta eliminada exitosamente
+        "401":
+          description: Token inválido
+        "404":
+          description: Token no encontrado
+        "500":
+          description: Error del servidor
+  /v1/cambioDatos:
+    post:
+      tags:
+      - Usuario
+      summary: Cambiar la contraseña del usuario.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_cambioDatos_body'
+        required: true
+      responses:
+        "200":
+          description: Datos cambiados exitosamente.
+        "400":
+          description: Error de solicitud.
+        "401":
+          description: Token inválido.
+        "500":
+          description: Error del servidor
+  /v1/datosUsuario/{username}:
+    get:
+      tags:
+      - Usuario
+      summary: Obtener los datos del usuario.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      - name: username
+        in: path
+        description: "Nombre de usuario del usuario. En caso de querer todos los usuarios, se debe poner como username \"all\"."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: testUser
+      responses:
+        "200":
+          description: Petición GET exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: Error de solicitud.
+        "401":
+          description: Token inválido.
+        "404":
+          description: Usuario no encontrado en la BBDD
+        "500":
+          description: Error del servidor
+  /v1/nuevaPublicacion:
+    post:
+      tags:
+      - Publicaciones
+      summary: Creación de las distintas publicaciones.
+      description: "Las publicaciones también contarán con un campo a mayores en la tabla que se llamara \"estado\" y será de tipo Boolean, este campo será clave foranea de tipoCuenta de la tabla usuarios. En caso de ser privado, se ha de comprobar si el usuario sigue a esta cuenta antes de mostrarlo. Las publicaciones privadas donde los usuarios no se siguen, no se monstrarán. Para"
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_nuevaPublicacion_body'
+        required: true
+      responses:
+        "200":
+          description: Post publicado exitosamente.
+        "400":
+          description: Error de solicitud o falta algún campo para el tipo de publicación.
+        "401":
+          description: Token inválido.
+        "500":
+          description: Error del servidor
+  /v1/publicacion/{id}:
+    get:
+      tags:
+      - Publicaciones
+      summary: Obtener publicaciones existentes
+      description: "Endpoint para obtener todas las publicaciones (0 para obtener todas, de 1 en adelante para filtrar por esa publicación)."
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      - name: username
+        in: query
+        description: (Opcional) -> Nombre de usuario en caso de querer filtrar las publicaciones para un usuario.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: userTest
+      - name: tipoNoticia
+        in: query
+        description: (Opcional) -> Tipo de noticia por el que queramos filtrar.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+        example: 1
+      - name: id
+        in: path
+        description: ID de la publicación a filtrar (0 para obtener todas las publicaciones)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Publicaciones obtenidas exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Error de solicitud o falta algún campo para el tipo de publicación.
+        "401":
+          description: Token inválido
+        "404":
+          description: Publicación con ID (numero de id) no encontrada.
+        "500":
+          description: Error del servidor
+  /v1/borrarPublicaciones/{id}:
+    delete:
+      tags:
+      - Publicaciones
+      summary: Eliminar una publicación
+      description: Elimina una publicación existente de la aplicación.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      - name: id
+        in: path
+        description: ID de la publicación a eliminar
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Publicación eliminada exitosamente
+        "401":
+          description: Token inválido
+        "404":
+          description: Publicación no encontrada
+        "500":
+          description: Error del servidor
+  /v1/comentario:
+    get:
+      tags:
+      - Comentarios
+      summary: Obtener comentarios
+      description: Endpoint para obtener todos los comentarios de una publicación.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      - name: id
+        in: query
+        description: ID de la publicación para la que se desean obtener los comentarios.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 123
+      responses:
+        "200":
+          description: Comentarios obtenidos exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: Error de solicitud o falta el parámetro postId.
+        "401":
+          description: Token inválido.
+        "404":
+          description: No se encontraron comentarios para la publicación especificada.
+        "500":
+          description: Error del servidor.
+    post:
+      tags:
+      - Comentarios
+      summary: Añade un comentario a un foro creado por cualquier usuario.
+      description: Endpoint para agregar un comentario a una publicación.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_comentario_body'
+        required: true
+      responses:
+        "201":
+          description: Comentario agregado exitosamente.
+        "400":
+          description: Error de solicitud o falta algún campo para el comentario.
+        "401":
+          description: Token inválido.
+        "500":
+          description: Error del servidor.
+    delete:
+      tags:
+      - Comentarios
+      summary: Eliminar comentario
+      description: Endpoint para eliminar un comentario por su ID.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+      - name: id
+        in: query
+        description: ID del comentario que se desea eliminar.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          example: 123
+      responses:
+        "204":
+          description: Comentario eliminado exitosamente.
+        "400":
+          description: Error de solicitud o falta el parámetro commentId.
+        "401":
+          description: Token inválido.
+        "404":
+          description: Comentario no encontrado.
+        "500":
+          description: Error del servidor.
+  /v1/manejarPeticiones:
+    get:
+      tags:
+      - Peticiones
+      summary: Obtener solicitudes de amistad
+      description: "Endpoint para obtener las solicitudes de amistad pendientes de un usuario. Para ver solo las peticiones que quedan por aceptar o rechazar, se ha de filtrar por el campo \"aceptado\""
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Solicitudes de amistad obtenidas exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_4'
+        "401":
+          description: Token inválido.
+        "500":
+          description: Error del servidor.
+    post:
+      tags:
+      - Peticiones
+      summary: Aceptar solicitud de amistad
+      description: "Endpoint para aceptar una solicitud de amistad. Una vez aceptada, el valor del campo \"aceptado\" se pondrá en true."
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: ID de la solicitud de amistad que se desea aceptar.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Solicitud de amistad aceptada exitosamente.
+        "401":
+          description: Token inválido.
+        "404":
+          description: Solicitud de amistad no encontrada.
+        "500":
+          description: Error del servidor.
+    delete:
+      tags:
+      - Peticiones
+      summary: Rechazar solicitud de amistad
+      description: "Endpoint para rechazar una solicitud de amistad. En este caso, la peticion se borrará de la tabla."
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: ID de la solicitud de amistad que se desea rechazar.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Solicitud de amistad rechazada exitosamente.
+        "401":
+          description: Token inválido.
+        "404":
+          description: Solicitud de amistad no encontrada.
+        "500":
+          description: Error del servidor.
+  /v1/mandarPeticiones:
+    post:
+      tags:
+      - Peticiones
+      summary: Mandar solicitud de amistad
+      description: "Endpoint para mandar una solicitud de amistad. Una vez aceptada, el valor del campo \"aceptado\" se pondrá en false."
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: ID del usuario al que se le manda la peticion de amistad.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Solicitud de amistad mandada exitosamente.
+        "401":
+          description: Token inválido.
+        "500":
+          description: Error del servidor.
+components:
+  schemas:
+    v1_auth_body:
+      type: object
+      properties:
+        username/email:
+          type: string
+          description: Nombre de usuario.
+        contrasena:
+          type: string
+          description: Contraseña del usuario.
+    inline_response_200:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token de acceso generado para el usuario.
+          example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+    v1_cuenta_body:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Nombre personal.
+        apellidos:
+          type: string
+          description: Apellidos personales.
+        email:
+          type: string
+          description: Correo electrónico al que se le va a asociar la cuenta.
+        contrasena:
+          type: string
+          description: Contraseña del usuario.
+        ct:
+          type: integer
+          description: Código de telefono del país.
+        telefono:
+          type: integer
+          description: Teléfono móvil al que se le va a asociar la cuenta.
+        biografía:
+          type: string
+          description: Biografía del usuario.
+          nullable: true
+    v1_cambioDatos_body:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token de sesión.
+          nullable: false
+        username:
+          type: string
+          description: Nuevo nombre de usuario.
+          nullable: true
+        contraseña:
+          type: string
+          description: Nueva contraseña del usuario.
+          nullable: true
+        email:
+          type: string
+          description: Nuevo correo del usuario.
+          nullable: true
+        biografia:
+          type: string
+          description: Biografía del usuario.
+          nullable: true
+    inline_response_200_1:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Nombre de usuario del usuario.
+          example: testUser
+        name:
+          type: string
+          description: Nombre del usuario.
+          example: Test
+        apellidos:
+          type: string
+          description: Apellidos del usuario.
+          example: Test
+        biografia:
+          type: string
+          description: Biografía del usuario.
+          example: Esto es una biografía de ejemplo.
+        posts:
+          type: integer
+          description: Número de publicaciones del usuario.
+          example: 25
+        seguidores:
+          type: integer
+          description: Número de seguidores del usuario.
+          example: 100
+        seguidos:
+          type: integer
+          description: Número de cuentas que sigue el usuario.
+          example: 50
+        notisActivadas:
+          type: boolean
+          description: Indica si las notificaciones están activadas para el usuario.
+          example: true
+        cuentaPrivada:
+          type: boolean
+          description: Indica si la cuenta del usuario es privada.
+          example: false
+    v1_nuevaPublicacion_body:
+      type: object
+      properties:
+        tipo:
+          type: integer
+          description: |
+            El tipo 1 hace referencia a los exploits, el tipo 2 a las noticias y el tipo 3 a los foros.
+          enum:
+          - 1
+          - 2
+          - 3
+        nombre:
+          type: string
+          description: nombre de la publicación.
+          nullable: true
+        linkExterno:
+          type: string
+          description: Link a otro sitio web.
+          nullable: true
+        imagen:
+          type: string
+          description: Link de la imagen.
+          nullable: true
+        descripcion:
+          type: string
+          description: "Descripción de la publicación, en el caso del exploit este campo cuenta como el código."
+          nullable: true
+        fecha:
+          type: string
+          description: Fecha en la que se hace la publicación
+          format: date-time
+          nullable: true
+        CVE:
+          type: string
+          description: Código CVE del exploit de la publicación
+          nullable: true
+        Gravedad:
+          type: integer
+          description: |
+            Gravedad del exploit. (1->bajo, 2->Medio, 3->Crítico, 4->severe)
+          nullable: true
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+        tested:
+          type: string
+          description: Qué ha probado el usuario del foro.
+          nullable: true
+    inline_response_200_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID de la publicación.
+          example: 1
+        tipo:
+          type: integer
+          description: Tipo de la publicación.
+          example: 1
+        nombre:
+          type: string
+          description: Nombre de la publicación.
+          example: Publicación de ejemplo
+        linkExterno:
+          type: string
+          description: Link externo de la publicación.
+          example: https://example.com
+        imagen:
+          type: string
+          description: Link de la imagen de la publicación.
+          example: https://example.com/image.jpg
+        descripcion:
+          type: string
+          description: Descripción de la publicación.
+          example: Descripción de la publicación de ejemplo.
+        fecha:
+          type: string
+          description: Fecha de la publicación.
+          format: date-time
+          example: 2024-04-10T12:00:00Z
+        CVE:
+          type: string
+          description: Código CVE de la publicación (si aplica).
+          example: CVE-2024-1234
+        Gravedad:
+          type: integer
+          description: Gravedad de la publicación (si aplica).
+          example: 3
+        tested:
+          type: string
+          description: Información sobre lo probado (si aplica).
+          example: Testeado en entorno de producción.
+    inline_response_200_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del comentario.
+          example: 1
+        text:
+          type: string
+          description: Texto del comentario.
+          example: Comentario de prueba
+        valoracion:
+          type: number
+          description: Valoración del comentario (de 0 a 5 con salto de 0.5).
+          example: 4.5
+        userName:
+          type: string
+          description: Nombre del usuario que se ha publicado. (Clave foránea de usuario)
+          example: testUser
+        avatar:
+          type: string
+          description: Avatár del usuario. (Clave foránea de usuario)
+          format: uri
+          example: https://ejemplo.com
+    v1_comentario_body:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Texto del comentario.
+          example: Comentario de prueba
+        valoracion:
+          multipleOf: 0.5
+          maximum: 5
+          minimum: 0
+          type: number
+          description: Valoración del comentario (de 0 a 5 con salto de 0.5).
+          example: 4.5
+    inline_response_200_4:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID de la solicitud de amistad.
+          example: 123
+        userName:
+          type: string
+          description: Nombre del usuario que ha mandado la solicitud de amistad. (Clave foránea de usuario)
+          example: testUser
+        avatar:
+          type: string
+          description: Avatár del usuario. (Clave foránea de usuario)
+          format: uri
+          example: https://ejemplo.com
