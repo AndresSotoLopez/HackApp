@@ -50,6 +50,15 @@ class Usuario(models.Model):
             'sms_code': self.sms_code,
         }
     
+    oAuthSchema = {
+        "type": "object",
+        "properties": {
+            "user": {"type": "string"},
+            "password": {"type": "string"}
+            },
+        "required": ["user", "password"]
+    }
+    
 class Publicacion(models.Model):
     nombre = models.CharField(max_length=20, null=False)
     TIPO_OPCIONES = (
