@@ -183,6 +183,9 @@ class publicaciones():
         
         if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
             return JsonResponse({"Error": "Token no valido"}, status=401)
+        
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
     
         funciones_de_publicacion.publicacion.crear_publicaciones(oData, sToken)
         return JsonResponse({"Info": "Publicacion creada correctamente"}, status=200)
