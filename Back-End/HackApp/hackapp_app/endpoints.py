@@ -44,6 +44,9 @@ class usuarios:
                 sToken = request.headers.get('token')
             except:
                 return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+            
+            if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+                return JsonResponse({"Error": "Token no valido"}, status=401)
 
             Sesiones.objects.filter(token=sToken).delete()
             return JsonResponse({"Info" : "Cuenta cerrada existosamente"}, status=200)
@@ -86,6 +89,9 @@ class usuarios:
                 sToken = request.headers.get('token')
             except:
                 return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+            
+            if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+                return JsonResponse({"Error": "Token no valido"}, status=401)
 
             if not Sesiones.objects.filter(token=sToken).exists():
                 return JsonResponse({"Error": "Token no encontrado"}, status=404)
@@ -112,7 +118,7 @@ class usuarios:
         except:
             return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
             
-        if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
             return JsonResponse({"Error": "Token no valido"}, status=401)
 
         if not Sesiones.objects.filter(token=sToken).exists():
@@ -146,7 +152,7 @@ class usuarios:
         except:
             return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
         
-        if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
             return JsonResponse({"Error": "Token no valido"}, status=401)
 
         if not Sesiones.objects.filter(token=sToken).exists():
