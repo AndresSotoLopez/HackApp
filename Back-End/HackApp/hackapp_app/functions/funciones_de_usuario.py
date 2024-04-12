@@ -37,16 +37,18 @@ class usuario:
 
         usuario.save()
 
-    def comprobar_body_data (oData) :
+    def comprobar_body_data (oData, schema) :
 
         # Verificar si hay claves adicionales en oData
         for clave in oData.keys():
-            if clave not in schemas_de_usuario.schemas.oCambioDatosSchema["properties"].keys():
+            if clave not in schema["properties"].keys():
+                print(clave)
                 return False
 
         # Validar el objeto oData con el schema
         try:
-            validate(instance=oData, schema=schemas_de_usuario.schemas.oCambioDatosSchema)
+            validate(instance=oData, schema=schema)
             return True
         except:
+            print("peto aqui pero molo mas")
             return False

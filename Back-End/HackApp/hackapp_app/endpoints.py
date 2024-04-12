@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario, Publicacion, Comentario, Solicitud, Sesiones
 import json, hashlib
 from .functions import funciones_de_usuario
-
+from .schemas import schemas_de_usuario
 class usuarios: 
 
     @csrf_exempt
@@ -13,7 +13,7 @@ class usuarios:
             oData = json.loads(request.body)
 
             #Validar Json enviado 
-            if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+            if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oAuthSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             sUser = oData.get('user', None)
@@ -39,13 +39,11 @@ class usuarios:
             return JsonResponse({"token" : sToken}, status=200)
 
         if request.method == 'DELETE':
-            sToken = request.headers.get('token', None)
 
-            if not sToken:
-                return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
-
-            if not Sesiones.objects.filter(token=sToken).exists():
-                return JsonResponse({"Error": "Token no encontrado"}, status=404)
+            try:
+                sToken = request.headers.get('token')
+            except:
+                return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
 
             Sesiones.objects.filter(token=sToken).delete()
             return JsonResponse({"Info" : "Cuenta cerrada existosamente"}, status=200)
@@ -59,7 +57,7 @@ class usuarios:
             oData = json.loads(request.body)
 
             #Validar Json enviado 
-            if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+            if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             sUsername = oData.get('username')
@@ -84,13 +82,10 @@ class usuarios:
             return JsonResponse({"token" : sToken}, status=200)
 
         if request.method == "DELETE":
-            sToken = request.headers.get('token', None)
-
-            if not sToken:
-                return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
-            
-            if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
+            try:
+                sToken = request.headers.get('token')
+            except:
+                return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
 
             if not Sesiones.objects.filter(token=sToken).exists():
                 return JsonResponse({"Error": "Token no encontrado"}, status=404)
@@ -107,14 +102,15 @@ class usuarios:
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
         oData = json.loads(request.body)
-        sToken = request.headers.get('token', None)
 
         #Validar Json enviado
-        if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+        if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oCambioDatosSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
     
-        if not sToken:
-                return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
+        try:
+            sToken = request.headers.get('token')
+        except:
+            return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
             
         if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
             return JsonResponse({"Error": "Token no valido"}, status=401)
@@ -140,3 +136,23 @@ class usuarios:
 
         oUsuario.save()
         return JsonResponse({"Info": "Datos guardados correctamente"}, status=200)
+    
+    def get_usuario (request, username) :
+        if request.method != 'GET':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        try:
+            sToken = request.headers.get('token')
+        except:
+            return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+        
+        if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+            return JsonResponse({"Error": "Token no valido"}, status=401)
+
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
+        
+        oUsuario = Usuario.objects.get(username=username).to_json()
+
+        return JsonResponse(oUsuario, status=200)
+    
