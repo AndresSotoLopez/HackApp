@@ -2,8 +2,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario, Publicacion, Comentario, Solicitud, Sesiones
 import json, hashlib
-from .functions import funciones_de_usuario
-from .schemas import schemas_de_usuario
+from .functions import funciones_de_usuario, funciones_de_publicacion
+from .schemas import schemas_de_usuario, schemas_de_publicacion
+
 class usuarios: 
 
     @csrf_exempt
@@ -161,4 +162,28 @@ class usuarios:
         oUsuario = Usuario.objects.get(username=username).to_json()
 
         return JsonResponse(oUsuario, status=200)
+    
+class publicaciones():
+
+    @csrf_exempt
+    def nuevaPublicacion(request):
+        if request.method!= 'POST':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        oData = json.loads(request.body)
+
+        #Validar Json enviado
+        if not funciones_de_publicacion.publicacion.comprobar_body_data(oData, schemas_de_publicacion.schemas.oMainSchema):
+                return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
+        
+        try:
+            sToken = request.headers.get('token')
+        except:
+            return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+        
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+            return JsonResponse({"Error": "Token no valido"}, status=401)
+    
+        funciones_de_publicacion.publicacion.crear_publicaciones(oData, sToken)
+        return JsonResponse({"Info": "Publicacion creada correctamente"}, status=200)
     

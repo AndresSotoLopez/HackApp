@@ -1,7 +1,6 @@
 import secrets, hashlib
 from jsonschema import validate
 from hackapp_app.models import Sesiones, Usuario
-from hackapp_app.schemas import schemas_de_usuario
 
 class usuario:
 
@@ -42,7 +41,6 @@ class usuario:
         # Verificar si hay claves adicionales en oData
         for clave in oData.keys():
             if clave not in schema["properties"].keys():
-                print(clave)
                 return False
 
         # Validar el objeto oData con el schema
@@ -50,5 +48,4 @@ class usuario:
             validate(instance=oData, schema=schema)
             return True
         except:
-            print("peto aqui pero molo mas")
             return False
