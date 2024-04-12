@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/auth', endpoints.usuarios.auth),
     path('v1/cuenta', endpoints.usuarios.cuenta),
+    path('v1/cambioDatos', endpoints.usuarios.cambio_de_datos),
 ]

@@ -34,11 +34,12 @@ class schemas():
     oCambioDatosSchema = {
         "type": "object",
         "properties": {
-            "token": {"type": "string"},
             "username": {"type": "string"},
-            "contraseña": {"type": "string"},
+            "password": {"type": "string"},
             "email": {"type": "string"},
-            "biografia": {"type": "string"}
-        },
-        "required": ["token"]
+            "biografia": {"anyOf": [
+                {"type": "string"},
+                {"type": "null"}
+            ]}
+        }
     }

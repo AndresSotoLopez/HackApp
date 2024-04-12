@@ -1,21 +1,25 @@
 import secrets, hashlib
-from hackapp_app import models
+from jsonschema import validate
+from hackapp_app.models import Sesiones, Usuario
+from hackapp_app.schemas import schemas_de_usuario
 
 class usuario:
+
+    nLongitudToken = 40
     
     def gen_token () :
 
         nLongitud = 20
         sToken = secrets.token_hex(nLongitud) # La funcion multiplica por 2 la longitud
 
-        while models.Sesiones.objects.filter(token=sToken).exists():
+        while Sesiones.objects.filter(token=sToken).exists():
             sToken = secrets.token_hex(nLongitud)
         
         return sToken;
 
     
     def crear_usuario (oData) :
-        usuario = models.Usuario(
+        usuario = Usuario(
             nombre=oData.get('nombre'),
             apellidos=oData.get('apellidos'),
             username=oData.get('username'),
@@ -32,3 +36,17 @@ class usuario:
         )
 
         usuario.save()
+
+    def comprobar_body_data (oData) :
+
+        # Verificar si hay claves adicionales en oData
+        for clave in oData.keys():
+            if clave not in schemas_de_usuario.schemas.oCambioDatosSchema["properties"].keys():
+                return False
+
+        # Validar el objeto oData con el schema
+        try:
+            validate(instance=oData, schema=schemas_de_usuario.schemas.oCambioDatosSchema)
+            return True
+        except:
+            return False

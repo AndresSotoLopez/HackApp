@@ -1,9 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario, Publicacion, Comentario, Solicitud, Sesiones
-import json, secrets, hashlib, jsonschema
-from jsonschema import validate
-from .schemas import schemas_de_usuario
+import json, hashlib
 from .functions import funciones_de_usuario
 
 class usuarios: 
@@ -15,10 +13,8 @@ class usuarios:
             oData = json.loads(request.body)
 
             #Validar Json enviado 
-            try:
-                validate(instance=oData, schema=schemas_de_usuario.schemas.oAuthSchema)
-            except jsonschema.ValidationError as e:
-                return JsonResponse({"Error": e.message}, status=400)
+            if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+                return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             sUser = oData.get('user', None)
             sPassword = oData.get('password', None)
@@ -26,7 +22,7 @@ class usuarios:
             if not sUser or not sPassword:
                 return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
             
-            if len(sToken) != 20:
+            if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
                 return JsonResponse({"Error": "Token no valido"}, status=401)
             
             try:
@@ -63,10 +59,8 @@ class usuarios:
             oData = json.loads(request.body)
 
             #Validar Json enviado 
-            try:
-                validate(instance=oData, schema=schemas_de_usuario.schemas.oSchema)
-            except jsonschema.ValidationError as e:
-                return JsonResponse({"Error": e.message}, status=400)
+            if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+                return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             sUsername = oData.get('username')
             sEmail = oData.get('email')
@@ -95,7 +89,7 @@ class usuarios:
             if not sToken:
                 return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
             
-            if len(sToken) != 20:
+            if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
                 return JsonResponse({"Error": "Token no valido"}, status=401)
 
             if not Sesiones.objects.filter(token=sToken).exists():
@@ -106,3 +100,43 @@ class usuarios:
             return JsonResponse({"Info" : "Cuenta eliminada existosamente"}, status=200)
         
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+    
+    @csrf_exempt
+    def cambio_de_datos (request) :
+        if request.method != "POST":
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        oData = json.loads(request.body)
+        sToken = request.headers.get('token', None)
+
+        #Validar Json enviado
+        if not funciones_de_usuario.usuario.comprobar_body_data(oData):
+                return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
+    
+        if not sToken:
+                return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
+            
+        if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+            return JsonResponse({"Error": "Token no valido"}, status=401)
+
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
+        
+        oUsuario = Sesiones.objects.get(token=sToken).usuario
+
+        if(oData.get('username')):
+            oUsuario.username = oData.get('username')
+
+        if(oData.get('email')):
+            oUsuario.email = oData.get('email')
+
+        if oData.get('biografia') == None:
+            oUsuario.biografia = None 
+        else:
+            oUsuario.biografia = oData.get('biografia')
+
+        if(oData.get('password')):
+            oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+
+        oUsuario.save()
+        return JsonResponse({"Info": "Datos guardados correctamente"}, status=200)
