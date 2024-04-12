@@ -21,4 +21,5 @@ from hackapp_app import endpoints
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/auth', endpoints.usuarios.auth),
+    path('v1/cuenta', endpoints.usuarios.cuenta),
 ]
