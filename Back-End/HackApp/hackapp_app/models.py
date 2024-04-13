@@ -78,6 +78,7 @@ class Publicacion(models.Model):
     
     def to_json(self):
         return {
+            'id': self.id,
             'nombre': self.nombre,
             'tipo_publicacion': self.tipo_publicacion,
             'link_externo': self.link_externo,

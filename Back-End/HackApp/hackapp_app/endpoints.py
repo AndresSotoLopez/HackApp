@@ -13,7 +13,7 @@ class usuarios:
         if request.method == 'POST':
             oData = json.loads(request.body)
 
-            #Validar Json enviado 
+            # Validar Json enviado 
             if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oAuthSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
@@ -23,9 +23,7 @@ class usuarios:
             if not sUser or not sPassword:
                 return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
             
-            if len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
-            
+            # Comprobaciñon del input del usuario.
             try:
                 oUsuario = Usuario.objects.get(email=sUser) if '@' in sUser else Usuario.objects.get(username=sUser)
             except Usuario.DoesNotExist:
@@ -34,6 +32,7 @@ class usuarios:
             if oUsuario.password != hashlib.sha384(sPassword.encode()).hexdigest():
                 return JsonResponse({"Error": "Contraseña no valida"}, status=401)
 
+            # Generacion de token
             sToken = funciones_de_usuario.usuario.gen_token()
             Sesiones(usuario=oUsuario, token=sToken).save()
 
@@ -41,6 +40,7 @@ class usuarios:
 
         if request.method == 'DELETE':
 
+            # Obtención y comprobación del token de usuario.
             try:
                 sToken = request.headers.get('token')
             except:
@@ -60,10 +60,11 @@ class usuarios:
         if request.method == "POST":
             oData = json.loads(request.body)
 
-            #Validar Json enviado 
+            # Validar Json enviado 
             if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
+            # Obtención y comprobación de los campos unique.
             sUsername = oData.get('username')
             sEmail = oData.get('email')
             nTelefono = oData.get('telefono')
@@ -77,6 +78,7 @@ class usuarios:
             if Usuario.objects.filter(telefono=nTelefono).exists():
                 return JsonResponse({"Error": "Numero de telefono en uso"}, status=401)
 
+            # Creación del usuario.
             funciones_de_usuario.usuario.crear_usuario(oData)
             sToken = funciones_de_usuario.usuario.gen_token()
 
@@ -110,7 +112,7 @@ class usuarios:
         
         oData = json.loads(request.body)
 
-        #Validar Json enviado
+        # Validar Json enviado
         if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oCambioDatosSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
     
@@ -148,6 +150,7 @@ class usuarios:
         if request.method != 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
+        # Validacion del token
         try:
             sToken = request.headers.get('token')
         except:
@@ -159,6 +162,7 @@ class usuarios:
         if not Sesiones.objects.filter(token=sToken).exists():
             return JsonResponse({"Error": "Token no encontrado"}, status=404)
         
+        # Se obtienen los datos del usuario
         oUsuario = Usuario.objects.get(username=username).to_json()
 
         return JsonResponse(oUsuario, status=200)
@@ -186,7 +190,53 @@ class publicaciones():
         
         if not Sesiones.objects.filter(token=sToken).exists():
             return JsonResponse({"Error": "Token no encontrado"}, status=404)
-    
+
+        # Creación de la publicación.
         funciones_de_publicacion.publicacion.crear_publicaciones(oData, sToken)
         return JsonResponse({"Info": "Publicacion creada correctamente"}, status=200)
+    
+    def get_publicacion (request, id) :
+        if request.method!= 'GET':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        try:
+            sToken = request.headers.get('token')
+        except:
+            return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+        
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+            return JsonResponse({"Error": "Token no valido"}, status=401)
+        
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
+        
+        sUsername = request.GET.get("username", None)
+        nTipoNoticia = request.GET.get("tipoNoticia", None)
+
+        aPublicacion = []
+
+        if id is 0:
+            
+            if sUsername or nTipoNoticia:
+               aPublicacion = funciones_de_publicacion.publicacion.filtrar_publicaciones(sUsername, nTipoNoticia)
+               if len(aPublicacion) is 0:
+                   return JsonResponse({"Error": "No se encontraron publicaciones"}, status=404)
+
+            else:
+                for oPost in Publicacion.objects.all():
+                    aPublicacion.append(oPost.to_json())
+            
+        else:
+            try:
+                oPost = Publicacion.objects.get(id=id).to_json()
+            except Publicacion.DoesNotExist:
+                return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
+            
+            aPublicacion.append(oPost)
+
+        # Ordenación inversa para que se muestren primero los posts más recientes.
+        aPublicacion.reverse()
+
+        return JsonResponse(aPublicacion, status=200, safe=False)
+    
     

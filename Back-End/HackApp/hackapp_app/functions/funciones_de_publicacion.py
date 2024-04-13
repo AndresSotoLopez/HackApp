@@ -8,7 +8,6 @@ class publicacion:
         # Verificar si hay claves adicionales en oData
         for clave in oData.keys():
             if clave not in schema["properties"].keys():
-                print(clave)
                 return False
 
         # Validar el objeto oData con el schema
@@ -16,7 +15,6 @@ class publicacion:
             validate(instance=oData, schema=schema)
             return True
         except:
-            print("aqui")
             return False
         
     def crear_publicaciones (oData, sToken) :
@@ -33,3 +31,22 @@ class publicacion:
         )
 
         post.save()
+
+    def filtrar_publicaciones (sUsername, nTipoNoticia) :
+
+        aPublicacion = []
+
+        if sUsername :
+            
+            for oPost in Publicacion.objects.all():
+                if oPost.usuario.username == sUsername:
+                    aPublicacion.append(oPost.to_json())
+
+            return aPublicacion
+        
+        if nTipoNoticia :
+            for oPost in Publicacion.objects.filter(tipo_publicacion=nTipoNoticia):
+                aPublicacion.append(oPost.to_json())
+
+            return aPublicacion
+
