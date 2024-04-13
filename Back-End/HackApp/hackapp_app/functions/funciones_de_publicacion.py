@@ -6,8 +6,8 @@ class publicacion:
     def comprobar_body_data (oData, schema) :
 
         # Verificar si hay claves adicionales en oData
-        for clave in oData.keys():
-            if clave not in schema["properties"].keys():
+        for oClave in oData.keys():
+            if oClave not in schema["properties"].keys():
                 return False
 
         # Validar el objeto oData con el schema
@@ -18,7 +18,7 @@ class publicacion:
             return False
         
     def crear_publicaciones (oData, sToken) :
-        post = Publicacion(
+        oPost = Publicacion(
             nombre=oData.get('nombre'),
             tipo_publicacion=oData.get('tipo_publicacion'),
             link_externo=oData.get('link_externo'),
@@ -30,14 +30,14 @@ class publicacion:
             usuario=Sesiones.objects.get(token=sToken).usuario,
         )
 
-        post.save()
+        oPost.save()
 
     def filtrar_publicaciones (sUsername, nTipoNoticia) :
 
         aPublicacion = []
 
         if sUsername :
-            
+
             for oPost in Publicacion.objects.all():
                 if oPost.usuario.username == sUsername:
                     aPublicacion.append(oPost.to_json())
