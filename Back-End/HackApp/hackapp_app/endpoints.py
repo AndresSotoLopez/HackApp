@@ -199,6 +199,7 @@ class publicaciones():
         if request.method!= 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
+        # Validacion del token
         try:
             sToken = request.headers.get('token')
         except:
@@ -239,4 +240,28 @@ class publicaciones():
 
         return JsonResponse(aPublicacion, status=200, safe=False)
     
+    @csrf_exempt
+    def borrar_publicacion (request, id) :
+        if request.method != "DELETE":
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        # Validacion del token
+        try:
+            sToken = request.headers.get('token')
+        except:
+            return JsonResponse({"Error": "No se ha mandado el token"}, status=400)
+        
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+            return JsonResponse({"Error": "Token no valido"}, status=401)
+        
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
     
+        # Obtener el post con el id dado.
+        try:
+            oPost = Publicacion.objects.get(id=id)
+        except Publicacion.DoesNotExist:
+            return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
+        
+        oPost.delete()
+        return JsonResponse({"Info": "Publicacion eliminada correctamente"}, status=200)

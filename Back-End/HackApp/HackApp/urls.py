@@ -26,4 +26,5 @@ urlpatterns = [
     path('v1/datosUsuario/<str:username>', endpoints.usuarios.get_usuario),
     path('v1/nuevaPublicacion', endpoints.publicaciones.nuevaPublicacion),
     path('v1/publicacion/<int:id>', endpoints.publicaciones.get_publicacion),
+    path('v1/borrarPublicaciones/<int:id>', endpoints.publicaciones.borrar_publicacion),
 ]
