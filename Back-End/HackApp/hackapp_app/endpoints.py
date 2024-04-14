@@ -2,8 +2,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario, Publicacion, Comentario, Solicitud, Sesiones
 import json, hashlib
-from .functions import funciones_de_usuario, funciones_de_publicacion, funciones_de_comentario
-from .schemas import schemas_de_usuario, schemas_de_publicacion, schemas_de_comentario
+from hackapp_app.functions import funciones_de_usuario, funciones_de_publicacion, funciones_de_comentario
+from hackapp_app.schemas import schemas_de_usuario, schemas_de_publicacion, schemas_de_comentario
+from hackapp_app.decorators.validar_token import validar_token
+
 
 class usuarios: 
 
@@ -163,6 +165,7 @@ class usuarios:
     
 class publicaciones():
 
+    @validar_token
     @csrf_exempt
     def nuevaPublicacion(request):
         if request.method!= 'POST':
@@ -174,31 +177,14 @@ class publicaciones():
         if not funciones_de_publicacion.publicacion.comprobar_body_data(oData, schemas_de_publicacion.schemas.oMainSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
         
-        #Validar token de usuario.
-        sToken = request.headers.get('token')
-        
-        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-            return JsonResponse({"Error": "Token no valido"}, status=401)
-        
-        if not Sesiones.objects.filter(token=sToken).exists():
-            return JsonResponse({"Error": "Token no encontrado"}, status=404)
-
         # Creación de la publicación.
-        funciones_de_publicacion.publicacion.crear_publicaciones(oData, sToken)
+        funciones_de_publicacion.publicacion.crear_publicaciones(oData, request.headers.get('token'))
         return JsonResponse({"Info": "Publicacion creada correctamente"}, status=200)
     
+    @validar_token
     def get_publicacion (request, id) :
         if request.method!= 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
-        
-        # Validacion del token
-        sToken = request.headers.get('token')
-        
-        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-            return JsonResponse({"Error": "Token no valido"}, status=401)
-        
-        if not Sesiones.objects.filter(token=sToken).exists():
-            return JsonResponse({"Error": "Token no encontrado"}, status=404)
         
         sUsername = request.GET.get("username", None)
         nTipoNoticia = request.GET.get("tipoNoticia", None)
@@ -229,19 +215,11 @@ class publicaciones():
 
         return JsonResponse(aPublicacion, status=200, safe=False)
     
+    @validar_token
     @csrf_exempt
     def borrar_publicacion (request, id) :
         if request.method != "DELETE":
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
-        
-        # Validacion del token
-        sToken = request.headers.get('token')
-        
-        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-            return JsonResponse({"Error": "Token no valido"}, status=401)
-        
-        if not Sesiones.objects.filter(token=sToken).exists():
-            return JsonResponse({"Error": "Token no encontrado"}, status=404)
     
         # Obtener el post con el id dado.
         try:
@@ -254,6 +232,7 @@ class publicaciones():
     
 class comentario:
     
+    @validar_token
     @csrf_exempt
     def comentario (request, id) :  
 
@@ -264,15 +243,6 @@ class comentario:
             if not funciones_de_comentario.comentario.comprobar_body_data(oData, schemas_de_comentario.schema.oMainSchema):
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
             
-             # Validacion del token
-            sToken = request.headers.get('token')
-
-            if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
-
-            if not Sesiones.objects.filter(token=sToken).exists():
-                return JsonResponse({"Error": "Token no encontrado"}, status=404)
-            
             # Validacion del id de la publicación a comentar.
             if not Publicacion.objects.filter(id=id).exists():
                 return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
@@ -280,19 +250,10 @@ class comentario:
             if Publicacion.objects.get(id=id).tipo_publicacion != 3:
                 return JsonResponse({"Error": "No se pueden comentar comentarios en este tipo de posts"}, status=400)
             
-            funciones_de_comentario.comentario.crear_comentario(oData, sToken, id)
+            funciones_de_comentario.comentario.crear_comentario(oData, request.headers.get('token'), id)
             return JsonResponse({"Info":"Comentario creado con exito"}, status=201)
         
         if request.method == 'GET':
-
-            # Validacion del token
-            sToken = request.headers.get('token')
-
-            if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
-
-            if not Sesiones.objects.filter(token=sToken).exists():
-                return JsonResponse({"Error": "Token no encontrado"}, status=404)
             
             # Validacion del id de la publicación a obtener los comentarios.
             if not Publicacion.objects.filter(id=id).exists():
@@ -305,15 +266,6 @@ class comentario:
             return JsonResponse(aComentarios, status=200, safe=False)
         
         if request.method == 'DELETE':
-
-            # Validacion del token
-            sToken = request.headers.get('token')
-
-            if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
-
-            if not Sesiones.objects.filter(token=sToken).exists():
-                return JsonResponse({"Error": "Token no encontrado"}, status=404)
             
             try:
                 Comentario.objects.get(id=id).delete()
@@ -323,7 +275,7 @@ class comentario:
            
         return JsonResponse({"Error": "Metodo no permitido"}, status=405) 
     
-    @csrf_exempt
+    @validar_token
     def valorar_comentarios(request, id):
         if request.method != 'POST':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
@@ -334,18 +286,9 @@ class comentario:
         if not funciones_de_comentario.comentario.comprobar_body_data(oData, schemas_de_comentario.schema.oValorarSchema):
                 return JsonResponse({"Error": "Error en JSON enviado"}, status=400)
         
-        # Validacion del token
-        sToken = request.headers.get('token')
-
-        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
-                return JsonResponse({"Error": "Token no valido"}, status=401)
-
-        if not Sesiones.objects.filter(token=sToken).exists():
-            return JsonResponse({"Error": "Token no encontrado"}, status=404)
-        
         # Validacion del id de la publicación a obtener los comentarios.
         if not Comentario.objects.filter(id=id).exists():
             return JsonResponse({"Error": "Comentario no encontrado"}, status=404)
         
-        funciones_de_comentario.comentario.valorar_comentarios(oData, sToken, id)
+        funciones_de_comentario.comentario.valorar_comentarios(oData, request.headers.get('token'), id)
         return JsonResponse({"Info": "Comentario valorado con exito"}, status=201)
