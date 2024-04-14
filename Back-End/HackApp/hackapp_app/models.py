@@ -34,6 +34,7 @@ class Usuario(models.Model):
     
     def to_json(self):
         return {
+            'id': self.id,
             'nombre': self.nombre,
             'apellidos': self.apellidos,
             'username': self.username,
@@ -53,9 +54,9 @@ class Usuario(models.Model):
 class Publicacion(models.Model):
     nombre = models.CharField(max_length=20, null=False)
     TIPO_OPCIONES = (
-        (0, 'Noticia'),
-        (1, 'Exploit'),
-        (2, 'Foro')
+        (1, 'Noticia'),
+        (2, 'Exploit'),
+        (3, 'Foro')
     )
     tipo_publicacion = models.IntegerField(choices=TIPO_OPCIONES, default=0)
     link_externo = models.URLField(max_length=100, null=True)
@@ -63,10 +64,10 @@ class Publicacion(models.Model):
     descripcion = models.CharField(max_length=200)
     fecha = models.DateField(default=timezone.now)
     GRAVEDAD_OPCIONES = (
-        (0, 'Low'),
-        (1, 'Medium'),
-        (2, 'High'),
-        (3, 'Critical'),
+        (1, 'Low'),
+        (2, 'Medium'),
+        (3, 'High'),
+        (4, 'Critical'),
     )
     gravedad = models.IntegerField(choices=GRAVEDAD_OPCIONES, default=0, null=True)
     cve = models.CharField(max_length=13, unique=True, null=True)
@@ -100,6 +101,7 @@ class Comentario(models.Model):
 
     def to_json(self):
         return {
+            'id': self.id,
             'usuario': self.usuario.nombre,
             'avatar': self.usuario.avatar,
             'comentario': self.comentario,
@@ -113,6 +115,7 @@ class Solicitud(models.Model):
 
     def to_json(self):
         return {
+            'id': self.id,
             'seguidor': self.seguidor.nombre,
             'seguido': self.seguido.nombre,
             'estado': self.estado,

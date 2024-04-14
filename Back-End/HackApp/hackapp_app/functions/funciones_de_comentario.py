@@ -18,11 +18,12 @@ class comentario:
             return False
         
     def crear_comentario (oData, sToken, id) :
+
         oComentario = Comentario(
-            usuario=Sesiones.objects.get(token=sToken).usuario,
-            publicacion=Publicacion.objects.get(id=id),
-            comentario=oData.get('comentario'),
-            valoracion=oData.get('valoracion'),
+            usuario = Sesiones.objects.get(token=sToken).usuario,
+            publicacion = Publicacion.objects.get(id=id),
+            comentario = oData.get('comentario'),
+            valoracion = oData.get('valoracion'),
         )
 
         oComentario.save()
