@@ -97,7 +97,7 @@ class Comentario(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False)
     publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE, null=False)
     comentario = models.CharField(max_length=200)
-    valoracion = models.FloatField(default=0)
+    valoracion = models.DecimalField(default=0, max_digits=2, decimal_places=1)
 
     def to_json(self):
         return {
@@ -124,3 +124,8 @@ class Solicitud(models.Model):
 class Sesiones(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False)
     token = models.CharField(max_length=20, unique=True)
+
+class Valoraciones(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, related_name='usuario')
+    comentario = models.ForeignKey(Comentario, on_delete=models.CASCADE, null=False)
+    valoracion = models.DecimalField(default=0, max_digits=2, decimal_places=1)

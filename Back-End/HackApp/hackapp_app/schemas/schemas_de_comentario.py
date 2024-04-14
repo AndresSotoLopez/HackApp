@@ -13,3 +13,16 @@ class schema:
        },
        "required": ["comentario", "valoracion"]
     }   
+
+    oValorarSchema = {
+       "type": "object",
+       "properties": {
+           "valoracion": {
+               "type": "number",
+               "minimum": 0,
+               "maximum": 5,
+               "multipleOf": 0.5
+           }
+       },
+       "required": ["valoracion"]
+    }  

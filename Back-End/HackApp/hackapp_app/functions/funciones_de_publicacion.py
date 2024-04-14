@@ -9,6 +9,9 @@ class publicacion:
         for oClave in oData.keys():
             if oClave not in schema["properties"].keys():
                 return False
+            
+        if oData.get('gravedad') is not None and not (1 <= oData.get('gravedad') <= 4):
+            return False
 
         # Validar el objeto oData con el schema
         try:

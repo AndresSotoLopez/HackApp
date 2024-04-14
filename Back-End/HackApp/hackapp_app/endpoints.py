@@ -205,11 +205,11 @@ class publicaciones():
 
         aPublicacion = []
 
-        if id is 0:
+        if id == 0:
             
             if sUsername or nTipoNoticia:
                aPublicacion = funciones_de_publicacion.publicacion.filtrar_publicaciones(sUsername, nTipoNoticia)
-               if len(aPublicacion) is 0:
+               if len(aPublicacion) == 0:
                    return JsonResponse({"Error": "No se encontraron publicaciones"}, status=404)
 
             else:
@@ -277,7 +277,7 @@ class comentario:
             if not Publicacion.objects.filter(id=id).exists():
                 return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
             
-            if Publicacion.objects.get(id=id).tipo_publicacion is not 3:
+            if Publicacion.objects.get(id=id).tipo_publicacion != 3:
                 return JsonResponse({"Error": "No se pueden comentar comentarios en este tipo de posts"}, status=400)
             
             funciones_de_comentario.comentario.crear_comentario(oData, sToken, id)
@@ -298,7 +298,7 @@ class comentario:
             if not Publicacion.objects.filter(id=id).exists():
                 return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
         
-            if Publicacion.objects.get(id=id).tipo_publicacion is not 3:
+            if Publicacion.objects.get(id=id).tipo_publicacion != 3:
                 return JsonResponse({"Error": "No se pueden comentar comentarios en este tipo de posts"}, status=400)
             
             aComentarios = funciones_de_comentario.comentario.get_comentarios(id)
@@ -322,3 +322,30 @@ class comentario:
                 return JsonResponse({"Error": "Comentario no encontrado"}, status=404)
            
         return JsonResponse({"Error": "Metodo no permitido"}, status=405) 
+    
+    @csrf_exempt
+    def valorar_comentarios(request, id):
+        if request.method != 'POST':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        oData = json.loads(request.body)
+
+        # Validar Json enviado
+        if not funciones_de_comentario.comentario.comprobar_body_data(oData, schemas_de_comentario.schema.oValorarSchema):
+                return JsonResponse({"Error": "Error en JSON enviado"}, status=400)
+        
+        # Validacion del token
+        sToken = request.headers.get('token')
+
+        if sToken is None or len(sToken) != funciones_de_usuario.usuario.nLongitudToken:
+                return JsonResponse({"Error": "Token no valido"}, status=401)
+
+        if not Sesiones.objects.filter(token=sToken).exists():
+            return JsonResponse({"Error": "Token no encontrado"}, status=404)
+        
+        # Validacion del id de la publicación a obtener los comentarios.
+        if not Comentario.objects.filter(id=id).exists():
+            return JsonResponse({"Error": "Comentario no encontrado"}, status=404)
+        
+        funciones_de_comentario.comentario.valorar_comentarios(oData, sToken, id)
+        return JsonResponse({"Info": "Comentario valorado con exito"}, status=201)

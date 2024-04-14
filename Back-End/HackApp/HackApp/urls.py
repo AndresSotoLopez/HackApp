@@ -28,4 +28,5 @@ urlpatterns = [
     path('v1/publicacion/<int:id>', endpoints.publicaciones.get_publicacion),
     path('v1/borrarPublicaciones/<int:id>', endpoints.publicaciones.borrar_publicacion),
     path('v1/comentario/<int:id>', endpoints.comentario.comentario),
+    path('v1/valorarComentario/<int:id>', endpoints.comentario.valorar_comentarios),
 ]
