@@ -292,3 +292,43 @@ class comentario:
         
         funciones_de_comentario.comentario.valorar_comentarios(oData, request.headers.get('token'), id)
         return JsonResponse({"Info": "Comentario valorado con exito"}, status=201)
+    
+class solicitudes:
+
+    @validar_token
+    @csrf_exempt
+    def manejar_solicitudes(request):
+        if request.method == 'POST':
+        
+            # Obtener query param del id de usuario a aceptar la solicitud
+            try:
+                nId = request.GET.get('id')
+            except:
+                return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+
+            if Solicitud.objects.filter(id=nId).exists():
+                return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
+            else:
+                Solicitud.objects.get(id=nId).estado = True
+            return JsonResponse(status=204)
+        
+        if request.method == 'GET':
+
+            oUser = Sesiones.objects.get(token=request.headers.get('token')).usuario
+
+            # Se obtienen todas las peticiones que tiene un usuario
+            aSolicitud = Solicitud.objects.filter(seguidor=oUser)
+            aSolicitudes = [oSolicitud.to_json() for oSolicitud in aSolicitud]
+
+            return JsonResponse(aSolicitudes, status=200, safe=False)
+        
+        if request.method == 'DELETE':
+
+            try:
+                oSolicitud = Solicitud.objects.get(id=request.GET.get('id'))
+                oSolicitud.delete()
+                return JsonResponse(status=204)
+            except:
+                return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
+            
+        return JsonResponse({"Error": "Metodo no permitido"}, status=405)

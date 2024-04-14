@@ -116,9 +116,8 @@ class Solicitud(models.Model):
     def to_json(self):
         return {
             'id': self.id,
-            'seguidor': self.seguidor.nombre,
             'seguido': self.seguido.nombre,
-            'estado': self.estado,
+            'avatar': self.seguido.avatar
         }
 
 class Sesiones(models.Model):
