@@ -301,16 +301,32 @@ class solicitudes:
         if request.method == 'POST':
         
             # Obtener query param del id de usuario a aceptar la solicitud
-            try:
-                nId = request.GET.get('id')
-            except:
+            nId = request.GET.get('id')
+            if nId is None:
                 return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+            
+            sToken = request.headers.get('token')
 
-            if Solicitud.objects.filter(id=nId).exists():
+            if not Solicitud.objects.filter(id=nId).exists():
                 return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
             else:
-                Solicitud.objects.get(id=nId).estado = True
-            return JsonResponse(status=204)
+                oSolicitud = Solicitud.objects.get(id=nId) 
+                oSeguidor = Sesiones.objects.get(token=sToken).usuario
+                oSeguido = Solicitud.objects.get(id=nId).seguido
+
+                if Solicitud.objects.get(id=nId).estado:
+                    return JsonResponse({"Error": "Esta solicitud ya ha sido aceptada"}, status=400)
+
+                if oSeguidor != Solicitud.objects.get(id=nId).seguidor:
+                    return JsonResponse({"Error": "No tienes permisos para aceptar esta solicitud"}, status=403)
+                    
+                oSolicitud.estado = True
+                oSolicitud.save()
+                oSeguido.seguidos += 1
+                oSeguido.save()
+                oSeguidor.seguidores += 1
+                oSeguidor.save()
+            return JsonResponse({},status=204)
         
         if request.method == 'GET':
 
@@ -318,17 +334,50 @@ class solicitudes:
 
             # Se obtienen todas las peticiones que tiene un usuario
             aSolicitud = Solicitud.objects.filter(seguidor=oUser)
-            aSolicitudes = [oSolicitud.to_json() for oSolicitud in aSolicitud]
+            aSolicitudes = [oSolicitud.to_json() for oSolicitud in aSolicitud if oSolicitud.estado == False]
 
             return JsonResponse(aSolicitudes, status=200, safe=False)
         
         if request.method == 'DELETE':
 
+            nId = request.GET.get('id')
+            if nId is None:
+                return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+
             try:
-                oSolicitud = Solicitud.objects.get(id=request.GET.get('id'))
+                oSolicitud = Solicitud.objects.get(id=nId)
                 oSolicitud.delete()
                 return JsonResponse(status=204)
             except:
                 return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
             
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+    
+    @csrf_exempt
+    @validar_token
+    def mandar_peticiones(request):
+        if request.method != 'POST':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        bEstado = False
+        nId = request.GET.get('id', None)
+        sToken = request.headers.get("token")
+
+        if nId is None:
+            return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+        
+        oSeguidor = Usuario.objects.get(id=nId)
+        oSeguido = Sesiones.objects.get(token=sToken).usuario
+
+        if oSeguidor.cuenta_privada:
+            bEstado = True
+        
+        oNuevaSolicitud = Solicitud (
+            seguidor = oSeguidor,
+            seguido = oSeguido,
+            estado = bEstado
+        )
+
+        oNuevaSolicitud.save()
+        return JsonResponse({},status=204)
+        

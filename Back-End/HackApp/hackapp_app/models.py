@@ -24,7 +24,7 @@ class Usuario(models.Model):
         ])
     cuenta_privada = models.BooleanField(default=False)
     notificaciones = models.BooleanField(default=True)
-    sms_code = models.IntegerField(default=999999, unique=True, null=True)
+    sms_code = models.IntegerField(default=999999, null=True)
 
     def get_name(self):
         return self.username
