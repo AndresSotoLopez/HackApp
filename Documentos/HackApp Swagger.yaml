@@ -32,6 +32,8 @@ paths:
           description: Credenciales inválidas.
         "404":
           description: Usuario no encontrado.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
     delete:
@@ -48,14 +50,18 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       responses:
         "204":
           description: Sesion cerrada exitosamente.
+        "400":
+          description: Error de solicitud.
         "401":
           description: Token inválido.
         "404":
           description: Token no encontrado.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
   /v1/cuenta:
@@ -80,6 +86,8 @@ paths:
           description: Error de solicitud o usuario ya registrado
         "401":
           description: Credenciales inválidas
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor
     delete:
@@ -96,7 +104,7 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       responses:
         "204":
           description: Cuenta eliminada exitosamente
@@ -104,6 +112,8 @@ paths:
           description: Token inválido
         "404":
           description: Token no encontrado
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor
   /v1/cambioDatos:
@@ -111,6 +121,16 @@ paths:
       tags:
       - Usuario
       summary: Cambiar la contraseña del usuario.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       requestBody:
         content:
           application/json:
@@ -124,6 +144,8 @@ paths:
           description: Error de solicitud.
         "401":
           description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor
   /v1/datosUsuario/{username}:
@@ -140,7 +162,7 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       - name: username
         in: path
         description: "Nombre de usuario del usuario. En caso de querer todos los usuarios, se debe poner como username \"all\"."
@@ -162,9 +184,11 @@ paths:
         "401":
           description: Token inválido.
         "404":
-          description: Usuario no encontrado en la BBDD
+          description: Usuario no encontrado en la BBDD.
+        "405":
+          description: Método de la petición no válido.
         "500":
-          description: Error del servidor
+          description: Error del servidor.
   /v1/nuevaPublicacion:
     post:
       tags:
@@ -180,7 +204,7 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       requestBody:
         content:
           application/json:
@@ -194,8 +218,10 @@ paths:
           description: Error de solicitud o falta algún campo para el tipo de publicación.
         "401":
           description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
-          description: Error del servidor
+          description: Error del servidor.
   /v1/publicacion/{id}:
     get:
       tags:
@@ -211,7 +237,7 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       - name: username
         in: query
         description: (Opcional) -> Nombre de usuario en caso de querer filtrar las publicaciones para un usuario.
@@ -257,6 +283,8 @@ paths:
           description: Token inválido
         "404":
           description: Publicación con ID (numero de id) no encontrada.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor
   /v1/borrarPublicaciones/{id}:
@@ -274,7 +302,7 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       - name: id
         in: path
         description: ID de la publicación a eliminar
@@ -290,9 +318,11 @@ paths:
           description: Token inválido
         "404":
           description: Publicación no encontrada
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor
-  /v1/comentario:
+  /v1/comentario/{id}:
     get:
       tags:
       - Comentarios
@@ -307,16 +337,15 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       - name: id
-        in: query
-        description: ID de la publicación para la que se desean obtener los comentarios.
+        in: path
+        description: ID del comentario a obtener
         required: true
-        style: form
-        explode: true
+        style: simple
+        explode: false
         schema:
           type: integer
-          example: 123
       responses:
         "200":
           description: Comentarios obtenidos exitosamente.
@@ -332,6 +361,8 @@ paths:
           description: Token inválido.
         "404":
           description: No se encontraron comentarios para la publicación especificada.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
     post:
@@ -348,12 +379,20 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
+      - name: id
+        in: path
+        description: ID de la publicación a comentar
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/v1_comentario_body'
+              $ref: '#/components/schemas/comentario_id_body'
         required: true
       responses:
         "201":
@@ -362,6 +401,8 @@ paths:
           description: Error de solicitud o falta algún campo para el comentario.
         "401":
           description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
     delete:
@@ -378,16 +419,15 @@ paths:
         explode: false
         schema:
           type: string
-        example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
       - name: id
-        in: query
-        description: ID del comentario que se desea eliminar.
+        in: path
+        description: ID del comentario a eliminar
         required: true
-        style: form
-        explode: true
+        style: simple
+        explode: false
         schema:
           type: integer
-          example: 123
       responses:
         "204":
           description: Comentario eliminado exitosamente.
@@ -397,6 +437,49 @@ paths:
           description: Token inválido.
         "404":
           description: Comentario no encontrado.
+        "405":
+          description: Método de la petición no válido.
+        "500":
+          description: Error del servidor.
+  /v1/valorarComentario/{id}:
+    post:
+      tags:
+      - Comentarios
+      summary: Valora un comentario de un foro creado por cualquier usuario.
+      description: Endpoint para valorar un comentario de una publicación.
+      parameters:
+      - name: token
+        in: header
+        description: Token de sesión del usuario
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: PbnveAR7aAY-M6Fw1cIvyDZ
+      - name: id
+        in: path
+        description: ID del comentario.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/valorarComentario_id_body'
+        required: true
+      responses:
+        "201":
+          description: Comentario valorado exitosamente.
+        "400":
+          description: Error de solicitud o falta algún campo para el comentario.
+        "401":
+          description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
   /v1/manejarPeticiones:
@@ -425,6 +508,8 @@ paths:
                   $ref: '#/components/schemas/inline_response_200_4'
         "401":
           description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
     post:
@@ -456,6 +541,8 @@ paths:
           description: Token inválido.
         "404":
           description: Solicitud de amistad no encontrada.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
     delete:
@@ -487,6 +574,8 @@ paths:
           description: Token inválido.
         "404":
           description: Solicitud de amistad no encontrada.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
   /v1/mandarPeticiones:
@@ -517,6 +606,8 @@ paths:
           description: Solicitud de amistad mandada exitosamente.
         "401":
           description: Token inválido.
+        "405":
+          description: Método de la petición no válido.
         "500":
           description: Error del servidor.
 components:
@@ -524,10 +615,10 @@ components:
     v1_auth_body:
       type: object
       properties:
-        username/email:
+        user:
           type: string
           description: Nombre de usuario.
-        contrasena:
+        password:
           type: string
           description: Contraseña del usuario.
     inline_response_200:
@@ -536,7 +627,7 @@ components:
         token:
           type: string
           description: Token de acceso generado para el usuario.
-          example: PbnveAR7aAY-M6Fw1cIvyDZDvO8
+          example: PbnveAR7aAY-M6Fw1cIvyDZ
     v1_cuenta_body:
       type: object
       properties:
@@ -549,7 +640,7 @@ components:
         email:
           type: string
           description: Correo electrónico al que se le va a asociar la cuenta.
-        contrasena:
+        password:
           type: string
           description: Contraseña del usuario.
         ct:
@@ -565,15 +656,11 @@ components:
     v1_cambioDatos_body:
       type: object
       properties:
-        token:
-          type: string
-          description: Token de sesión.
-          nullable: false
         username:
           type: string
           description: Nuevo nombre de usuario.
           nullable: true
-        contraseña:
+        password:
           type: string
           description: Nueva contraseña del usuario.
           nullable: true
@@ -742,13 +829,23 @@ components:
           description: Avatár del usuario. (Clave foránea de usuario)
           format: uri
           example: https://ejemplo.com
-    v1_comentario_body:
+    comentario_id_body:
       type: object
       properties:
         text:
           type: string
           description: Texto del comentario.
           example: Comentario de prueba
+        valoracion:
+          multipleOf: 0.5
+          maximum: 5
+          minimum: 0
+          type: number
+          description: Valoración del comentario (de 0 a 5 con salto de 0.5).
+          example: 4.5
+    valorarComentario_id_body:
+      type: object
+      properties:
         valoracion:
           multipleOf: 0.5
           maximum: 5
