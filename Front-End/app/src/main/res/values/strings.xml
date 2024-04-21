@@ -1,0 +1,15 @@
+<resources>
+    <!--APP-->
+    <string name="app_name">HackApp</string>
+
+    <!--Login Activity-->
+    <string name="activity.login.text.bienvenidoDeNuevo">Bienvenido de nuevo</string>
+    <string name="activity.login.text.iniciaSesion">Inicia sesión para continuar</string>
+    <string name="activity.login.hint.email">Username o Email</string>
+    <string name="activity.login.hint.contraseña">Contraseña</string>
+    <string name="activity.login.text.forgotPass">¿Has olvidado la contraseña?</string>
+    <string name="activity.login.text.login">Iniciar sesión</string>
+    <string name="activity.login.text.createAcc">Crear cuenta</string>
+    <string name="activity.login.text.termsAndConditions">Terminos y condiciones</string>
+
+</resources>
