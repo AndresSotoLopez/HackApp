@@ -6,6 +6,10 @@
     <color name="BackgrounColor">#343434</color>
     <color name="outColor">#00FFFFFF</color>
     <color name="HackAPPBlue">#4A6DEA</color>
+    <color name="gris_texto">#878787</color>
+    <color name="verde_succes">#50c878</color>
+    <color name="warning">#f09d16</color>
+
 
 
     <!--Login Activity-->

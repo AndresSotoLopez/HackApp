@@ -4,6 +4,7 @@
     <solid android:color="@android:color/transparent" /> <!-- Fondo transparente -->
     <stroke
         android:width="2dp"
+        android:padding="7dp"
         android:color="@color/HackAPPBlue" /> <!-- Borde de color #878787 -->
     <corners android:radius="60dp" /> <!-- Bordes redondeados, ajusta el radio según tus preferencias -->
 </shape>

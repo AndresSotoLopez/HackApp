@@ -1,6 +1,7 @@
 <resources>
     <!--APP-->
     <string name="app_name">HackApp</string>
+    <string name="app.text.termsAndConditions">Terminos y condiciones</string>
 
     <!--Login Activity-->
     <string name="activity.login.text.bienvenidoDeNuevo">Bienvenido de nuevo</string>
@@ -10,6 +11,29 @@
     <string name="activity.login.text.forgotPass">¿Has olvidado la contraseña?</string>
     <string name="activity.login.text.login">Iniciar sesión</string>
     <string name="activity.login.text.createAcc">Crear cuenta</string>
-    <string name="activity.login.text.termsAndConditions">Terminos y condiciones</string>
+
+    <!--Create ACC Activity-->
+    <string name="activity.createAcc.text.bienvenido">Bienvenido a HackAPP</string>
+    <string name="activity.createAcc.text.createAcc">Crea tu cuenta</string>
+    <string name="activity.createAcc.hint.name">Nombre</string>
+    <string name="activity.createAcc.hint.secondName">Apellidos</string>
+    <string name="activity.createAcc.hint.email">Email</string>
+    <string name="activity.createAcc.hint.username">Username</string>
+    <string name="activity.createAcc.hint.cc">34</string>
+    <string name="activity.createAcc.hint.telefono">123456789</string>
+
+    <!--Opciones del spinner de CC-->
+
+    <string-array name="opciones">
+        <item>🇪🇸 +34</item>
+        <item>🇺🇸 +1</item>
+        <item>🇫🇷 +33</item>
+        <item>🇮🇹 +39</item>
+        <item>🇲🇽 +53</item>
+    </string-array>
+
+
+
+
 
 </resources>

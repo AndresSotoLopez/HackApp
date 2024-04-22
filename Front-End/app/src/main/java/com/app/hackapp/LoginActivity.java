@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,15 +36,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUser, etPass;
     private String sUser, sPass;
 
-    private RequestQueue requestQueue;
-
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-
-        // Crear cola de solicitudes
-        requestQueue = Volley.newRequestQueue(this);
 
         // Obtener todas las referencias de los botones.
         btBottomSheet = findViewById(R.id.activity_login_button_termsAndConditions);
@@ -58,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
         btLogin.setOnClickListener(v -> onSendLoginRequest());
         btCreaAcc.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginActivity.class); // Falta por implementar la actividad
+            Intent intent = new Intent(this, CreateAccActivity.class); // Falta por implementar la actividad
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
@@ -67,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         btForgotpass.setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class); // Falta por implementar la actividad
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.slide_in_animation, R.anim.slide_out_animation);
             finishAffinity();
         });
     }
@@ -109,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             setToken(response.getString("token"));
+                            startActivity(new Intent(LoginActivity.this, LoginActivity.class)); // Cambiar por actividad main
                         } catch (JSONException e) {
                             Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -122,7 +119,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
         // 3. Añadir la solicitud a la cola de solicitudes
-        requestQueue.add(jsonObjectRequest);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(jsonObjectRequest);
 
     }
 
