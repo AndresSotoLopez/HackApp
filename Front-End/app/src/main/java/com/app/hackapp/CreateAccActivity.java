@@ -1,11 +1,14 @@
 package com.app.hackapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
@@ -37,6 +41,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 public class CreateAccActivity extends AppCompatActivity {
@@ -48,6 +53,8 @@ public class CreateAccActivity extends AppCompatActivity {
     private String sUser, sPass;
     private EditText etNTelefono;
     private Spinner spinner;
+    private AlertDialog dialog;
+    private int nCode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +109,7 @@ public class CreateAccActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CreateAccActivity.this);
         builder.setView(view);
-        final AlertDialog dialog = builder.create();
+        dialog = builder.create();
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
@@ -208,9 +215,12 @@ public class CreateAccActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             setToken(response.getString("token"));
-                            startActivity(new Intent(CreateAccActivity.this, LoginActivity.class)); // Cambiar por actividad de codigo
+                            onSendSms();
+                            Intent intent = new Intent(CreateAccActivity.this, Code.class);
+                            intent.putExtra("telefono", nTelefono);
+                            intent.putExtra("code", nCode);
+                            startActivity(intent); // Cambiar por actividad de codigo
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            finishAffinity();
                         } catch (JSONException e) {
                             Toast.makeText(CreateAccActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -237,6 +247,10 @@ public class CreateAccActivity extends AppCompatActivity {
     }
 
     private void checkErrors (VolleyError error) {
+
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         if (error != null) {
             try {
                 int nStatusCode = error.networkResponse.statusCode;
@@ -253,7 +267,15 @@ public class CreateAccActivity extends AppCompatActivity {
                     showError(etUser, errorMessage);
                 }
                 else if (nStatusCode == 401) {
-                    showError(etPass, errorMessage);
+                    if (errorMessage.equals("Nombre de usuario en uso")) {
+                        showError(etUser, errorMessage);
+                    }
+                    else if (errorMessage.equals("Email en uso")) {
+                        showError(etMail, errorMessage);
+                    }
+                    else {
+                        showError(etTelefono, errorMessage);
+                    }
                 }
                 else {
                     Toast.makeText(CreateAccActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -263,5 +285,36 @@ public class CreateAccActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    private void setSMSPermisions () {
+        if (!(ContextCompat.checkSelfPermission(CreateAccActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(CreateAccActivity.this, new String[]{Manifest.permission.SEND_SMS}, 100);
+        }
+
+    }
+    private void onSendSms () {
+
+        setSMSPermisions();
+
+        // Generar codigo sms
+        Random random = new Random();
+        nCode = random.nextInt(9000) + 1000;
+        String sMessage = "From HackAPP\n\nDe parte de toda la comindad de ciberseguridad te damos las gracias por unirte a nosotros.\n\nTu código para verificarte es: " + nCode;
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(etNTelefono.getText().toString(),null,sMessage, null, null);
+        } catch (Exception e) {}
+
+
     }
 }

@@ -45,7 +45,7 @@
             android:id="@+id/layout_warning_text_adviseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Antes de crear la cuenta, asegurate de poner bien el telefono.\n\n Te mandaremos un SMS para confirmar que este es tu número."
+            android:text="Antes de crear la cuenta, asegurate de poner bien tu telefono.\n\n Te mandaremos un SMS para confirmar que este es tu número."
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
