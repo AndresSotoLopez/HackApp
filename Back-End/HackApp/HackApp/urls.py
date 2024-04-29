@@ -31,4 +31,5 @@ urlpatterns = [
     path('v1/valorarComentario/<int:id>', endpoints.comentario.valorar_comentarios),
     path('v1/manejarPeticiones', endpoints.solicitudes.manejar_solicitudes),
     path('v1/mandarPeticiones', endpoints.solicitudes.mandar_peticiones),
+    path('v1/cambioPass', endpoints.usuarios.cambio_de_pass),
 ]

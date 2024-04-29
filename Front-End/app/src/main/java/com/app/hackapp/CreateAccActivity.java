@@ -224,7 +224,7 @@ public class CreateAccActivity extends AppCompatActivity {
                             Intent intent = new Intent(CreateAccActivity.this, Code.class);
                             intent.putExtra("telefono", nTelefono);
                             intent.putExtra("code", nCode);
-                            startActivity(intent); // Cambiar por actividad de codigo
+                            startActivity(intent);
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         } catch (JSONException e) {
                             Toast.makeText(CreateAccActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -286,7 +286,7 @@ public class CreateAccActivity extends AppCompatActivity {
                     Toast.makeText(CreateAccActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
 
-            } catch (UnsupportedEncodingException | JSONException e) {
+            } catch (UnsupportedEncodingException | JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
         }

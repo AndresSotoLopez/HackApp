@@ -66,7 +66,8 @@ public class ForgotPass extends AppCompatActivity {
                     String sErrorMessage = "Código erróneo";
                     showError(et4, sErrorMessage);
                 } else {
-                    Intent oNextAct = new Intent(ForgotPass.this, Code.class); // cambiar a actividad para cambiar la contraseña
+                    Intent oNextAct = new Intent(ForgotPass.this, ChangePass.class); // cambiar a actividad para cambiar la contraseña
+                    oNextAct.putExtra("telefono", nTelefono.getText().toString());
                     startActivity(oNextAct);
                     finishAffinity();
                 }

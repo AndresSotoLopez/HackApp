@@ -145,6 +145,28 @@ class usuarios:
         oUsuario.save()
         return JsonResponse({"Info": "Datos guardados correctamente"}, status=200)
     
+    @csrf_exempt
+    def cambio_de_pass (request) :
+        if request.method != "POST":
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        oData = json.loads(request.body)
+
+        # Validar Json enviado
+        if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oCambioPassSchema):
+            return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
+        
+        oUsuario = Usuario.objects.get(telefono=oData["telefono"])
+
+        if not oUsuario:
+            return JsonResponse({"Error": "Usuario no encontrado"}, status=404)
+        
+        oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+        oUsuario.save()
+
+        return JsonResponse({"Info": "Contraseña cambiada correctamente"}, status=200)
+        
+    
     def get_usuario (request, username) :
         if request.method != 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)

@@ -43,3 +43,12 @@ class schemas():
             ]}
         }
     }
+
+    oCambioPassSchema = {
+        "type": "object",
+        "properties": {
+            "telefono": {"type": "string"},
+            "password": {"type": "string"},
+        },
+        "required": ["telefono", "password"]
+    }
