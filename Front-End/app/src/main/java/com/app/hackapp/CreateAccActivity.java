@@ -118,7 +118,12 @@ public class CreateAccActivity extends AppCompatActivity {
         dialog.show();
 
         btCont.setOnClickListener(v -> {
-            onSendCreateAccRequest();
+            try {
+                onSendCreateAccRequest();
+            } catch (Exception e) {
+                e.printStackTrace();
+                dialog.hide();
+            }
         });
 
         btBack.setOnClickListener(v -> dialog.hide());

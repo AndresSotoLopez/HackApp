@@ -54,16 +54,16 @@ public class LoginActivity extends AppCompatActivity {
         btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
         btLogin.setOnClickListener(v -> onSendLoginRequest());
         btCreaAcc.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreateAccActivity.class); // Falta por implementar la actividad
+            Intent intent = new Intent(LoginActivity.this, CreateAccActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
         });
         btCheckPass.setOnClickListener(v -> onShowPass());
         btForgotpass.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginActivity.class); // Falta por implementar la actividad
+            Intent intent = new Intent(LoginActivity.this, ForgotPass.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_animation, R.anim.slide_out_animation);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
         });
     }
@@ -175,25 +175,31 @@ public class LoginActivity extends AppCompatActivity {
                     showError(etPass, errorMessage);
                 }
                 else if (nStatusCode == 400) {
-                    if (etPass.getText().toString().equals("") && etUser.getText().toString().equals("")) {
+                    if (etPass.getText().toString().isEmpty() && etUser.getText().toString().isEmpty()) {
                         showError(etPass, "Contraseña vacía");
-                        showError(etUser, "Email vacío");
+                        showError(etUser, "Campo vacío");
 
                     }
                     else if (etPass.getText().toString().equals("") ) {
                         showError(etPass, "Contraseña vacía");
 
                     }
-                    else {
-                        showError(etUser, "Email vacío");
+                    else  if (etUser.getText().toString().isEmpty()) {
+                        showError(etUser, "Campo vacío");
                     }
                 }
                 else {
                     Toast.makeText(LoginActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-            } catch (UnsupportedEncodingException | JSONException e) {
+            } catch (UnsupportedEncodingException | JSONException | NullPointerException e) {
                 e.printStackTrace();
+                if (etUser.getText().toString().isEmpty()) {
+                    showError(etUser, "Campo vacío");
+                }
+                else if (etPass.getText().toString().isEmpty()) {
+                    showError(etPass, "Contraseña vacía");
+                }
             }
         }
     }

@@ -37,5 +37,8 @@
     <string name="activity.code.text.reenviarEn">Reenviar codigo en </string>
     <string name="activity.code.text.reenviar">Reenviar codigo </string>
 
+    <!--Forgot Pass-->
+    <string name="activity.forgotPass.text.introduceElNumDeTel">Por tu seguridad necesitamos que nos confirmes que eres tu, por favor introduce tu telefono móvil:</string>
+
 
 </resources>
