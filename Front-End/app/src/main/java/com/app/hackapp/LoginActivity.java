@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             setToken(response.getString("token"));
-                            startActivity(new Intent(LoginActivity.this, LoginActivity.class)); // Cambiar por actividad main
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } catch (JSONException e) {
                             Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }

@@ -26,6 +26,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -39,4 +43,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation("com.android.volley:volley:1.2.1")
+    implementation("com.etebarian:meow-bottom-navigation:1.2.0")
 }

@@ -68,7 +68,7 @@ public class Code extends AppCompatActivity {
                 showError(et4, sErrorMessage);
             }
             else {
-                Intent oNextAct = new Intent(Code.this, Code.class);
+                Intent oNextAct = new Intent(Code.this, MainActivity.class);
                 startActivity(oNextAct);
                 finishAffinity();
             }
