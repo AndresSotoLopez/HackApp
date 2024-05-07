@@ -248,6 +248,7 @@ public class CreateAccActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
+        editor.putString("username", sUser);
         editor.apply();
     }
 

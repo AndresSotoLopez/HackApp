@@ -38,10 +38,6 @@ public class Home extends Fragment {
 
     private String sToken = "";
 
-    public Home() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Cargar el fragmento

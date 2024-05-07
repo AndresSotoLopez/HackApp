@@ -18,14 +18,17 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     private MeowBottomNavigation oBtmNav;
+    private Fragment home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        home = new Home();
+
         // Mostrar como primer fragment el inicio y seteamos el bottom navigation view
-        replace(new Home());
+        replace(home);
         oBtmNav = findViewById(R.id.bottomNavigation);
         setoBtmNav();
     }
@@ -49,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 switch (model.getId()) {
                     case 1:
-                        replace(new Home());
+                        replace(home);
                         break;
                     case 2:
-                        replace(new Home());
+                        replace(home);
                         break;
                     case 3:
                         break;
@@ -65,5 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    private void setHideFragments () {
+
     }
 }
