@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +54,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Obetener todos los datos de los campos edittext
         btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
-        btLogin.setOnClickListener(v -> onSendLoginRequest());
+        btLogin.setOnClickListener(v -> {
+            onSendLoginRequest();
+        });
         btCreaAcc.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, CreateAccActivity.class);
             startActivity(intent);
@@ -106,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             setToken(response.getString("token"));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finishAffinity();
                         } catch (JSONException e) {
                             Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -204,4 +209,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
 }

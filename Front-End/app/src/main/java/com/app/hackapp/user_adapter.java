@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder
                     break;
 
                 default:
-                    Glide.with(context).load(aJsonObtecs.getJSONObject(position).getString("imagen")).override(400, 400).into(holder.image);
+                    Glide.with(context).load(aJsonObtecs.getJSONObject(position).getString("imagen")).apply(RequestOptions.circleCropTransform()).into(holder.image);
                     String test = aJsonObtecs.getJSONObject(position).getString("nombre");
                     holder.title.setText(test);
                     String test2 = aJsonObtecs.getJSONObject(position).getString("descripcion");

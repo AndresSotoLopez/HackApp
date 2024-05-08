@@ -21,13 +21,13 @@
     <EditText
         android:id="@+id/activity_home_search"
         android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:drawableLeft="@drawable/search"
         android:padding="12dp"
         android:drawablePadding="4sp"
         android:background="@drawable/transparent_button_color_999999"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:inputType="text"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -45,8 +45,10 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_home_search" />
+        app:layout_constraintTop_toBottomOf="@id/activity_home_search"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
