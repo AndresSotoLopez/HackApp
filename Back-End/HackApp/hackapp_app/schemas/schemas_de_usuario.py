@@ -40,7 +40,10 @@ class schemas():
             "biografia": {"anyOf": [
                 {"type": "string"},
                 {"type": "null"}
-            ]}
+            ]},
+            "notificaciones": {"type": "boolean"},
+            "cuenta_privada": {"type": "boolean"}
+
         }
     }
 

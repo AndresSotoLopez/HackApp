@@ -39,7 +39,7 @@ public class Home extends Fragment {
     private String sToken = "";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
         // Cargar el fragmento
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
@@ -97,7 +97,6 @@ public class Home extends Fragment {
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(requireContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
                             }
                         }
                 ) {

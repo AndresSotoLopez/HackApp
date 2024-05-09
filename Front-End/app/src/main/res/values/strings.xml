@@ -53,4 +53,15 @@
     <string name="fragment_user_bio">Escribe aquí tu biografía</string>
 
 
+    <!--User Options-->
+    <string name="activity_options_darkMode">Modo Oscuro</string>
+    <string name="activity_options_notis">Notificaciones</string>
+    <string name="activity_options_accmode">Cuenta Privada</string>
+    <string name="activity_options_edit">Editar Perfil</string>
+    <string name="activity_options_aboutUs">Sobre Nosotros</string>
+    <string name="activity_options_FAQS">FAQS</string>
+    <string name="activity_options_secPriv">Seguridad y Privacidad</string>
+    <string name="activity_options_clssSesion">Cerrar Sesión</string>
+
+
 </resources>

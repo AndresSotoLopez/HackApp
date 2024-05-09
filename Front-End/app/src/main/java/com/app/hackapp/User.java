@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -41,10 +42,14 @@ public class User extends Fragment {
     private ImageView imgvUser;
     private ImageButton imgbSettings;
     private RecyclerView recyclerView;
+
+    RequestQueue requestQueue;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.user_fragment, container, false);
+
+        requestQueue = Volley.newRequestQueue(requireContext());
 
         // Obtenemos el nombre de usuario y el token
         getUsername();
@@ -67,8 +72,11 @@ public class User extends Fragment {
         }
 
         imgbSettings.setOnClickListener(v -> {
-//            Intent settings = new Intent(getActivity(), options.class);
-//            startActivity(settings);
+            if (requestQueue != null) {
+                requestQueue.cancelAll("request");
+            }
+            Intent settings = new Intent(getActivity(), options.class);
+            startActivity(settings);
         });
 
         return view;
@@ -112,7 +120,6 @@ public class User extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(requireContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -124,9 +131,8 @@ public class User extends Fragment {
                 return headers;
             }
         };
-
-        Volley.newRequestQueue(requireContext()).add(request);
-
+        request.setTag("request");
+        requestQueue.add(request);
     }
 
     private void getuserPosts () {
@@ -147,7 +153,6 @@ public class User extends Fragment {
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(requireContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
                             }
                         }
                 ) {
@@ -159,8 +164,7 @@ public class User extends Fragment {
                 return headers;
             }
         };
-
-        Volley.newRequestQueue(requireContext()).add(request);
+        request.setTag("request");
+        requestQueue.add(request);
     }
-
 }

@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             setToken(response.getString("token"));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finishAffinity();
+                            finish();
                         } catch (JSONException e) {
                             Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }

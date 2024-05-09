@@ -52,7 +52,7 @@ class usuarios:
                 return JsonResponse({"Error": "Token no valido"}, status=401)
 
             Sesiones.objects.filter(token=sToken).delete()
-            return JsonResponse(status=204)
+            return JsonResponse({},status=204)
         
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
     
@@ -103,7 +103,7 @@ class usuarios:
 
             Sesiones.objects.get(token=sToken).usuario.delete()
 
-            return JsonResponse(status=204)
+            return JsonResponse({},status=204)
         
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
     
@@ -141,6 +141,12 @@ class usuarios:
 
         if(oData.get('password')):
             oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+
+        if 'notificaciones' in oData:
+            oUsuario.notificaciones = oData['notificaciones']
+    
+        if 'cuenta_privada' in oData:
+            oUsuario.cuenta_privada = oData['cuenta_privada']
 
         oUsuario.save()
         return JsonResponse({"Info": "Datos guardados correctamente"}, status=200)
@@ -250,7 +256,7 @@ class publicaciones():
             return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
         
         oPost.delete()
-        return JsonResponse(status=204)
+        return JsonResponse({},status=204)
     
 class comentario:
     
@@ -291,7 +297,7 @@ class comentario:
             
             try:
                 Comentario.objects.get(id=id).delete()
-                return JsonResponse(status=204)
+                return JsonResponse({},status=204)
             except:
                 return JsonResponse({"Error": "Comentario no encontrado"}, status=404)
            
