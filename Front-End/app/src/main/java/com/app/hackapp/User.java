@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,11 +73,7 @@ public class User extends Fragment {
         }
 
         imgbSettings.setOnClickListener(v -> {
-            if (requestQueue != null) {
-                requestQueue.cancelAll("request");
-            }
-            Intent settings = new Intent(getActivity(), options.class);
-            startActivity(settings);
+            replace(new Options());
         });
 
         return view;
@@ -166,5 +163,11 @@ public class User extends Fragment {
         };
         request.setTag("request");
         requestQueue.add(request);
+    }
+
+    private void replace (Fragment fragment) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
     }
 }

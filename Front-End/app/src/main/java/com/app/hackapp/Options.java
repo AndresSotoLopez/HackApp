@@ -1,28 +1,21 @@
 package com.app.hackapp;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,16 +24,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-public class options extends AppCompatActivity {
+public class Options extends Fragment {
 
     private String sUser, sToken;
     private ImageView imgvUser, imgvEditProfile, imgvAboutUs, imgvFAQS, imgvSecPriv, imgvCloseSession;
@@ -52,60 +43,56 @@ public class options extends AppCompatActivity {
 
     Boolean bNotis, bAcc;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.options_activity);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.options_fragment, container, false);
 
         // Obtener el token y el nombre de usuario
         getData();
 
         //Set ID
-        setIds();
+        setIds(view);
 
         // Obtener los datos de nuestro usuario y manejar los clicks de los img button
         setDataCLicks();
 
-        // Cambiar tamaño de los iconos
-        seticonScale();
+        return view;
     }
 
     private void getData () {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sUser = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
     }
 
-    private void setIds() {
-        tvUsername = findViewById(R.id.activity_options_username);
+    private void setIds(View view) {
+        tvUsername = view.findViewById(R.id.activity_options_username);
         tvUsername.setText(sUser);
 
-        swDarkMode = findViewById(R.id.activity_options_darkMode);
-        swNotis = findViewById(R.id.activity_options_notis);
-        swPrivAcc = findViewById(R.id.activity_options_accmode);
-        imgvUser = findViewById(R.id.activity_options_image);
+        swDarkMode = view.findViewById(R.id.activity_options_darkMode);
+        swNotis = view.findViewById(R.id.activity_options_notis);
+        swPrivAcc = view.findViewById(R.id.activity_options_accmode);
+        imgvUser = view.findViewById(R.id.activity_options_image);
 
-        imgvEditProfile = findViewById(R.id.activity_options_editProfile);
-        imgvAboutUs = findViewById(R.id.activity_options_info);
-        imgvFAQS = findViewById(R.id.activity_options_faqs);
-        imgvSecPriv = findViewById(R.id.activity_options_secpriv);
-        imgvCloseSession = findViewById(R.id.activity_options_closseSes);
+        imgvEditProfile = view.findViewById(R.id.activity_options_editProfile);
+        imgvAboutUs = view.findViewById(R.id.activity_options_info);
+        imgvFAQS = view.findViewById(R.id.activity_options_faqs);
+        imgvSecPriv = view.findViewById(R.id.activity_options_secpriv);
+        imgvCloseSession = view.findViewById(R.id.activity_options_closseSes);
     }
 
     private void setDataCLicks() {
         setUserData();
 
-        imgvEditProfile.setOnClickListener(v -> startActivity(new Intent(options.this, options.class))); // Cambiar por la actividad de modificar el perfil
-        imgvFAQS.setOnClickListener(v -> Toast.makeText(this, "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvAboutUs.setOnClickListener(v -> Toast.makeText(this, "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvSecPriv.setOnClickListener(v -> Toast.makeText(this, "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvCloseSession.setOnClickListener(v -> onSendCloseSSRequest());
-
-        swDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("modoOscuro", isChecked);
-            editor.apply();
+        imgvEditProfile.setOnClickListener(v -> {
+            //replace(new EditProfile());
         });
+        imgvFAQS.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
+        imgvAboutUs.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
+        imgvSecPriv.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
+        imgvCloseSession.setOnClickListener(v -> onSendCloseSSRequest());
 
         swNotis.setOnClickListener(v -> {
             bNotis = !bNotis;
@@ -149,7 +136,7 @@ public class options extends AppCompatActivity {
                         }
 
                         try {
-                            Glide.with(options.this).load(
+                            Glide.with(requireContext()).load(
                                             response.getString("avatar"))
                                     .apply(RequestOptions.circleCropTransform())
                                     .into(imgvUser);
@@ -162,7 +149,7 @@ public class options extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(options.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -177,7 +164,7 @@ public class options extends AppCompatActivity {
             }
         };
 
-        Volley.newRequestQueue(options.this).add(request);
+        Volley.newRequestQueue(requireContext()).add(request);
     }
 
     private void onSendCloseSSRequest () {
@@ -194,14 +181,13 @@ public class options extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        sharedPreferences = getSharedPreferences("NombreDeTuSharedPreferences", Context.MODE_PRIVATE);
+                        sharedPreferences = getContext().getSharedPreferences("NombreDeTuSharedPreferences", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.remove("token");
                         editor.remove("username");
                         editor.apply();
 
-                        startActivity(new Intent(options.this, LoginActivity.class));
-                        finishAffinity();
+                        startActivity(new Intent(requireContext(), LoginActivity.class));
                     }
                 }
         ) {
@@ -216,7 +202,7 @@ public class options extends AppCompatActivity {
             }
         };
 
-        Volley.newRequestQueue(options.this).add(request);
+        Volley.newRequestQueue(requireContext()).add(request);
     }
 
     private void onSendChengeSwitches (String sClave, boolean bChecked) {
@@ -226,7 +212,7 @@ public class options extends AppCompatActivity {
             oBodyRequest.put(sClave, bChecked);
 
         } catch (JSONException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -236,7 +222,7 @@ public class options extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(options.this, "Datos Grabados Correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Datos Grabados Correctamente", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -256,6 +242,12 @@ public class options extends AppCompatActivity {
             }
         };
 
-        Volley.newRequestQueue(options.this).add(request);
+        Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    private void replace (Fragment fragment) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
     }
 }
