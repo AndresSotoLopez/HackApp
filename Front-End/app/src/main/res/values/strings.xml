@@ -63,5 +63,7 @@
     <string name="activity_options_secPriv">Seguridad y Privacidad</string>
     <string name="activity_options_clssSesion">Cerrar Sesión</string>
 
+    <!--News-->
+    <string name="fragment_noticias_title">Noticias</string>
 
 </resources>

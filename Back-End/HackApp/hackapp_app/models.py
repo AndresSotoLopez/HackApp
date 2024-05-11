@@ -38,6 +38,7 @@ class Usuario(models.Model):
             'nombre': self.nombre,
             'apellidos': self.apellidos,
             'username': self.username,
+            'biografia': self.biografia,
             'email': self.email,
             'password': self.password,
             'ct': self.ct,

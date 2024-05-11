@@ -58,7 +58,7 @@
         app:layout_constraintStart_toEndOf="@id/fragment_user_image"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="100dp"
-        android:layout_marginStart="50dp">
+        android:layout_marginStart="45dp">
 
         <TextView
             android:id="@+id/fragment_user_number_post"
@@ -128,15 +128,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_user_follows"
-            android:textSize="14sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 
 
     <RelativeLayout
         android:id="@+id/fragment_user_bio_shape"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:background="@drawable/fragment_user_bio_bg"
         app:layout_constraintTop_toBottomOf="@id/fragment_user_image"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,17 +144,21 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp">
 
-        <TextView
-            android:id="@+id/fragment_user_bio_text"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=""
-            android:textColorHint="@color/gris_HackAPP"
-            android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/fragment_user_bio_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textColorHint="@color/gris_HackAPP"
+                android:textColor="@color/white"/>
+        </ScrollView>
 
     </RelativeLayout>
 
@@ -166,8 +170,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"/>
 
