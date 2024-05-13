@@ -22,5 +22,14 @@
         <item name="android:fontFamily">@font/karma_medium</item>
     </style>
 
+    <style name="SpinnerStyleSeverity" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">100sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/transparent_button_color_999999</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColorHint">@color/gris_HackAPP</item>
+        <item name="android:fontFamily">@font/karma_medium</item>
+    </style>
+
 
 </resources>

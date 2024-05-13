@@ -1,0 +1,10 @@
+<!-- button_custom_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent" /> <!-- Fondo transparente -->
+    <stroke
+        android:width="2dp"
+        android:padding="7dp"
+        android:color="#999999" /> <!-- Borde de color #878787 -->
+    <corners android:radius="20dp" /> <!-- Bordes redondeados, ajusta el radio según tus preferencias -->
+</shape>

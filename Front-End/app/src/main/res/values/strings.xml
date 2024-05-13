@@ -66,4 +66,28 @@
     <!--News-->
     <string name="fragment_noticias_title">Noticias</string>
 
+    <!--Upload-->
+    <string name="fragment_upload_noticias_button_text">Noticias</string>
+    <string name="fragment_upload_exploit_button_text">Exploits</string>
+    <string name="fragment_upload_forum_button_text">Foro</string>
+
+    <string name="fragment_upload_noticias_et_name_hint">Nombre Noticia</string>
+    <string name="fragment_upload_noticias_et_link_hint">Link Externo</string>
+    <string name="fragment_upload_noticias_et_link_imagen_hint">Imagen</string>
+
+    <string name="fragment_upload_exploit_et_name_hint">Nombre del Exploit</string>
+    <string name="fragment_upload_exploit_et_link_hint">Link a ExploitDB</string>
+
+    <string name="fragment_upload_forum_et_name_hint">Nombre del Foro</string>
+
+    <string-array name="gravedad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+        <item>Crítica</item>
+
+    </string-array>
+
+
+
 </resources>

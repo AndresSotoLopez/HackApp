@@ -18,7 +18,7 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     private MeowBottomNavigation oBtmNav;
-    private Fragment fHome, fNoticias, fUser;
+    private Fragment fHome, fPosts, fNoticias, fUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         fHome = new Home();
+        fPosts = new upload_noticias();
         fNoticias = new Noticias();
         fUser = new User();
 
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         replace(fHome);
                         break;
                     case 2:
-                        replace(fHome);
                         break;
                     case 3:
+                        replace(fPosts);
                         break;
                     case 4:
                         replace(fNoticias);
