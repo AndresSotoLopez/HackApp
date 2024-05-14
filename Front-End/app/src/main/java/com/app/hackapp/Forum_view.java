@@ -53,6 +53,7 @@ public class Forum_view extends AppCompatActivity {
         setContentView(R.layout.activity_forum_view);
         intent = getIntent();
 
+        // Boton para volver atras
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -94,7 +95,7 @@ public class Forum_view extends AppCompatActivity {
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/publicacion/3" ,
+                        Server.getServer() + "v1/publicacion/" + sID ,
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override
@@ -141,7 +142,7 @@ public class Forum_view extends AppCompatActivity {
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/comentario/3",
+                        Server.getServer() + "v1/comentario/" + sID,
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override

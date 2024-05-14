@@ -1,6 +1,7 @@
 package com.app.hackapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +41,10 @@ public class news_adapter extends RecyclerView.Adapter<news_adapter.MyViewHolder
 
         News notica = aNews.get(position);
 
+        holder.sID = String.valueOf(notica.getnId());
         holder.sTitle.setText(notica.getsName());
         holder.sDesc.setText(notica.getsDescrip());
         Glide.with(context).load(notica.getsLinkImage()).apply(RequestOptions.circleCropTransform()).into(holder.image);
-
-        holder.itemView.setOnClickListener(v -> {
-
-        }); // Manejar click a otro fragment
 
     }
 
@@ -58,6 +56,7 @@ public class news_adapter extends RecyclerView.Adapter<news_adapter.MyViewHolder
 
         ImageView image;
         TextView sTitle, sDesc;
+        String sID = "";
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +64,16 @@ public class news_adapter extends RecyclerView.Adapter<news_adapter.MyViewHolder
             image = itemView.findViewById(R.id.iconImageView);
             sTitle = itemView.findViewById(R.id.news_title);
             sDesc = itemView.findViewById(R.id.news_description);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context cContext = v.getContext();
+                    Intent intent = new Intent(cContext, news_view.class);
+                    intent.putExtra("id_pub", sID);
+                    cContext.startActivity(intent);
+                }
+            });
         }
 
     }

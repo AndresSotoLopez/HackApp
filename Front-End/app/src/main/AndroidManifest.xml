@@ -22,9 +22,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Forum_view"
+            android:name=".Exploit_view"
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".news_view"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Forum_view"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

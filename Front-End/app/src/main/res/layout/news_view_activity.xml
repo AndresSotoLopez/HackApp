@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg"
+    tools:context=".news_view">
+
+    <ImageButton
+        android:id="@+id/fragment_news_view_et_userImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/user_image_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/fragment_news_view_text_Username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text=""
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@id/fragment_news_view_et_userImg"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#878787"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_news_view_text_Username"
+        app:layout_constraintStart_toStartOf="@id/fragment_news_view_text_Username"
+        app:layout_constraintEnd_toEndOf="@id/fragment_news_view_text_Username"
+        android:layout_marginTop="25dp"/>
+
+
+
+    <TextView
+        android:id="@+id/fragment_news_view_et_newName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textColorHint="#999999"
+        android:textSize="15sp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_news_view_et_userImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/transparent_button_color_999999"/>
+
+
+    <ImageButton
+        android:id="@+id/fragment_news_view_et_newsImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/new_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_news_view_et_newName"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
+
+
+    <TextView
+        android:id="@+id/fragment_news_view_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Descripción"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fragment_news_view_et_poc"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="15dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#878787"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_news_view_text2"
+        app:layout_constraintStart_toStartOf="@id/fragment_news_view_text2"
+        app:layout_constraintEnd_toEndOf="@id/fragment_news_view_text2"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/fragment_news_view_et_poc"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:textColor="@color/white"
+        android:textColorHint="#999999"
+        android:textSize="15sp"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/desc_upload_color_999999"
+        android:gravity="top"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
