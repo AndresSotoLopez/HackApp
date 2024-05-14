@@ -1,6 +1,7 @@
 package com.app.hackapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -32,6 +33,8 @@ public class Noticias extends Fragment {
     private RecyclerView recyclerView;
     private String sUser = "", sToken = "";
 
+    Intent intent;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -50,6 +53,8 @@ public class Noticias extends Fragment {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sUser = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
+
+
     }
 
     private void peticion () {

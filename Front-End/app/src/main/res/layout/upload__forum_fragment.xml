@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="40dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_upload_forum_button_news"

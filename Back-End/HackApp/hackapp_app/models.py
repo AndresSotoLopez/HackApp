@@ -90,7 +90,7 @@ class Publicacion(models.Model):
             'gravedad': self.gravedad,
             'cve': self.cve,
             'probado': self.probado,
-            'usuario': self.usuario.nombre,
+            'usuario': self.usuario.username,
             'avatar': self.usuario.avatar,
         }
 
