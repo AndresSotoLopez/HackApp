@@ -18,7 +18,7 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     private MeowBottomNavigation oBtmNav;
-    private Fragment fHome, fPosts, fNoticias, fUser;
+    private Fragment fHome, fSearch, fPosts, fNoticias, fUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +26,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         fHome = new Home();
+        fSearch = new Search();
         fPosts = new upload_noticias();
         fNoticias = new Noticias();
         fUser = new User();
 
         // Mostrar como primer fragment el inicio y seteamos el bottom navigation view
-        replace(fHome);
         oBtmNav = findViewById(R.id.bottomNavigation);
+        replace(fHome);
         setoBtmNav();
     }
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         replace(fHome);
                         break;
                     case 2:
+                        replace(fSearch);
                         break;
                     case 3:
                         replace(fPosts);

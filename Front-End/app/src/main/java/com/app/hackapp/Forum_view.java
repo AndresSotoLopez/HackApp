@@ -115,7 +115,7 @@ public class Forum_view extends AppCompatActivity {
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Forum_view.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
 
                             }
                         }
