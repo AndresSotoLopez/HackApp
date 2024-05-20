@@ -130,5 +130,10 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
 
+    <string name="noti.cell.accept">Aceptar</string>
+    <string name="noti.cell.reject">Eliminar</string>
+
+    <string name="activity_notificaciones_title">Notificaciones</string>
+
 
 </resources>

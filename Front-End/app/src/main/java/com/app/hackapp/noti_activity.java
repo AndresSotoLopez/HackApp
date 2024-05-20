@@ -1,20 +1,18 @@
 package com.app.hackapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,52 +29,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Home extends Fragment {
+public class noti_activity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ImageButton btnNotis;
-    private EditText etSearch;
-
-    private String sToken = "";
+    private TextView tvUsername;
+    private RecyclerView rRecycler;
+    private String sToken;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
-        // Cargar el fragmento
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_noti);
 
-        // Setear las variables
-        recyclerView = view.findViewById(R.id.activity_home_exploits);
-        btnNotis = view.findViewById(R.id.activity_home_notis);
-        etSearch = view.findViewById(R.id.activity_home_search);
-
-
-        // Obtener el SharedPreferences
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        // Obtener el valor de una clave
-        sToken = sharedPreferences.getString("token", null);
-
-        if (sToken != null) {
-            peticion();
+        // Boton para volver atras
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        btnNotis.setOnClickListener(v -> {
-            Context cContext = v.getContext();
-            Intent intent = new Intent(cContext, noti_activity.class);
-            cContext.startActivity(intent);
-        });
+        // seteamos los ids de la vista
+        setIds();
 
-        return view;
+        //Obtenemos el token del usuario
+        getUsername();
+
+        // Obtenemos las notificaciones del usuario
+        peticion();
     }
 
-    private void peticion(){
+    public void setIds() {
+        rRecycler = findViewById(R.id.activity_notifications_recycler);
+        tvUsername = findViewById(R.id.activity_notifications_username);
+    }
+
+    private void peticion () {
 
         //Creacion de la lista para guardar los datos de la peticion
-        List<exploits> aExploits = new ArrayList<>();
+        List<Notificaciones> aNotis = new ArrayList<>();
 
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/publicacion/0?tipoNoticia=2",
+                        Server.getServer() + "v1/manejarPeticiones",
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override
@@ -85,14 +78,14 @@ public class Home extends Fragment {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
                                         JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        exploits exploits = new exploits(jsonObject);
-                                        aExploits.add(exploits);
+                                        Notificaciones oNoti = new Notificaciones(jsonObject);
+                                        aNotis.add(oNoti);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    exploit_adapter adapter = new exploit_adapter(aExploits, getActivity());
-                                    recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                    notifications_adapter adapter = new notifications_adapter(aNotis, noti_activity.this);
+                                    rRecycler.setAdapter(adapter);
+                                    rRecycler.setLayoutManager(new LinearLayoutManager(noti_activity.this));
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -116,6 +109,12 @@ public class Home extends Fragment {
             }
         };
 
-        Volley.newRequestQueue(requireContext()).add(request);
+        Volley.newRequestQueue(noti_activity.this).add(request);
+
+    }
+
+    private void getUsername () {
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        sToken = sharedPreferences.getString("token", null);
     }
 }

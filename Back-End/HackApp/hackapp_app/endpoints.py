@@ -354,7 +354,7 @@ class solicitudes:
                 oSeguido.save()
                 oSeguidor.seguidores += 1
                 oSeguidor.save()
-            return JsonResponse({},status=204)
+            return JsonResponse({},status=200)
         
         if request.method == 'GET':
 
@@ -375,7 +375,7 @@ class solicitudes:
             try:
                 oSolicitud = Solicitud.objects.get(id=nId)
                 oSolicitud.delete()
-                return JsonResponse(status=204)
+                return JsonResponse({},status=200)
             except:
                 return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
             
