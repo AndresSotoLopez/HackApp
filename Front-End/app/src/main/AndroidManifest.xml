@@ -22,19 +22,23 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".noti_activity"
+            android:name=".OtherUserActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Exploit_view"
+            android:name=".NotificationsActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".news_view"
+            android:name=".ExploitView"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".Forum_view"
+            android:name=".NewsView"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ForumView"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity

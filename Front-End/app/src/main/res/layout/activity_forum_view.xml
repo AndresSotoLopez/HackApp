@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
-    tools:context=".Forum_view">
+    tools:context=".ForumView">
 
     <ImageButton
         android:id="@+id/fragment_forum_view_et_userImg"

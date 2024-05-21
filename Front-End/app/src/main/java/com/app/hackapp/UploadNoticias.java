@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,29 +23,25 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class upload_exploit extends Fragment {
+public class UploadNoticias extends Fragment {
 
     private Button btnNews, btnExploit, btnForo, btnPost;
-    private EditText etName, etLinkExt, etCVE, etDesc;
+    private EditText etName, etLinkExt, etLingImg, etDesc;
     private String sToken;
     private Fragment fNews, fExpl, fForum;
-    private Spinner spinner;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.upload_exploit_fragment, container, false);
+        View view = inflater.inflate(R.layout.upload_noticias_fragment, container, false);
 
-        fNews = new upload_noticias();
-        fExpl = new upload_exploit();
-        fForum = new upload_Forum();
+        fNews = new UploadNoticias();
+        fExpl = new UploadExploit();
+        fForum = new UploadForum();
 
         // Obtenemos el token de sesion de usuario
         getData();
@@ -55,21 +49,13 @@ public class upload_exploit extends Fragment {
         //Seteamos los ids de la vista
         setIds(view);
 
-        List<CharSequence> options = Arrays.asList(getResources().getStringArray(R.array.gravedad));
-        int textColor = ContextCompat.getColor(requireContext(), R.color.gris_texto);
-
-        // Necesario crear un nuevo adapter
-        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(requireContext(), android.R.layout.simple_spinner_item, options, textColor);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
+        // Mandamos la peticion Post
+        btnPost.setOnClickListener(v -> peticion());
 
         // Manejamos los clicks de los botones
         btnNews.setOnClickListener(v -> replace(fNews));
         btnExploit.setOnClickListener(v -> replace(fExpl));
         btnForo.setOnClickListener(v -> replace(fForum));
-
-        btnPost.setOnClickListener(v -> peticion());
 
         return view;
     }
@@ -80,23 +66,16 @@ public class upload_exploit extends Fragment {
     }
 
     private void setIds(View view) {
-        btnNews = view.findViewById(R.id.fragment_upload_exploit_button_news);
-        btnExploit = view.findViewById(R.id.fragment_upload_exploit_button_exploits);
-        btnForo = view.findViewById(R.id.fragment_upload_exploit_button_forum);
+        btnNews = view.findViewById(R.id.fragment_upload_noticias_button_news);
+        btnExploit = view.findViewById(R.id.fragment_upload_noticias_button_exploits);
+        btnForo = view.findViewById(R.id.fragment_upload_noticias_button_forum);
 
-        spinner = view.findViewById(R.id.fragment_upload_exploit_spinner);
+        etName = view.findViewById(R.id.fragment_upload_noticias_et_newName);
+        etLinkExt = view.findViewById(R.id.fragment_upload_noticias_et_linkext);
+        etLingImg = view.findViewById(R.id.fragment_upload_noticias_et_linkImage);
+        etDesc = view.findViewById(R.id.fragment_upload_noticias_et_desc);
 
-        etName = view.findViewById(R.id.fragment_upload_exploit_et_newName);
-        etLinkExt = view.findViewById(R.id.fragment_upload_exploit_et_linkext);
-        etCVE = view.findViewById(R.id.fragment_upload_exploit_et_newcve);
-        etDesc = view.findViewById(R.id.fragment_upload_exploit_et_desc);
-        btnPost = view.findViewById(R.id.fragment_upload_exploit_button_post);
-    }
-
-    private void replace (Fragment fragment) {
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame, fragment);
-        transaction.commit();
+        btnPost = view.findViewById(R.id.fragment_upload_noticias_button_post);
     }
 
     // Funcion para mostrar marcar el edittext donde esta el error
@@ -105,9 +84,11 @@ public class upload_exploit extends Fragment {
         input.requestFocus();
     }
 
+    // Comprobamos que los datos sean correctos antes de mandar la peticion
     private boolean checkData () {
         String sName = etName.getText().toString(),
-                sCVE = etCVE.getText().toString(),
+                sLInkExt = etLinkExt.getText().toString(),
+                sLinkImg = etLingImg.getText().toString(),
                 sDesc = etDesc.getText().toString();
 
         if (sName.isEmpty()) {
@@ -115,12 +96,7 @@ public class upload_exploit extends Fragment {
             return false;
         }
         if (sDesc.isEmpty()) {
-            showError(etDesc, "El código no puede estar vacío");
-            return false;
-        }
-
-        if (sCVE.isEmpty()) {
-            showError(etDesc, "El CVE no puede estar vacío");
+            showError(etDesc, "La descripción no puede estar vacía");
             return false;
         }
 
@@ -131,39 +107,17 @@ public class upload_exploit extends Fragment {
 
         String sName = etName.getText().toString(),
                 sLInkExt = etLinkExt.getText().toString(),
-                sSev = spinner.getSelectedItem().toString(),
-                sCVE = etCVE.getText().toString(),
+                sLinkImg = etLingImg.getText().toString(),
                 sDesc = etDesc.getText().toString();
 
-        int nSev = 1;
-
         if (checkData()) {
-
-            switch (sSev) {
-                case "Baja":
-                    nSev = 1;
-                    break;
-
-                case "Media":
-                    nSev = 2;
-                    break;
-
-                case "Alta":
-                    nSev = 3;
-                    break;
-
-                case "Crítica":
-                    nSev = 4;
-                    break;
-            }
 
             JSONObject jsonBody = new JSONObject();
             try {
                 jsonBody.put("nombre", sName);
-                jsonBody.put("tipo_publicacion", 2);
+                jsonBody.put("tipo_publicacion", 1);
                 jsonBody.put("link_externo", sLInkExt);
-                jsonBody.put("cve", sCVE);
-                jsonBody.put("gravedad", nSev);
+                jsonBody.put("imagen", sLinkImg);
                 jsonBody.put("descripcion", sDesc);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -178,7 +132,7 @@ public class upload_exploit extends Fragment {
                         @Override
                         public void onResponse(JSONObject response) {
                             Toast.makeText(requireContext(), "Post subido correctament", Toast.LENGTH_SHORT).show();
-                            replace(fExpl);
+                            deleteData();
                         }
                     },
                     new Response.ErrorListener() {
@@ -203,4 +157,16 @@ public class upload_exploit extends Fragment {
         }
     }
 
+    private void deleteData() {
+        etName.setText("");
+        etLinkExt.setText("");
+        etLingImg.setText("");
+        etDesc.setText("");
+    }
+
+    private void replace (Fragment fragment) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.commit();
+    }
 }

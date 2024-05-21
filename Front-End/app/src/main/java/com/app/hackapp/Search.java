@@ -67,7 +67,7 @@ public class Search extends Fragment {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                user_adapter adapter = new user_adapter(response, requireActivity());
+                                UserAdapter adapter = new UserAdapter(response, requireActivity());
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
                             }

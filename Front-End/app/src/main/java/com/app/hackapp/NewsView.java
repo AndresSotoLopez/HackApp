@@ -9,12 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,20 +28,22 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Exploit_view extends AppCompatActivity {
+public class NewsView extends AppCompatActivity {
 
-    private TextView tvUsername, tvName, tvDesc, tvLinkExt, tvCVE, tvSev;
+    private TextView tvUsername, tvName, tvDesc;
     private ImageButton imgbtnUser;
-    private String sToken, sID;
-    private Intent intent;
-
+    private ImageView imgvNewsImage;
+    private String sToken, sID, sUsername;
+    private Intent intent, oNextAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.exploit_view_activity);
+        setContentView(R.layout.news_view_activity);
 
+        //Control de intents
         intent = getIntent();
+        oNextAct = new Intent(this, OtherUserActivity.class);
 
         // Boton para volver atras
         ActionBar actionBar = getSupportActionBar();
@@ -60,25 +58,29 @@ public class Exploit_view extends AppCompatActivity {
         getData();
 
         peticion();
+
+        // Vista del usuario que ha publicado
+        imgbtnUser.setOnClickListener(v -> {
+            if (!(tvUsername.getText().toString().equalsIgnoreCase(sUsername))) {
+                startActivity(oNextAct);
+            }
+        });
     }
 
     private void getData () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-
+        sUsername = sharedPreferences.getString("username", null);
         sID = intent.getStringExtra("id_pub");
     }
 
     private void setIds () {
 
-        tvUsername = findViewById(R.id.activity_exploit_viewtext_Username);
-        tvDesc = findViewById(R.id.activity_exploit_view_et_desc);
-        tvName = findViewById(R.id.activity_exploit_view_et_newName);
-        tvLinkExt = findViewById(R.id.activity_exploit_view_et_linkext);
-        tvCVE = findViewById(R.id.activity_exploit_view_et_newcve);
-        tvSev = findViewById(R.id.activity_exploit_view_et_sev);
-
-        imgbtnUser = findViewById(R.id.activity_exploit_view_et_userImg);
+        tvUsername = findViewById(R.id.fragment_news_view_text_Username);
+        tvDesc = findViewById(R.id.fragment_news_view_et_poc);
+        tvName = findViewById(R.id.fragment_news_view_et_newName);
+        imgvNewsImage = findViewById(R.id.fragment_news_view_et_newsImage);
+        imgbtnUser = findViewById(R.id.fragment_news_view_et_userImg);
     }
 
     private void peticion () {
@@ -93,19 +95,17 @@ public class Exploit_view extends AppCompatActivity {
                                 try {
                                     JSONObject oObject = response.getJSONObject(0);
                                     Publicacion oPost = new Publicacion(oObject);
+                                    oNextAct.putExtra("seguido", oPost.getsUsername());
                                     setData(oPost);
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
-
                             }
                         },
                         new Response.ErrorListener() {
-
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Exploit_view.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(NewsView.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                 ) {
@@ -118,7 +118,7 @@ public class Exploit_view extends AppCompatActivity {
             }
         };
 
-        // Añadir la solicitud a la cola de solicitudes
+        // 3. Añadir la solicitud a la cola de solicitudes
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
 
@@ -128,34 +128,9 @@ public class Exploit_view extends AppCompatActivity {
         tvUsername.setText(oPost.getsUsername());
         tvDesc.setText(oPost.getsDesc());
         tvName.setText(oPost.getsNombre());
-        if (oPost.getsLinkExt().equals(null)) {
-            tvLinkExt.setText("");
-        }
-        else {
-            tvLinkExt.setText(oPost.getsLinkExt());
-        }
-        tvCVE.setText(oPost.getsCVE());
 
-        switch (oPost.getnGravedad()) {
-            case 2:
-                tvSev.setText("Media");
-                break;
-
-            case 3:
-                tvSev.setText("Alta");
-                break;
-
-            case 4:
-                tvSev.setText("Crítica");
-                break;
-
-            default:
-                tvSev.setText("Baja");
-                break;
-        }
-
-
-        Glide.with(Exploit_view.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgbtnUser);
+        Glide.with(NewsView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgbtnUser);
+        Glide.with(NewsView.this).load(oPost.getsImagen()).into(imgvNewsImage);
 
     }
 }

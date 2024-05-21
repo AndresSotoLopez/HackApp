@@ -1,7 +1,6 @@
 package com.app.hackapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class User extends Fragment {
 
@@ -141,7 +138,7 @@ public class User extends Fragment {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                user_adapter adapter = new user_adapter(response, getActivity());
+                                UserAdapter adapter = new UserAdapter(response, getActivity());
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             }

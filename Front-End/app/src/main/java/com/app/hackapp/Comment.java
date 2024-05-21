@@ -1,12 +1,12 @@
 package com.app.hackapp;
 
-public class comment {
+public class Comment {
 
     private String sUsername, sComment, sAvatar;
     private Double fVal;
-    public comment () {}
+    public Comment() {}
 
-    public comment (String sUserName, Double fVal, String sComment, String sAvatar) {
+    public Comment(String sUserName, Double fVal, String sComment, String sAvatar) {
         this.fVal = fVal;
         this.sUsername = sUserName;
         this.sComment = sComment;

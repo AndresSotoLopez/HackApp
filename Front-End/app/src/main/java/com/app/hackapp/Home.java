@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -61,7 +60,7 @@ public class Home extends Fragment {
 
         btnNotis.setOnClickListener(v -> {
             Context cContext = v.getContext();
-            Intent intent = new Intent(cContext, noti_activity.class);
+            Intent intent = new Intent(cContext, NotificationsActivity.class);
             cContext.startActivity(intent);
         });
 
@@ -71,7 +70,7 @@ public class Home extends Fragment {
     private void peticion(){
 
         //Creacion de la lista para guardar los datos de la peticion
-        List<exploits> aExploits = new ArrayList<>();
+        List<Exploits> aExploits = new ArrayList<>();
 
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
@@ -85,12 +84,12 @@ public class Home extends Fragment {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
                                         JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        exploits exploits = new exploits(jsonObject);
+                                        Exploits exploits = new Exploits(jsonObject);
                                         aExploits.add(exploits);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    exploit_adapter adapter = new exploit_adapter(aExploits, getActivity());
+                                    ExploitAdapter adapter = new ExploitAdapter(aExploits, getActivity());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

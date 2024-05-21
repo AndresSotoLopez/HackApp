@@ -32,4 +32,6 @@ urlpatterns = [
     path('v1/manejarPeticiones', endpoints.solicitudes.manejar_solicitudes),
     path('v1/mandarPeticiones', endpoints.solicitudes.mandar_peticiones),
     path('v1/cambioPass', endpoints.usuarios.cambio_de_pass),
+    path('v1/comprobarSeguimiento', endpoints.solicitudes.comprobar_seguimiento),
+
 ]

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".noti_activity">
+    tools:context=".NotificationsActivity">
 
     <EditText
         android:id="@+id/fragment_search_search"

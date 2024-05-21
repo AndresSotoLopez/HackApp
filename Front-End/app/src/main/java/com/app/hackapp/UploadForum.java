@@ -1,7 +1,6 @@
 package com.app.hackapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,10 +26,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class upload_noticias extends Fragment {
+public class UploadForum extends Fragment {
 
     private Button btnNews, btnExploit, btnForo, btnPost;
-    private EditText etName, etLinkExt, etLingImg, etDesc;
+    private EditText etName, etTest, etDesc;
     private String sToken;
     private Fragment fNews, fExpl, fForum;
 
@@ -39,11 +37,11 @@ public class upload_noticias extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.upload_noticias_fragment, container, false);
+        View view = inflater.inflate(R.layout.upload__forum_fragment, container, false);
 
-        fNews = new upload_noticias();
-        fExpl = new upload_exploit();
-        fForum = new upload_Forum();
+        fNews = new UploadNoticias();
+        fExpl = new UploadExploit();
+        fForum = new UploadForum();
 
         // Obtenemos el token de sesion de usuario
         getData();
@@ -51,33 +49,29 @@ public class upload_noticias extends Fragment {
         //Seteamos los ids de la vista
         setIds(view);
 
-        // Mandamos la peticion Post
-        btnPost.setOnClickListener(v -> peticion());
-
         // Manejamos los clicks de los botones
         btnNews.setOnClickListener(v -> replace(fNews));
         btnExploit.setOnClickListener(v -> replace(fExpl));
         btnForo.setOnClickListener(v -> replace(fForum));
 
+        btnPost.setOnClickListener(v -> peticion());
+
         return view;
     }
-
     private void getData () {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
     }
 
     private void setIds(View view) {
-        btnNews = view.findViewById(R.id.fragment_upload_noticias_button_news);
-        btnExploit = view.findViewById(R.id.fragment_upload_noticias_button_exploits);
-        btnForo = view.findViewById(R.id.fragment_upload_noticias_button_forum);
+        btnNews = view.findViewById(R.id.fragment_upload_forum_button_news);
+        btnExploit = view.findViewById(R.id.fragment_upload_forum_button_exploits);
+        btnForo = view.findViewById(R.id.fragment_upload_forum_button_forum);
 
-        etName = view.findViewById(R.id.fragment_upload_noticias_et_newName);
-        etLinkExt = view.findViewById(R.id.fragment_upload_noticias_et_linkext);
-        etLingImg = view.findViewById(R.id.fragment_upload_noticias_et_linkImage);
-        etDesc = view.findViewById(R.id.fragment_upload_noticias_et_desc);
-
-        btnPost = view.findViewById(R.id.fragment_upload_noticias_button_post);
+        etName = view.findViewById(R.id.fragment_upload_forum_et_newName);
+        etDesc = view.findViewById(R.id.fragment_upload_forum_et_desc);
+        etTest = view.findViewById(R.id.fragment_upload_forum_et_poc);
+        btnPost = view.findViewById(R.id.fragment_upload_forum_button_post);
     }
 
     // Funcion para mostrar marcar el edittext donde esta el error
@@ -86,11 +80,9 @@ public class upload_noticias extends Fragment {
         input.requestFocus();
     }
 
-    // Comprobamos que los datos sean correctos antes de mandar la peticion
     private boolean checkData () {
         String sName = etName.getText().toString(),
-                sLInkExt = etLinkExt.getText().toString(),
-                sLinkImg = etLingImg.getText().toString(),
+                sTest = etTest.getText().toString(),
                 sDesc = etDesc.getText().toString();
 
         if (sName.isEmpty()) {
@@ -102,25 +94,27 @@ public class upload_noticias extends Fragment {
             return false;
         }
 
+        if (sTest.isEmpty()) {
+            showError(etTest, "Lo que has probado no puede estar vacío");
+            return false;
+        }
+
         return true;
     }
 
     private void peticion () {
 
-        String sName = etName.getText().toString(),
-                sLInkExt = etLinkExt.getText().toString(),
-                sLinkImg = etLingImg.getText().toString(),
-                sDesc = etDesc.getText().toString();
-
         if (checkData()) {
+            String sName = etName.getText().toString(),
+                    sTest = etTest.getText().toString(),
+                    sDesc = etDesc.getText().toString();
 
             JSONObject jsonBody = new JSONObject();
             try {
                 jsonBody.put("nombre", sName);
-                jsonBody.put("tipo_publicacion", 1);
-                jsonBody.put("link_externo", sLInkExt);
-                jsonBody.put("imagen", sLinkImg);
+                jsonBody.put("tipo_publicacion", 3);
                 jsonBody.put("descripcion", sDesc);
+                jsonBody.put("probado", sTest);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -134,7 +128,7 @@ public class upload_noticias extends Fragment {
                         @Override
                         public void onResponse(JSONObject response) {
                             Toast.makeText(requireContext(), "Post subido correctament", Toast.LENGTH_SHORT).show();
-                            deleteData();
+                            replace(fForum);
                         }
                     },
                     new Response.ErrorListener() {
@@ -159,12 +153,6 @@ public class upload_noticias extends Fragment {
         }
     }
 
-    private void deleteData() {
-        etName.setText("");
-        etLinkExt.setText("");
-        etLingImg.setText("");
-        etDesc.setText("");
-    }
 
     private void replace (Fragment fragment) {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();

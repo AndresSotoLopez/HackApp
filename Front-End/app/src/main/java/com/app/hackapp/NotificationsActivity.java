@@ -5,12 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class noti_activity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity {
 
     private TextView tvUsername;
     private RecyclerView rRecycler;
@@ -83,9 +79,9 @@ public class noti_activity extends AppCompatActivity {
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    notifications_adapter adapter = new notifications_adapter(aNotis, noti_activity.this);
+                                    NotificationsAdapter adapter = new NotificationsAdapter(aNotis, NotificationsActivity.this);
                                     rRecycler.setAdapter(adapter);
-                                    rRecycler.setLayoutManager(new LinearLayoutManager(noti_activity.this));
+                                    rRecycler.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -109,7 +105,7 @@ public class noti_activity extends AppCompatActivity {
             }
         };
 
-        Volley.newRequestQueue(noti_activity.this).add(request);
+        Volley.newRequestQueue(NotificationsActivity.this).add(request);
 
     }
 

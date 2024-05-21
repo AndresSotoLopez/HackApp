@@ -2,7 +2,6 @@ package com.app.hackapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +22,13 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class notifications_adapter extends RecyclerView.Adapter<notifications_adapter.MyViewHolder>{
+public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.MyViewHolder>{
 
     private final List<Notificaciones> aNotis;
     private String sToken = "";
@@ -38,7 +36,7 @@ public class notifications_adapter extends RecyclerView.Adapter<notifications_ad
     private final Context context;
 
     //Constructor
-    public notifications_adapter(List<Notificaciones> aNotis, Context context) {
+    public NotificationsAdapter(List<Notificaciones> aNotis, Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.aNotis = aNotis;
         this.context = context;
@@ -49,14 +47,14 @@ public class notifications_adapter extends RecyclerView.Adapter<notifications_ad
 
     @NonNull
     @Override
-    public notifications_adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.friend_request_cell, null);
-        return new notifications_adapter.MyViewHolder(view);
+        return new NotificationsAdapter.MyViewHolder(view);
     }
 
 
     @SuppressLint("SetTextI18n")
-    public void onBindViewHolder(@NonNull notifications_adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NotificationsAdapter.MyViewHolder holder, int position) {
 
         Notificaciones noti = aNotis.get(position);
 

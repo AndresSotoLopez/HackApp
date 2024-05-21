@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
     //Definicion de las variables
     private final JSONArray aJsonObtecs;
@@ -25,7 +25,7 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder
     private final Context context;
 
     //Constructor
-    public user_adapter(JSONArray aJsonObtecs, Context context) {
+    public UserAdapter(JSONArray aJsonObtecs, Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.aJsonObtecs = aJsonObtecs;
         this.context = context;
@@ -45,7 +45,7 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder
     //Funcion que nos permite crear la vista de nuestra recyclerview
     @NonNull
     @Override
-    public user_adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
         switch (viewType) {
@@ -63,7 +63,7 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder
 
     //Funcion que nos permite actualizar la vista de nuestro recyclerview
     @Override
-    public void onBindViewHolder(@NonNull user_adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserAdapter.MyViewHolder holder, int position) {
 
 
         try {
@@ -108,13 +108,13 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.MyViewHolder
 
             switch (holder.nTipo) {
                 case 1:
-                    intent = new Intent(context, news_view.class);
+                    intent = new Intent(context, NewsView.class);
                     break;
                 case 2:
-                    intent = new Intent(context, Exploit_view.class);
+                    intent = new Intent(context, ExploitView.class);
                     break;
                 default:
-                    intent = new Intent(context, Forum_view.class);
+                    intent = new Intent(context, ForumView.class);
             }
             try {
                 intent.putExtra("id_pub", String.valueOf(aJsonObtecs.getJSONObject(position).getInt("id")));

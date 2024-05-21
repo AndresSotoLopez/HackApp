@@ -388,13 +388,13 @@ class solicitudes:
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
         bEstado = False
-        nId = request.GET.get('id', None)
+        sUsername = request.GET.get('user', None)
         sToken = request.headers.get("token")
 
-        if nId is None:
-            return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+        if sUsername is None:
+            return JsonResponse({"Error": "Parametro user no proporcionado"}, status=400)
         
-        oSeguidor = Usuario.objects.get(id=nId)
+        oSeguidor = Usuario.objects.get(username=sUsername)
         oSeguido = Sesiones.objects.get(token=sToken).usuario
 
         if oSeguidor.cuenta_privada:
@@ -403,9 +403,33 @@ class solicitudes:
         oNuevaSolicitud = Solicitud (
             seguidor = oSeguidor,
             seguido = oSeguido,
-            estado = bEstado
+            estado = not bEstado
         )
 
         oNuevaSolicitud.save()
-        return JsonResponse({},status=204)
+        return JsonResponse({},status=200)
+    
+    @validar_token
+    def comprobar_seguimiento(request):
+        if request.method != 'GET':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
+        nSeguido = request.GET.get('seguido', None)
+        sSeguidor = request.GET.get('seguidor', None)
+        sToken = request.headers.get("token")
+
+        if nSeguido is None or sSeguidor is None:
+            return JsonResponse({"Error": "Parametros no proporcionados"}, status=400)
+        
+        oSeguido = Sesiones.objects.get(token=sToken).usuario
+        oSeguidor= Usuario.objects.get(username=nSeguido)
+
+        print(Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists())
+
+        if Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists():
+            if Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).estado is True:
+                return JsonResponse({"comprobacion" : True, "id" : Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).id}, status=200)
+            else:
+                return JsonResponse({"comprobacion" : False, "id" : Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).id}, status=200)
+        else:
+            return JsonResponse({"comprobacion" : "No existe la solicitud"}, status=404)

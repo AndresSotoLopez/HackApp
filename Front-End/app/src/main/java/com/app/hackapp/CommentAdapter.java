@@ -15,13 +15,13 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-public class comment_adapter extends RecyclerView.Adapter<comment_adapter.MyViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
 
-    private final List<comment> lComentarios;
+    private final List<Comment> lComentarios;
     private final LayoutInflater layoutInflater;
     private final Context context;
 
-    public comment_adapter(List<comment> lComentarios, Context context) {
+    public CommentAdapter(List<Comment> lComentarios, Context context) {
         this.lComentarios = lComentarios;
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
@@ -29,14 +29,14 @@ public class comment_adapter extends RecyclerView.Adapter<comment_adapter.MyView
 
     @NonNull
     @Override
-    public comment_adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CommentAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.comment_card, null);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull comment_adapter.MyViewHolder holder, int position) {
-        comment oComentario = lComentarios.get(position);
+    public void onBindViewHolder(@NonNull CommentAdapter.MyViewHolder holder, int position) {
+        Comment oComentario = lComentarios.get(position);
 
         Glide.with(context).load(oComentario.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(holder.image);
         holder.sUserName.setText(oComentario.getsUsername());
