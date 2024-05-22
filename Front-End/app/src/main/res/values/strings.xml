@@ -33,7 +33,7 @@
     </string-array>
 
     <!--Codigo-->
-    <string name="activity.code.text.gracias">Gracias por registrarte. Hemos mandado un SMS al teléfono que has puesto arriba</string>
+    <string name="activity.code.text.gracias">Hemos mandado un SMS al teléfono que has puesto arriba</string>
     <string name="activity.code.text.reenviarEn">Reenviar codigo en </string>
     <string name="activity.code.text.reenviar">Reenviar codigo </string>
 

@@ -129,9 +129,22 @@ class usuarios:
         oUsuario = Sesiones.objects.get(token=sToken).usuario
 
         if(oData.get('username')):
+            if Usuario.objects.filter(username=oData.get('username')).exists() and Sesiones.objects.get(token=sToken).usuario.username != oData.get('username'):
+                return JsonResponse({"Error": "Nombre de usuario en uso"}, status=401)
             oUsuario.username = oData.get('username')
+            
+        if(oData.get('nombre')):
+            oUsuario.nombre = oData.get('nombre')
+
+        if(oData.get('apellidos')):
+            oUsuario.apellidos = oData.get('apellidos')
+
+        if(oData.get('avatar') and oData.get('avatar') != ""):
+            oUsuario.avatar = oData.get('avatar')
 
         if(oData.get('email')):
+            if Usuario.objects.filter(email=oData.get('email')).exists():
+                return JsonResponse({"Error": "Email en uso"}, status=401)
             oUsuario.email = oData.get('email')
 
         if oData.get('biografia') == None:

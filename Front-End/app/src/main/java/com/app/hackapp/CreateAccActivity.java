@@ -219,7 +219,7 @@ public class CreateAccActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            setToken(response.getString("token"));
+                            setToken(response.getString("token"), etUser.getText().toString());
                             onSendSms();
                             Intent intent = new Intent(CreateAccActivity.this, Code.class);
                             intent.putExtra("telefono", nTelefono);
@@ -243,12 +243,12 @@ public class CreateAccActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void setToken (String token) {
+    private void setToken (String token, String sUsername) {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
-        editor.putString("username", sUser);
+        editor.putString("username", sUsername);
         editor.apply();
     }
 

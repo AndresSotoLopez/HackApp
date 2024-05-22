@@ -8,23 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".Options">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
            <ImageView
                android:id="@+id/activity_options_image"
                android:layout_width="80dp"
                android:layout_height="80dp"
                android:layout_marginStart="30dp"
-               android:layout_marginTop="60dp"
+               android:layout_marginTop="30dp"
                android:background="@drawable/user_image_background"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintStart_toStartOf="parent"/>
@@ -39,7 +28,7 @@
                app:layout_constraintStart_toEndOf="@id/activity_options_image"
                app:layout_constraintTop_toTopOf="parent"
                android:layout_marginStart="30dp"
-               android:layout_marginTop="80dp"/>
+               android:layout_marginTop="45dp"/>
 
            <View
                android:layout_width="0dp"
@@ -170,7 +159,7 @@
            <RelativeLayout
                android:id="@+id/activity_options_rel2"
                android:layout_width="match_parent"
-               android:layout_height="250dp"
+               android:layout_height="190dp"
                android:background="@drawable/options_activity_bg"
                app:layout_constraintTop_toBottomOf="@id/activity_options_rel1"
                app:layout_constraintStart_toStartOf="parent"
@@ -270,7 +259,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="@string/activity_options_FAQS"
+                   android:text="FAQS Y Seguridad / Privacidad"
                    android:textColor="@color/white"
                    android:layout_marginTop="140dp"
                    android:layout_marginStart="75dp"/>
@@ -284,41 +273,6 @@
                    android:layout_marginTop="147dp"
                    android:layout_marginStart="285dp"/>
 
-               <ImageView
-                   android:id="@+id/activity_options_secpriv_img"
-                   android:layout_width="40dp"
-                   android:layout_height="40dp"
-                   android:layout_marginStart="15dp"
-                   android:layout_marginTop="190dp"
-                   android:background="@drawable/user_image_background"
-                   android:backgroundTint="#87A2C1"/>
-
-               <ImageView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/faqs_secpriv"
-                   android:scaleX="1.15"
-                   android:scaleY="1.15"
-                   android:layout_marginTop="200dp"
-                   android:layout_marginStart="23dp"/>
-
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="@string/activity_options_secPriv"
-                   android:textColor="@color/white"
-                   android:layout_marginTop="200dp"
-                   android:layout_marginStart="75dp"/>
-
-               <ImageButton
-                   android:id="@+id/activity_options_secpriv"
-                   android:layout_width="20dp"
-                   android:layout_height="20dp"
-                   android:background="@android:color/transparent"
-                   android:src="@drawable/right_arrow"
-                   android:layout_marginTop="200dp"
-                   android:layout_marginStart="285dp"/>
-
            </RelativeLayout>
 
            <RelativeLayout
@@ -329,7 +283,7 @@
                app:layout_constraintTop_toBottomOf="@id/activity_options_rel2"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
-               android:layout_marginTop="45dp"
+               android:layout_marginTop="25dp"
                android:layout_marginStart="30dp"
                android:layout_marginEnd="30dp">
 
@@ -368,7 +322,4 @@
                    android:layout_marginTop="25dp"
                    android:layout_marginStart="285dp"/>
            </RelativeLayout>
-       </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

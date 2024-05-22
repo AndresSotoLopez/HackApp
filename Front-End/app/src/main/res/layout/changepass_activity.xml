@@ -38,6 +38,7 @@
         android:layout_width="280sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
         android:background="@drawable/login_edittext_shape"
         android:drawableLeft="@drawable/lock"
         android:drawablePadding="4sp"
@@ -47,7 +48,7 @@
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="#878787"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password"
         app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_chpass_changePass" />
@@ -60,7 +61,8 @@
         android:layout_marginTop="28dp"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/check_pass_open"
-        app:layout_constraintStart_toEndOf="@+id/activity_chpass_editeText_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
         app:layout_constraintTop_toBottomOf="@+id/activity_chpass_changePass" />
 
     <EditText
@@ -68,6 +70,7 @@
         android:layout_width="280sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
         android:background="@drawable/login_edittext_shape"
         android:drawableLeft="@drawable/lock"
         android:drawablePadding="4sp"
@@ -77,7 +80,7 @@
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="#878787"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password2"
         app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_chpass_editeText_password" />
@@ -88,16 +91,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="30dp"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/check_pass_open"
-        app:layout_constraintStart_toEndOf="@+id/activity_chpass_editeText_password"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password" />
 
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/activity_chpass_button_send"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="@drawable/blue_button"
@@ -107,7 +111,9 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password2" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password2"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
 
 
     <androidx.appcompat.widget.AppCompatButton

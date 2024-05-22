@@ -127,13 +127,12 @@ public class ChangePass extends AppCompatActivity {
                         Intent intent = new Intent(ChangePass.this, LoginActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finishAffinity();
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ChangePass.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

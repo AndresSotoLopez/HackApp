@@ -37,13 +37,15 @@ class schemas():
             "username": {"type": "string"},
             "password": {"type": "string"},
             "email": {"type": "string"},
+            "nombre": {"type": "string"},
+            "apellidos": {"type": "string"},
             "biografia": {"anyOf": [
                 {"type": "string"},
                 {"type": "null"}
             ]},
             "notificaciones": {"type": "boolean"},
-            "cuenta_privada": {"type": "boolean"}
-
+            "cuenta_privada": {"type": "boolean"},
+            "avatar": {"type": "string"}
         }
     }
 

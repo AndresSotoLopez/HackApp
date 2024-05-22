@@ -94,8 +94,9 @@ public class User extends Fragment {
                             tvPost.setText(String.valueOf(response.getInt("posts")));
                             tvFollows.setText(String.valueOf(response.getInt("seguidos")));
                             tvFollowers.setText(String.valueOf(response.getInt("seguidores")));
-                            if (response.getString("biografia").equals(null)) {
-                                tvBio.setText(response.getString("biografia"));
+                            String sBio = response.getString("biografia");
+                            if (!(sBio != null)) {
+                                tvBio.setText(sBio);
                             }
                         } catch (JSONException | NullPointerException e) {
                             e.printStackTrace();

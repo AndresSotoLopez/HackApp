@@ -34,7 +34,7 @@ import java.util.Map;
 public class Options extends Fragment {
 
     private String sUser, sToken;
-    private ImageView imgvUser, imgvEditProfile, imgvAboutUs, imgvFAQS, imgvSecPriv, imgvCloseSession;
+    private ImageView imgvUser, imgvEditProfile, imgvAboutUs, imgvFAQS, imgvCloseSession;
     private TextView tvUsername;
     private Switch swDarkMode, swNotis, swPrivAcc;
     private Drawable drawable;
@@ -58,6 +58,10 @@ public class Options extends Fragment {
         // Obtener los datos de nuestro usuario y manejar los clicks de los img button
         setDataCLicks();
 
+        imgvEditProfile.setOnClickListener(v -> {
+            startActivity(new Intent(requireActivity(), UserSettings.class));
+        });
+
         return view;
     }
 
@@ -79,7 +83,6 @@ public class Options extends Fragment {
         imgvEditProfile = view.findViewById(R.id.activity_options_editProfile);
         imgvAboutUs = view.findViewById(R.id.activity_options_info);
         imgvFAQS = view.findViewById(R.id.activity_options_faqs);
-        imgvSecPriv = view.findViewById(R.id.activity_options_secpriv);
         imgvCloseSession = view.findViewById(R.id.activity_options_closseSes);
     }
 
@@ -91,7 +94,6 @@ public class Options extends Fragment {
         });
         imgvFAQS.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
         imgvAboutUs.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvSecPriv.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
         imgvCloseSession.setOnClickListener(v -> onSendCloseSSRequest());
 
         swNotis.setOnClickListener(v -> {
@@ -181,7 +183,7 @@ public class Options extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        sharedPreferences = getContext().getSharedPreferences("NombreDeTuSharedPreferences", Context.MODE_PRIVATE);
+                        sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.remove("token");
                         editor.remove("username");
