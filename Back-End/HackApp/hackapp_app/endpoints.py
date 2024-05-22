@@ -52,7 +52,7 @@ class usuarios:
                 return JsonResponse({"Error": "Token no valido"}, status=401)
 
             Sesiones.objects.filter(token=sToken).delete()
-            return JsonResponse(status=204)
+            return JsonResponse({},status=204)
         
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
     
@@ -103,7 +103,7 @@ class usuarios:
 
             Sesiones.objects.get(token=sToken).usuario.delete()
 
-            return JsonResponse(status=204)
+            return JsonResponse({},status=204)
         
         return JsonResponse({"Error": "Metodo no permitido"}, status=405)
     
@@ -129,9 +129,22 @@ class usuarios:
         oUsuario = Sesiones.objects.get(token=sToken).usuario
 
         if(oData.get('username')):
+            if Usuario.objects.filter(username=oData.get('username')).exists() and Sesiones.objects.get(token=sToken).usuario.username != oData.get('username'):
+                return JsonResponse({"Error": "Nombre de usuario en uso"}, status=401)
             oUsuario.username = oData.get('username')
+            
+        if(oData.get('nombre')):
+            oUsuario.nombre = oData.get('nombre')
+
+        if(oData.get('apellidos')):
+            oUsuario.apellidos = oData.get('apellidos')
+
+        if(oData.get('avatar') and oData.get('avatar') != ""):
+            oUsuario.avatar = oData.get('avatar')
 
         if(oData.get('email')):
+            if Usuario.objects.filter(email=oData.get('email')).exists():
+                return JsonResponse({"Error": "Email en uso"}, status=401)
             oUsuario.email = oData.get('email')
 
         if oData.get('biografia') == None:
@@ -142,8 +155,36 @@ class usuarios:
         if(oData.get('password')):
             oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
 
+        if 'notificaciones' in oData:
+            oUsuario.notificaciones = oData['notificaciones']
+    
+        if 'cuenta_privada' in oData:
+            oUsuario.cuenta_privada = oData['cuenta_privada']
+
         oUsuario.save()
         return JsonResponse({"Info": "Datos guardados correctamente"}, status=200)
+    
+    @csrf_exempt
+    def cambio_de_pass (request) :
+        if request.method != "POST":
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
+        
+        oData = json.loads(request.body)
+
+        # Validar Json enviado
+        if not funciones_de_usuario.usuario.comprobar_body_data(oData, schemas_de_usuario.schemas.oCambioPassSchema):
+            return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
+        
+        oUsuario = Usuario.objects.get(telefono=oData["telefono"])
+
+        if not oUsuario:
+            return JsonResponse({"Error": "Usuario no encontrado"}, status=404)
+        
+        oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+        oUsuario.save()
+
+        return JsonResponse({"Info": "Contraseña cambiada correctamente"}, status=200)
+        
     
     def get_usuario (request, username) :
         if request.method != 'GET':
@@ -228,7 +269,7 @@ class publicaciones():
             return JsonResponse({"Error": "Publicacion no encontrada"}, status=404)
         
         oPost.delete()
-        return JsonResponse(status=204)
+        return JsonResponse({},status=204)
     
 class comentario:
     
@@ -269,7 +310,7 @@ class comentario:
             
             try:
                 Comentario.objects.get(id=id).delete()
-                return JsonResponse(status=204)
+                return JsonResponse({},status=204)
             except:
                 return JsonResponse({"Error": "Comentario no encontrado"}, status=404)
            
@@ -326,7 +367,7 @@ class solicitudes:
                 oSeguido.save()
                 oSeguidor.seguidores += 1
                 oSeguidor.save()
-            return JsonResponse({},status=204)
+            return JsonResponse({},status=200)
         
         if request.method == 'GET':
 
@@ -347,7 +388,7 @@ class solicitudes:
             try:
                 oSolicitud = Solicitud.objects.get(id=nId)
                 oSolicitud.delete()
-                return JsonResponse(status=204)
+                return JsonResponse({},status=200)
             except:
                 return JsonResponse({"Error": "Solicitud no encontrada"}, status=404)
             
@@ -360,13 +401,13 @@ class solicitudes:
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
         bEstado = False
-        nId = request.GET.get('id', None)
+        sUsername = request.GET.get('user', None)
         sToken = request.headers.get("token")
 
-        if nId is None:
-            return JsonResponse({"Error": "Parametro ID no proporcionado"}, status=400)
+        if sUsername is None:
+            return JsonResponse({"Error": "Parametro user no proporcionado"}, status=400)
         
-        oSeguidor = Usuario.objects.get(id=nId)
+        oSeguidor = Usuario.objects.get(username=sUsername)
         oSeguido = Sesiones.objects.get(token=sToken).usuario
 
         if oSeguidor.cuenta_privada:
@@ -375,9 +416,33 @@ class solicitudes:
         oNuevaSolicitud = Solicitud (
             seguidor = oSeguidor,
             seguido = oSeguido,
-            estado = bEstado
+            estado = not bEstado
         )
 
         oNuevaSolicitud.save()
-        return JsonResponse({},status=204)
+        return JsonResponse({},status=200)
+    
+    @validar_token
+    def comprobar_seguimiento(request):
+        if request.method != 'GET':
+            return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
+        nSeguido = request.GET.get('seguido', None)
+        sSeguidor = request.GET.get('seguidor', None)
+        sToken = request.headers.get("token")
+
+        if nSeguido is None or sSeguidor is None:
+            return JsonResponse({"Error": "Parametros no proporcionados"}, status=400)
+        
+        oSeguido = Sesiones.objects.get(token=sToken).usuario
+        oSeguidor= Usuario.objects.get(username=nSeguido)
+
+        print(Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists())
+
+        if Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists():
+            if Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).estado is True:
+                return JsonResponse({"comprobacion" : True, "id" : Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).id}, status=200)
+            else:
+                return JsonResponse({"comprobacion" : False, "id" : Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).id}, status=200)
+        else:
+            return JsonResponse({"comprobacion" : "No existe la solicitud"}, status=404)

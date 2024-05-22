@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- rounded_button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="60dp" /> <!-- Este valor controla la redondez del botón -->
+    <solid android:color="@color/HackAPPBlue" /> <!-- Cambia el color según tus necesidades -->
+</shape>

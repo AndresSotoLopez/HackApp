@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg"
+    tools:context=".User">
+
+    <TextView
+        android:id="@+id/activity_other_user_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#878787"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_other_user_username"
+        app:layout_constraintEnd_toEndOf="@+id/activity_other_user_username"
+        app:layout_constraintStart_toStartOf="@+id/activity_other_user_username"
+        app:layout_constraintTop_toTopOf="@+id/activity_other_user_username"
+        android:layout_marginTop="25dp"/>
+
+    <ImageView
+        android:id="@+id/activity_other_user_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/user_image_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_username" />
+
+    <LinearLayout
+        android:id="@+id/activity_other_user_post_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/activity_other_user_image"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="45dp">
+
+        <TextView
+            android:id="@+id/activity_other_user_number_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/activity_other_user_text_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_user_posts"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_other_user_followers_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/activity_other_user_post_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="30dp">
+        <TextView
+            android:id="@+id/activity_other_user_number_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/activity_other_user_text_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_user_followers"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_other_user_follows_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/activity_other_user_followers_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="30dp">
+        <TextView
+            android:id="@+id/activity_other_user_number_follows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/activity_other_user_text_follows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_user_follows"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/activity_other_user_bio_shape"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/fragment_user_bio_bg"
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_image"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/activity_other_user_bio_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textColorHint="@color/gris_HackAPP"
+                android:textColor="@color/white"/>
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_other_user_follow_button"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/activity_other_user_image"
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_post_layout"
+        android:text="Seguir"
+        android:textColor="@color/white"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_bio_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="270dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/activity_other_user_img"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:src="@drawable/post_add"/>
+
+        <TextView
+            android:id="@+id/activity_other_user_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Perfil Privado"
+            android:textColor="@color/white"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_other_user_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_bio_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

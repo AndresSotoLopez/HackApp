@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--APP-->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="BackgrounColor">#343434</color>
+    <color name="outColor">#00FFFFFF</color>
+    <color name="HackAPPBlue">#4A6DEA</color>
+    <color name="gris_texto">#878787</color>
+    <color name="verde_succes">#50c878</color>
+    <color name="warning">#f09d16</color>
+
+
+
+    <!--Login Activity-->
+    <color name="gris_HackAPP">#878787</color>
+</resources>

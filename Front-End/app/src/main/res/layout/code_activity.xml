@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgrounColor"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/activity_login_hackAppLogo"
+        android:layout_width="150dp"
+        android:layout_height="146dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/hackapp_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_login_bienvenidoDeNuevo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/activity.code.text.gracias"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_hackAppLogo" />
+
+
+    <LinearLayout
+        android:id="@+id/activity_code_sms"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_bienvenidoDeNuevo">
+
+        <EditText
+            android:id="@+id/activity_code_sms_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:imeOptions="actionNext"
+            android:importantForAccessibility="no"
+            android:layout_weight="1"
+            android:background="@drawable/login_edittext_shape"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:padding="12dp"
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/activity_code_sms_et2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"
+            android:background="@drawable/login_edittext_shape"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:padding="12dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/activity_code_sms_et3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:imeOptions="actionNext"
+            android:layout_weight="1"
+            android:background="@drawable/login_edittext_shape"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:padding="12dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/activity_code_sms_et4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:imeOptions="actionDone"
+            android:background="@drawable/login_edittext_shape"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:padding="12dp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_code_button_send"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/blue_button"
+        android:fontFamily="@font/karma_medium"
+        android:text="Enviar"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_code_sms" />
+
+
+    <TextView
+        android:id="@+id/activity_code_text_resend"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Reenviar codigo en"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_code_button_send" />
+
+    <TextView
+        android:id="@+id/activity_code_text_countTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="40dp"
+        android:text="2s"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_code_button_send" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_code_button_resendCode"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/activity.code.text.reenviar"
+        android:textColor="@color/HackAPPBlue"
+        android:enabled="false"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/activity_code_text_countTimer"
+        app:layout_constraintTop_toBottomOf="@+id/activity_code_button_send" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_code_button_termsAndConditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/app.text.termsAndConditions"
+        android:textColor="@color/gris_HackAPP"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="25dp"
+        android:background="#878787"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_code_button_termsAndConditions"
+        app:layout_constraintEnd_toEndOf="@+id/activity_code_button_termsAndConditions"
+        app:layout_constraintStart_toStartOf="@+id/activity_code_button_termsAndConditions"
+        app:layout_constraintTop_toTopOf="@+id/activity_code_button_termsAndConditions" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".NotificationsActivity">
+
+    <EditText
+        android:id="@+id/fragment_search_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/search"
+        android:padding="12dp"
+        android:drawablePadding="4sp"
+        android:background="@drawable/transparent_button_color_999999"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:inputType="text"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="45dp"
+        android:backgroundTint="#999999"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_search_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_search_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

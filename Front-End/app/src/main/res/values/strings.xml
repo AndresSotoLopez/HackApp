@@ -1,0 +1,139 @@
+<resources>
+    <!--APP-->
+    <string name="app_name">HackApp</string>
+    <string name="app.text.termsAndConditions">Terminos y condiciones</string>
+
+    <!--Login Activity-->
+    <string name="activity.login.text.bienvenidoDeNuevo">Bienvenido de nuevo</string>
+    <string name="activity.login.text.iniciaSesion">Inicia sesión para continuar</string>
+    <string name="activity.login.hint.email">Username o Email</string>
+    <string name="activity.login.hint.contraseña">Contraseña</string>
+    <string name="activity.login.text.forgotPass">¿Has olvidado la contraseña?</string>
+    <string name="activity.login.text.login">Iniciar sesión</string>
+    <string name="activity.login.text.createAcc">Crear cuenta</string>
+
+    <!--Create ACC Activity-->
+    <string name="activity.createAcc.text.bienvenido">Bienvenido a HackAPP</string>
+    <string name="activity.createAcc.text.createAcc">Crea tu cuenta</string>
+    <string name="activity.createAcc.hint.name">Nombre</string>
+    <string name="activity.createAcc.hint.secondName">Apellidos</string>
+    <string name="activity.createAcc.hint.email">Email</string>
+    <string name="activity.createAcc.hint.username">Username</string>
+    <string name="activity.createAcc.hint.cc">34</string>
+    <string name="activity.createAcc.hint.telefono">123456789</string>
+
+    <!--Opciones del spinner de CC-->
+
+    <string-array name="opciones">
+        <item>🇪🇸 +34</item>
+        <item>🇺🇸 +1</item>
+        <item>🇫🇷 +33</item>
+        <item>🇮🇹 +39</item>
+        <item>🇲🇽 +53</item>
+    </string-array>
+
+    <!--Codigo-->
+    <string name="activity.code.text.gracias">Hemos mandado un SMS al teléfono que has puesto arriba</string>
+    <string name="activity.code.text.reenviarEn">Reenviar codigo en </string>
+    <string name="activity.code.text.reenviar">Reenviar codigo </string>
+
+    <!--Forgot Pass-->
+    <string name="activity.forgotPass.text.introduceElNumDeTel">Por tu seguridad necesitamos que nos confirmes que eres tu, por favor introduce tu telefono móvil:</string>
+
+    <!--Change Pass-->
+    <string name="activity.changePass.text.changePass">Cambiar Contraseña</string>
+    <string name="activity.changePass.text.createPass">Introduce tu nueva contraseña:</string>
+    <string name="activity.changePass.hint.repeatPass">Repite la contraseña</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="fragment_user_posts">Posts</string>
+    <string name="fragment_user_followers">Followers</string>
+    <string name="fragment_user_follows">Follows</string>
+    <string name="fragment_user_bio">Escribe aquí tu biografía</string>
+
+
+    <!--User Options-->
+    <string name="activity_options_darkMode">Modo Oscuro</string>
+    <string name="activity_options_notis">Notificaciones</string>
+    <string name="activity_options_accmode">Cuenta Privada</string>
+    <string name="activity_options_edit">Editar Perfil</string>
+    <string name="activity_options_aboutUs">Sobre Nosotros</string>
+    <string name="activity_options_FAQS">FAQS</string>
+    <string name="activity_options_secPriv">Seguridad y Privacidad</string>
+    <string name="activity_options_clssSesion">Cerrar Sesión</string>
+
+    <!--News-->
+    <string name="fragment_noticias_title">Noticias</string>
+
+    <!--Upload-->
+    <string name="fragment_upload_noticias_button_text">Noticias</string>
+    <string name="fragment_upload_exploit_button_text">Exploits</string>
+    <string name="fragment_upload_forum_button_text">Foro</string>
+
+    <string name="fragment_upload_noticias_et_name_hint">Nombre Noticia</string>
+    <string name="fragment_upload_noticias_et_link_hint">Link Externo</string>
+    <string name="fragment_upload_noticias_et_link_imagen_hint">Imagen</string>
+
+    <string name="fragment_upload_exploit_et_name_hint">Nombre del Exploit</string>
+    <string name="fragment_upload_exploit_et_link_hint">Link a ExploitDB</string>
+
+    <string name="fragment_upload_forum_et_name_hint">Nombre del Foro</string>
+
+    <string-array name="gravedad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+        <item>Crítica</item>
+
+    </string-array>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+
+    <string name="noti.cell.accept">Aceptar</string>
+    <string name="noti.cell.reject">Eliminar</string>
+
+    <string name="activity_notificaciones_title">Notificaciones</string>
+
+
+</resources>

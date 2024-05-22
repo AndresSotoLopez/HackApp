@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgrounColor"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/activity_login_hackAppLogo"
+        android:layout_width="150dp"
+        android:layout_height="146dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/hackapp_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_chpass_changePass"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/activity.changePass.text.createPass"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_login_hackAppLogo" />
+
+    <EditText
+        android:id="@+id/activity_chpass_editeText_password"
+        android:layout_width="280sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/login_edittext_shape"
+        android:drawableLeft="@drawable/lock"
+        android:drawablePadding="4sp"
+        android:fontFamily="@font/karma_medium"
+        android:hint="@string/activity.login.hint.contraseña"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="#878787"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_chpass_changePass" />
+
+    <ImageButton
+        android:id="@+id/activity_chpass_imagButton_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/check_pass_open"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_changePass" />
+
+    <EditText
+        android:id="@+id/activity_chpass_editeText_password2"
+        android:layout_width="280sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/login_edittext_shape"
+        android:drawableLeft="@drawable/lock"
+        android:drawablePadding="4sp"
+        android:fontFamily="@font/karma_medium"
+        android:hint="@string/activity.changePass.hint.repeatPass"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="#878787"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password2"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_chpass_editeText_password" />
+
+    <ImageButton
+        android:id="@+id/activity_chpass_imagButton_password2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/check_pass_open"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password" />
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_chpass_button_send"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/blue_button"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/activity.changePass.text.changePass"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password2"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_chpass_button_termsAndConditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/karma_medium"
+        android:text="@string/app.text.termsAndConditions"
+        android:textColor="@color/gris_HackAPP"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="25dp"
+        android:background="#878787"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_chpass_button_termsAndConditions"
+        app:layout_constraintEnd_toEndOf="@+id/activity_chpass_button_termsAndConditions"
+        app:layout_constraintStart_toStartOf="@+id/activity_chpass_button_termsAndConditions"
+        app:layout_constraintTop_toTopOf="@+id/activity_chpass_button_termsAndConditions" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

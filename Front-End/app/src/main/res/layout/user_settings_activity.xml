@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".UserSettings">
+
+    <ImageView
+        android:id="@+id/activity_user_settings_img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/user_image_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_user_text_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambiar avatar"
+        android:background="@android:color/transparent"
+        android:textColor="@color/HackAPPBlue"
+        app:layout_constraintStart_toEndOf="@id/activity_user_settings_img"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="25dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#878787"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_settings_img"
+        android:layout_marginTop="15dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/activity_user_settings_save"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/blue_button"
+        android:text="Guardar"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_settings_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/activity_user_label_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre:  "
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_settings_save"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/activity_user_edittext_user"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#999999"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_settings_save"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/activity_user_label_apellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apellidos:"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_nombre"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:id="@+id/activity_user_edittext_ape"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#999999"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_nombre"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_apellidos"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/activity_user_label_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_apellidos"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:id="@+id/activity_user_edittext_username"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#999999"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_apellidos"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="9dp"/>
+
+    <TextView
+        android:id="@+id/activity_user_label_bio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Biografía: "
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_username"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:id="@+id/activity_user_edittext_bio"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#999999"
+        android:hint="Biografía"
+        android:textSize="13sp"
+        android:textColorHint="@color/gris_HackAPP"
+        android:textColor="@color/white"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_username"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_bio"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/activity_user_label_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:       "
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_bio"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:id="@+id/activity_user_edittext_email"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#999999"
+        android:textSize="13sp"
+        android:textColorHint="@color/gris_HackAPP"
+        android:textColor="@color/white"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_bio"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="15dp"/>
+
+    <RelativeLayout
+        android:id="@+id/activity_options_rel1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/options_activity_bg"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <ImageView
+            android:id="@+id/activity_options_session_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/user_image_background"
+            android:backgroundTint="#5B448C"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/private_acc"
+            android:scaleX="1.75"
+            android:scaleY="1.75"
+            android:layout_marginTop="27dp"
+            android:layout_marginStart="27dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cambiar Contraseña"
+            android:textColor="@color/white"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="75dp"/>
+
+        <ImageButton
+            android:id="@+id/activity_options_changepass"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/right_arrow"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="285dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_options_rel2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/options_activity_bg"
+        app:layout_constraintTop_toBottomOf="@id/activity_options_rel1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <ImageView
+            android:id="@+id/activity_options_session_img3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/user_image_background"
+            android:backgroundTint="#EF2A2A"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/power"
+            android:scaleX="1.75"
+            android:scaleY="1.75"
+            android:layout_marginTop="27dp"
+            android:layout_marginStart="27dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar cuenta"
+            android:textColor="@color/white"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="75dp"/>
+
+        <ImageButton
+            android:id="@+id/activity_options_closseSes"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/right_arrow"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="285dp"/>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
