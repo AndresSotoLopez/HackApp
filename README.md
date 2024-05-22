@@ -33,7 +33,7 @@ En HackAPP, nuestra misión es crear una gran comunidad donde las personas apasi
 
 2. __Subida de contenido interactiva__ -> En el momento que un usuario publique una noticia, un exploit o haya creado un foro, toda la comunidad podrá ayudarle. Esto facilita el aprendizaje no solamente de una persona si no de todas aquellas que alguna vez se hagan esa pregunta
 
-3. __Notificaciones Push__ -> La idea que tenemos es facilitaros la vida, por lo que hemos decidido notificaros solo lo que es importante para vosotros.
+3. __Notificaciones Push__ -> La idea que tenemos es facilitaros la vida, por lo que hemos decidido notificaros solo lo que es importante para vosotros. (Implementación en próximas versiones)
 
 
 # 📁 Acceso al proyecto
@@ -64,7 +64,7 @@ En HackAPP, nuestra misión es crear una gran comunidad donde las personas apasi
 - Ahora toca esperar un poco a que android studio indexe las dependencias del proyecto.
 
 > [!WARNING]
-> El dispositivo en el que se realizó el proyecto es **PIXEL 5** usando el **API XX**. Es recomendable usar este dispositivo virtual y un API igual o mayor a la usada.
+> El dispositivo en el que se realizó el proyecto es **PIXEL 5** usando el **API 34**. Es recomendable usar este dispositivo virtual y un API igual o mayor a la usada.
 
 - Por último, pulsamos en iniciar y la aplicación se iniciará y ya podreis disfrutar de **HACKAPP**
 
