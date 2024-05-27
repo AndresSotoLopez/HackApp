@@ -33,12 +33,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User extends Fragment {
+public class Usuario extends Fragment {
 
-    private String sUser, sToken;
-    private TextView tvUsername, tvPost, tvFollowers, tvFollows, tvBio;
-    private ImageView imgvUser;
-    private ImageButton imgbSettings;
+    private String sUsuario, sToken;
+    private TextView tvNombreUsuario, tvPost, tvSeguidores, tvSeguidos, tvBio;
+    private ImageView imgvUsuario;
+    private ImageButton imgbtnOpciones;
     private RecyclerView recyclerView;
 
     RequestQueue requestQueue;
@@ -53,24 +53,24 @@ public class User extends Fragment {
         getUsername();
 
         // Seteamos el nombre de usuario a la vista
-        tvUsername = view.findViewById(R.id.fragment_user_username);
+        tvNombreUsuario = view.findViewById(R.id.fragment_user_username);
 
         // Asiganmos los id a los textview, obtenemos los datos del usuario y luego los asignamos.
         tvPost = view.findViewById(R.id.fragment_user_number_post);
-        tvFollowers = view.findViewById(R.id.fragment_user_number_followers);
-        tvFollows = view.findViewById(R.id.fragment_user_number_follows);
+        tvSeguidores = view.findViewById(R.id.fragment_user_number_followers);
+        tvSeguidos = view.findViewById(R.id.fragment_user_number_follows);
         tvBio = view.findViewById(R.id.fragment_user_bio_text);
         recyclerView = view.findViewById(R.id.fragment_user_recycler);
-        imgvUser = view.findViewById(R.id.fragment_user_image);
-        imgbSettings = view.findViewById(R.id.fragment_user_settings);
+        imgvUsuario = view.findViewById(R.id.fragment_user_image);
+        imgbtnOpciones = view.findViewById(R.id.fragment_user_settings);
 
         if (sToken != null) {
             getUserInfo();
             getuserPosts();
         }
 
-        imgbSettings.setOnClickListener(v -> {
-            replace(new Options());
+        imgbtnOpciones.setOnClickListener(v -> {
+            replace(new Opciones());
         });
 
         return view;
@@ -78,22 +78,22 @@ public class User extends Fragment {
 
     private void getUsername () {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUser = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
     }
     private void getUserInfo () {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                Server.getServer() + "v1/datosUsuario/" + sUser,
+                Server.getServer() + "v1/datosUsuario/" + sUsuario,
                 null,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            tvUsername.setText(sUser);
+                            tvNombreUsuario.setText(sUsuario);
                             tvPost.setText(String.valueOf(response.getInt("posts")));
-                            tvFollows.setText(String.valueOf(response.getInt("seguidos")));
-                            tvFollowers.setText(String.valueOf(response.getInt("seguidores")));
+                            tvSeguidos.setText(String.valueOf(response.getInt("seguidos")));
+                            tvSeguidores.setText(String.valueOf(response.getInt("seguidores")));
                             String sBio = response.getString("biografia");
                             if (!(sBio != null)) {
                                 tvBio.setText(sBio);
@@ -105,7 +105,7 @@ public class User extends Fragment {
                             Glide.with(requireContext()).load(
                                     response.getString("avatar"))
                                     .apply(RequestOptions.circleCropTransform())
-                                    .into(imgvUser);
+                                    .into(imgvUsuario);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -133,15 +133,15 @@ public class User extends Fragment {
     private void getuserPosts () {
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/publicacion/0?username="+sUser,
+                        Server.getServer() + "v1/publicacion/0?username="+ sUsuario,
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                UserAdapter adapter = null;
+                                UsuarioAdapter adapter = null;
                                 try {
-                                    adapter = new UserAdapter(response, getActivity(), "");
+                                    adapter = new UsuarioAdapter(response, getActivity(), "");
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }

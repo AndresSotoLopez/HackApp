@@ -18,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
+public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.MyViewHolder> {
 
     //Definicion de las variables
     private JSONArray aJsonObtecs, aFilterJsonObjects = new JSONArray();
@@ -27,7 +27,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     private final Context context;
 
     //Constructor
-    public UserAdapter(JSONArray aJsonObtecs, Context context, String sBusqueda) throws JSONException {
+    public UsuarioAdapter(JSONArray aJsonObtecs, Context context, String sBusqueda) throws JSONException {
         this.layoutInflater = LayoutInflater.from(context);
         if (!sBusqueda.isEmpty()) {
             for (int i = 0; i < aJsonObtecs.length(); i++) {
@@ -58,7 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     //Funcion que nos permite crear la vista de nuestra recyclerview
     @NonNull
     @Override
-    public UserAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UsuarioAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
         switch (viewType) {
@@ -76,7 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     //Funcion que nos permite actualizar la vista de nuestro recyclerview
     @Override
-    public void onBindViewHolder(@NonNull UserAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UsuarioAdapter.MyViewHolder holder, int position) {
 
 
         try {
@@ -124,10 +124,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                     intent = new Intent(context, NewsView.class);
                     break;
                 case 2:
-                    intent = new Intent(context, ExploitView.class);
+                    intent = new Intent(context, VistaExploit.class);
                     break;
                 default:
-                    intent = new Intent(context, ForumView.class);
+                    intent = new Intent(context, VistaForo.class);
             }
             try {
                 intent.putExtra("id_pub", String.valueOf(aJsonObtecs.getJSONObject(position).getInt("id")));

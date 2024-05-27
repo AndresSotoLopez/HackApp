@@ -3,27 +3,27 @@ package com.app.hackapp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class News {
-    private String sName = "", sDescrip = "", sLink_expdb = "", sLinkExt = "", sLinkImage = "", sUsername = "";
+public class NoticiasClase {
+    private String sNombre = "", sDescrip = "", sLink_expdb = "", sLinkExt = "", sLinkImagen = "", sUsername = "";
     private int nId = 0;
 
-    public News () {}
+    public NoticiasClase() {}
 
-    public News (JSONObject oObject) throws JSONException {
+    public NoticiasClase(JSONObject oObject) throws JSONException {
         this.nId = oObject.getInt("id");
-        this.sName = oObject.getString("nombre");
+        this.sNombre = oObject.getString("nombre");
         this.sDescrip = oObject.getString("descripcion");
         this.sLinkExt = oObject.getString("link_externo");
-        this.sLinkImage = oObject.getString("imagen");
+        this.sLinkImagen = oObject.getString("imagen");
         this.sUsername = oObject.getString("usuario");
     }
 
-    public String getsName() {
-        return sName;
+    public String getsNombre() {
+        return sNombre;
     }
 
-    public void setsName(String sName) {
-        this.sName = sName;
+    public void setsNombre(String sNombre) {
+        this.sNombre = sNombre;
     }
 
     public String getsDescrip() {
@@ -50,12 +50,12 @@ public class News {
         this.sLinkExt = sLinkExt;
     }
 
-    public String getsLinkImage() {
-        return sLinkImage;
+    public String getsLinkImagen() {
+        return sLinkImagen;
     }
 
-    public void setsLinkImage(String sLinkImage) {
-        this.sLinkImage = sLinkImage;
+    public void setsLinkImagen(String sLinkImagen) {
+        this.sLinkImagen = sLinkImagen;
     }
 
     public int getnId() {

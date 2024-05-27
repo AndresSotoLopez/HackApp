@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,16 +42,15 @@ import java.util.List;
 import java.util.Random;
 
 
-public class CreateAccActivity extends AppCompatActivity {
+public class CrearCuentaActivity extends AppCompatActivity {
 
-    private String sAdvise = "Antes de crear la cuenta, asegurate de poner bien el telefono.\n Te mandaremos un SMS para confirmar que este es tu número.";
-    private AppCompatButton btCreateAcc, btBottomSheet, btLogin, btForgotpass;
-    ImageButton btCheckPass;
-    private EditText etUser, etPass, etNombre, etApellidos, etMail, etTelefono;
-    private String sUser, sPass;
+    private String sAviso = "Antes de crear la cuenta, asegurate de poner bien el telefono.\n Te mandaremos un SMS para confirmar que este es tu número.";
+    private AppCompatButton btnCrearCuenta, btnBottomSheet, btLogin, btnContraseñaOlvidada;
+    ImageButton btnComprobarContraseña;
+    private EditText etUsuario, etContraseña, etNombre, etApellidos, etCorreo, etTelefono;
     private EditText etNTelefono;
     private Spinner spinner;
-    private AlertDialog dialog;
+    private AlertDialog oDialogo;
     private int nCode = 0;
 
     @Override
@@ -65,35 +62,35 @@ public class CreateAccActivity extends AppCompatActivity {
         etNTelefono = findViewById(R.id.activity_creatAcc_editeText_telefono);
         etNombre = findViewById(R.id.activity_login_editeText_name);
         etApellidos = findViewById(R.id.activity_login_editeText_secondName);
-        etMail = findViewById(R.id.activity_creatAcc_editeText_email);
-        etPass = findViewById(R.id.activity_creatAcc_editeText_password);
-        etUser = findViewById(R.id.activity_creatAcc_editeText_username);
+        etCorreo = findViewById(R.id.activity_creatAcc_editeText_email);
+        etContraseña = findViewById(R.id.activity_creatAcc_editeText_password);
+        etUsuario = findViewById(R.id.activity_creatAcc_editeText_username);
         etTelefono = findViewById(R.id.activity_creatAcc_editeText_telefono);
-        btCreateAcc = findViewById(R.id.activity_creatAcc_button_crearCuanta);
-        btCheckPass = findViewById(R.id.activity_creatAcc_imagButton_password);
-        btBottomSheet = findViewById(R.id.activity_creatAcc_button_termsAndConditions);
+        btnCrearCuenta = findViewById(R.id.activity_creatAcc_button_crearCuanta);
+        btnComprobarContraseña = findViewById(R.id.activity_creatAcc_imagButton_password);
+        btnBottomSheet = findViewById(R.id.activity_creatAcc_button_termsAndConditions);
         btLogin = findViewById(R.id.activity_creatAcc_button_login);
 
         // Settear valores del spinner del CC (Datos y el color)
         spinner = findViewById(R.id.activity_creatAcc_spinner_cc);
-        List<CharSequence> options = Arrays.asList(getResources().getStringArray(R.array.opciones));
-        int textColor = ContextCompat.getColor(CreateAccActivity.this, R.color.gris_texto);
+        List<CharSequence> oOpciones = Arrays.asList(getResources().getStringArray(R.array.opciones));
+        int nCodigoColor = ContextCompat.getColor(CrearCuentaActivity.this, R.color.gris_texto);
 
         // Necesario crear un nuevo adapter
-        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, android.R.layout.simple_spinner_item, options, textColor);
+        AdaptadorSpinnerPersonalizado adapter = new AdaptadorSpinnerPersonalizado(this, android.R.layout.simple_spinner_item, oOpciones, nCodigoColor);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         // Acciones de los botones
-        btCreateAcc.setOnClickListener(v -> onShowWarningDialog());
-        btCheckPass.setOnClickListener(v -> onShowPass());
+        btnCrearCuenta.setOnClickListener(v -> onShowWarningDialog());
+        btnComprobarContraseña.setOnClickListener(v -> onShowPass());
         btLogin.setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
         });
-        btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
+        btnBottomSheet.setOnClickListener(v -> onShowBottomDialog());
     }
 
     private void showError (EditText input, String s) {
@@ -102,31 +99,31 @@ public class CreateAccActivity extends AppCompatActivity {
     }
 
     private void onShowWarningDialog () {
-        ConstraintLayout warning = findViewById(R.id.layout_warning_dialog);
-        View view = LayoutInflater.from(this).inflate(R.layout.warning_dialog, warning);
-        Button btCont = view.findViewById(R.id.layout_warning_btn_continue);
-        Button btBack = view.findViewById(R.id.layout_warning_btn_back);
+        ConstraintLayout oAviso = findViewById(R.id.layout_warning_dialog);
+        View oVista = LayoutInflater.from(this).inflate(R.layout.warning_dialog, oAviso);
+        Button btnContinuar = oVista.findViewById(R.id.layout_warning_btn_continue);
+        Button btnAtras = oVista.findViewById(R.id.layout_warning_btn_back);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreateAccActivity.this);
-        builder.setView(view);
-        dialog = builder.create();
+        AlertDialog.Builder builder = new AlertDialog.Builder(CrearCuentaActivity.this);
+        builder.setView(oVista);
+        oDialogo = builder.create();
 
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        if (oDialogo.getWindow() != null) {
+            oDialogo.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
-        dialog.show();
+        oDialogo.show();
 
-        btCont.setOnClickListener(v -> {
+        btnContinuar.setOnClickListener(v -> {
             try {
                 onSendCreateAccRequest();
             } catch (Exception e) {
                 e.printStackTrace();
-                dialog.hide();
+                oDialogo.hide();
             }
         });
 
-        btBack.setOnClickListener(v -> dialog.hide());
+        btnAtras.setOnClickListener(v -> oDialogo.hide());
     }
 
     private void onShowBottomDialog () {
@@ -145,25 +142,25 @@ public class CreateAccActivity extends AppCompatActivity {
 
     private void onShowPass () {
 
-        int cursorPosition = etPass.getSelectionStart();
+        int cursorPosition = etContraseña.getSelectionStart();
 
-        if (etPass.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+        if (etContraseña.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
             // Mostrar la contraseña
-            etPass.setTransformationMethod(null);
-            btCheckPass.setImageResource(R.drawable.check_pass_blocked);
+            etContraseña.setTransformationMethod(null);
+            btnComprobarContraseña.setImageResource(R.drawable.check_pass_blocked);
         } else {
             // Ocultar la contraseña
-            etPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            btCheckPass.setImageResource(R.drawable.check_pass_open);
+            etContraseña.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            btnComprobarContraseña.setImageResource(R.drawable.check_pass_open);
         }
 
         // Restaurar la posición del cursor
-        etPass.setSelection(cursorPosition);
+        etContraseña.setSelection(cursorPosition);
     }
 
     private void onSendCreateAccRequest () {
 
-        String sNombre, sApellidos, sEmail, sPass, sUser, sCT;
+        String sNombre, sApellidos, sEmail, sContraseña, sUsuario, sCT;
         int nCC, nTelefono;
 
         sNombre = etNombre.getText().toString();
@@ -174,16 +171,16 @@ public class CreateAccActivity extends AppCompatActivity {
         if (sApellidos.equals("")) {
             showError(etNombre, "No puede ser un campo vacío");
         }
-        sEmail = etMail.getText().toString();
+        sEmail = etCorreo.getText().toString();
         if (sEmail.equals("")) {
             showError(etNombre, "No puede ser un campo vacío");
         }
-        sPass = etPass.getText().toString();
-        if (sPass.equals("")) {
+        sContraseña = etContraseña.getText().toString();
+        if (sContraseña.equals("")) {
             showError(etNombre, "No puede ser un campo vacío");
         }
-        sUser = etUser.getText().toString();
-        if (sUser.equals("")) {
+        sUsuario = etUsuario.getText().toString();
+        if (sUsuario.equals("")) {
             showError(etNombre, "No puede ser un campo vacío");
         }
         nTelefono = Integer.parseInt(etNTelefono.getText().toString());
@@ -195,9 +192,9 @@ public class CreateAccActivity extends AppCompatActivity {
         try {
             oBodyRequest.put("nombre", sNombre);
             oBodyRequest.put("apellidos", sApellidos);
-            oBodyRequest.put("password", sPass);
+            oBodyRequest.put("password", sContraseña);
             oBodyRequest.put("email", sEmail);
-            oBodyRequest.put("username", sUser);
+            oBodyRequest.put("username", sUsuario);
             oBodyRequest.put("ct", nCC);
             oBodyRequest.put("telefono", nTelefono);
             oBodyRequest.put("posts", 0);
@@ -219,15 +216,15 @@ public class CreateAccActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            setToken(response.getString("token"), etUser.getText().toString());
+                            setToken(response.getString("token"), etUsuario.getText().toString());
                             onSendSms();
-                            Intent intent = new Intent(CreateAccActivity.this, Code.class);
+                            Intent intent = new Intent(CrearCuentaActivity.this, Codigo.class);
                             intent.putExtra("telefono", nTelefono);
                             intent.putExtra("code", nCode);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         } catch (JSONException e) {
-                            Toast.makeText(CreateAccActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CrearCuentaActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -254,37 +251,37 @@ public class CreateAccActivity extends AppCompatActivity {
 
     private void checkErrors (VolleyError error) {
 
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+        if (oDialogo != null && oDialogo.isShowing()) {
+            oDialogo.dismiss();
         }
         if (error != null) {
             try {
                 int nStatusCode = error.networkResponse.statusCode;
                 // Convertir el cuerpo de la respuesta a una cadena JSON
-                String errorResponse = new String(error.networkResponse.data, "utf-8");
+                String sError = new String(error.networkResponse.data, "utf-8");
 
                 // Parsear la cadena JSON a un objeto JSONObject
-                JSONObject jsonObject = new JSONObject(errorResponse);
+                JSONObject oObjeto = new JSONObject(sError);
 
                 // Obtener el valor del error del objeto JSON
-                String errorMessage = jsonObject.getString("Error");
+                String sMensajeError = oObjeto.getString("Error");
 
                 if (nStatusCode == 404) {
-                    showError(etUser, errorMessage);
+                    showError(etUsuario, sMensajeError);
                 }
                 else if (nStatusCode == 401) {
-                    if (errorMessage.equals("Nombre de usuario en uso")) {
-                        showError(etUser, errorMessage);
+                    if (sMensajeError.equals("Nombre de usuario en uso")) {
+                        showError(etUsuario, sMensajeError);
                     }
-                    else if (errorMessage.equals("Email en uso")) {
-                        showError(etMail, errorMessage);
+                    else if (sMensajeError.equals("Email en uso")) {
+                        showError(etCorreo, sMensajeError);
                     }
                     else {
-                        showError(etTelefono, errorMessage);
+                        showError(etTelefono, sMensajeError);
                     }
                 }
                 else {
-                    Toast.makeText(CreateAccActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearCuentaActivity.this, sMensajeError, Toast.LENGTH_SHORT).show();
                 }
 
             } catch (UnsupportedEncodingException | JSONException | NullPointerException e) {
@@ -296,14 +293,14 @@ public class CreateAccActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+        if (oDialogo != null && oDialogo.isShowing()) {
+            oDialogo.dismiss();
         }
     }
 
     private void setSMSPermisions () {
-        if (!(ContextCompat.checkSelfPermission(CreateAccActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(CreateAccActivity.this, new String[]{Manifest.permission.SEND_SMS}, 100);
+        if (!(ContextCompat.checkSelfPermission(CrearCuentaActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(CrearCuentaActivity.this, new String[]{Manifest.permission.SEND_SMS}, 100);
         }
 
     }
@@ -314,11 +311,11 @@ public class CreateAccActivity extends AppCompatActivity {
         // Generar codigo sms
         Random random = new Random();
         nCode = random.nextInt(9000) + 1000;
-        String sMessage = "From HackAPP\n\nDe parte de toda la comindad de ciberseguridad te damos las gracias por unirte a nosotros.\n\nTu código para verificarte es: " + nCode;
+        String sMensaje = "From HackAPP\n\nDe parte de toda la comindad de ciberseguridad te damos las gracias por unirte a nosotros.\n\nTu código para verificarte es: " + nCode;
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(etNTelefono.getText().toString(),null,sMessage, null, null);
+            smsManager.sendTextMessage(etNTelefono.getText().toString(),null,sMensaje, null, null);
         } catch (Exception e) {}
 
 

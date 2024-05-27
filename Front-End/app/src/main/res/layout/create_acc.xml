@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/BackgrounColor"
-    tools:context=".CreateAccActivity">
+    tools:context=".CrearCuentaActivity">
 
     <ImageView
         android:id="@+id/activity_creatAcc_hackAppLogo"

@@ -23,19 +23,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UserSettings"
+            android:name=".OpcionesUsuario"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".OtherUserActivity"
+            android:name=".OtroUsuarioActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".NotificacionesActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ExploitView"
+            android:name=".VistaExploit"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -43,7 +43,7 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ForumView"
+            android:name=".VistaForo"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -53,13 +53,13 @@
             android:name=".ChangePass"
             android:exported="false" />
         <activity
-            android:name=".ForgotPass"
+            android:name=".ContraseñaOlvidada"
             android:exported="false" />
         <activity
-            android:name=".Code"
+            android:name=".Codigo"
             android:exported="false" />
         <activity
-            android:name=".CreateAccActivity"
+            android:name=".CrearCuentaActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

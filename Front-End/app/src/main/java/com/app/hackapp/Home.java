@@ -36,14 +36,14 @@ public class Home extends Fragment {
 
     private RecyclerView recyclerView;
     private ImageButton btnNotis;
-    private EditText etSearch;
+    private EditText etBuscador;
 
     private String sToken = "";
     private ExploitAdapter adapter = new ExploitAdapter();
 
     //Creacion de la lista para guardar los datos de la peticion
     List<Exploits> aExploits = new ArrayList<>();
-    private List<Exploits> aFilterExploits = new ArrayList<>();
+    private List<Exploits> aExploitsFiltrados = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
@@ -53,8 +53,7 @@ public class Home extends Fragment {
         // Setear las variables
         recyclerView = view.findViewById(R.id.activity_home_exploits);
         btnNotis = view.findViewById(R.id.activity_home_notis);
-        etSearch = view.findViewById(R.id.activity_home_search);
-
+        etBuscador = view.findViewById(R.id.activity_home_search);
 
         // Obtener el SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
@@ -62,12 +61,12 @@ public class Home extends Fragment {
         sToken = sharedPreferences.getString("token", null);
 
         if (sToken != null) {
-            peticion();
+            onSendRequest();
         }
 
         btnNotis.setOnClickListener(v -> {
             Context cContext = v.getContext();
-            Intent intent = new Intent(cContext, NotificationsActivity.class);
+            Intent intent = new Intent(cContext, NotificacionesActivity.class);
             cContext.startActivity(intent);
         });
 
@@ -76,7 +75,7 @@ public class Home extends Fragment {
         return view;
     }
 
-    private void peticion(){
+    private void onSendRequest(){
 
         // Cada vez que se lance la peticion se borra la lista para que los items no se dupliquen
         aExploits.clear();
@@ -91,8 +90,8 @@ public class Home extends Fragment {
                                 try {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
-                                        JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        Exploits exploits = new Exploits(jsonObject);
+                                        JSONObject oObjeto = response.getJSONObject(nIndex);
+                                        Exploits exploits = new Exploits(oObjeto);
                                         aExploits.add(exploits);
                                     }
 
@@ -127,7 +126,7 @@ public class Home extends Fragment {
     }
 
     private void onSetArrayFiltrado () {
-        etSearch.addTextChangedListener(new TextWatcher() {
+        etBuscador.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -135,18 +134,18 @@ public class Home extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                aFilterExploits.clear();
+                aExploitsFiltrados.clear();
                 if (s.toString().isEmpty()) {
-                    aFilterExploits.addAll(aExploits);
+                    aExploitsFiltrados.addAll(aExploits);
                 } else {
                     String sTexto = s.toString().toLowerCase();
                     for (Exploits exploit : aExploits) {
-                        if (exploit.getsName().toLowerCase().contains(sTexto)) {
-                            aFilterExploits.add(exploit);
+                        if (exploit.getsNombre().toLowerCase().contains(sTexto)) {
+                            aExploitsFiltrados.add(exploit);
                         }
                     }
                 }
-                adapter = new ExploitAdapter(aFilterExploits, getActivity());
+                adapter = new ExploitAdapter(aExploitsFiltrados, getActivity());
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }

@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationsActivity extends AppCompatActivity {
+public class NotificacionesActivity extends AppCompatActivity {
 
-    private TextView tvUsername;
+    private TextView tvUsuario;
     private RecyclerView rRecycler;
     private String sToken;
 
@@ -49,15 +49,15 @@ public class NotificationsActivity extends AppCompatActivity {
         getUsername();
 
         // Obtenemos las notificaciones del usuario
-        peticion();
+        setData();
     }
 
     public void setIds() {
         rRecycler = findViewById(R.id.activity_notifications_recycler);
-        tvUsername = findViewById(R.id.activity_notifications_username);
+        tvUsuario = findViewById(R.id.activity_notifications_username);
     }
 
-    private void peticion () {
+    private void setData() {
 
         //Creacion de la lista para guardar los datos de la peticion
         List<Notificaciones> aNotis = new ArrayList<>();
@@ -73,15 +73,15 @@ public class NotificationsActivity extends AppCompatActivity {
                                 try {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
-                                        JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        Notificaciones oNoti = new Notificaciones(jsonObject);
+                                        JSONObject oObjeto = response.getJSONObject(nIndex);
+                                        Notificaciones oNoti = new Notificaciones(oObjeto);
                                         aNotis.add(oNoti);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    NotificationsAdapter adapter = new NotificationsAdapter(aNotis, NotificationsActivity.this);
+                                    NotificacionesAdapter adapter = new NotificacionesAdapter(aNotis, NotificacionesActivity.this);
                                     rRecycler.setAdapter(adapter);
-                                    rRecycler.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
+                                    rRecycler.setLayoutManager(new LinearLayoutManager(NotificacionesActivity.this));
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -105,7 +105,7 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         };
 
-        Volley.newRequestQueue(NotificationsActivity.this).add(request);
+        Volley.newRequestQueue(NotificacionesActivity.this).add(request);
 
     }
 

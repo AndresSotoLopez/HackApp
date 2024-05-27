@@ -27,10 +27,10 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Search extends Fragment {
+public class Buscar extends Fragment {
 
     private String sToken = "";
-    private EditText etSearchField;
+    private EditText etBuscador;
     private RecyclerView recyclerView;
 
     @Override
@@ -55,7 +55,7 @@ public class Search extends Fragment {
     }
 
     private void setIds (View view) {
-        etSearchField = view.findViewById(R.id.fragment_search_search);
+        etBuscador = view.findViewById(R.id.fragment_search_search);
         recyclerView = view.findViewById(R.id.fragment_search_recycler);
     }
 
@@ -73,9 +73,9 @@ public class Search extends Fragment {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                UserAdapter adapter = null;
+                                UsuarioAdapter adapter = null;
                                 try {
-                                    adapter = new UserAdapter(response, requireActivity(), sBusqueda);
+                                    adapter = new UsuarioAdapter(response, requireActivity(), sBusqueda);
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -102,7 +102,7 @@ public class Search extends Fragment {
     }
 
     private void setRecyclerFiltrado () {
-        etSearchField.addTextChangedListener(new TextWatcher() {
+        etBuscador.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

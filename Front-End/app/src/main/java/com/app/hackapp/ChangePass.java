@@ -3,18 +3,13 @@ package com.app.hackapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,10 +24,10 @@ import org.json.JSONObject;
 
 public class ChangePass extends AppCompatActivity {
 
-    private AppCompatButton btBottomSheet, btChangePass;
-    ImageButton btCheckPass, btCheckPass2;
+    private AppCompatButton btnBottomSheet, btnCambiarContraseña;
+    ImageButton btnComprobarContraseña, btnComprobarContraseña2;
 
-    private EditText etPass1, etPass2;
+    private EditText etContraseña1, etContraseña2;
     private Intent intent;
 
 
@@ -45,31 +40,31 @@ public class ChangePass extends AppCompatActivity {
         intent = getIntent();
 
         // Setear los botones
-        btBottomSheet = findViewById(R.id.activity_chpass_button_termsAndConditions);
-        btCheckPass = findViewById(R.id.activity_chpass_imagButton_password);
-        btCheckPass2 = findViewById(R.id.activity_chpass_imagButton_password2);
-        btChangePass = findViewById(R.id.activity_chpass_button_send);
-        etPass1 = findViewById(R.id.activity_chpass_editeText_password);
-        etPass2 = findViewById(R.id.activity_chpass_editeText_password2);
+        btnBottomSheet = findViewById(R.id.activity_chpass_button_termsAndConditions);
+        btnComprobarContraseña = findViewById(R.id.activity_chpass_imagButton_password);
+        btnComprobarContraseña2 = findViewById(R.id.activity_chpass_imagButton_password2);
+        btnCambiarContraseña = findViewById(R.id.activity_chpass_button_send);
+        etContraseña1 = findViewById(R.id.activity_chpass_editeText_password);
+        etContraseña2 = findViewById(R.id.activity_chpass_editeText_password2);
 
-        btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
-        btCheckPass.setOnClickListener(v -> onShowPass(etPass1));
-        btCheckPass2.setOnClickListener(v -> onShowPass(etPass2));
-        btChangePass.setOnClickListener(v -> onSendChangeRequest());
+        btnBottomSheet.setOnClickListener(v -> onShowBottomDialog());
+        btnComprobarContraseña.setOnClickListener(v -> onShowPass(etContraseña1));
+        btnComprobarContraseña2.setOnClickListener(v -> onShowPass(etContraseña2));
+        btnCambiarContraseña.setOnClickListener(v -> onSendChangeRequest());
 
     }
 
-    private void onShowBottomDialog () {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+    private void onShowBottomDialog() {
+        BottomSheetDialog dialogoBottomSheet = new BottomSheetDialog(this);
 
         // Inflar el layout del Bottom Sheet Dialog
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
 
         // Establecer el contenido del BottomSheetDialog
-        bottomSheetDialog.setContentView(bottomSheetView);
+        dialogoBottomSheet.setContentView(bottomSheetView);
 
         // Mostrar el BottomSheetDialog
-        bottomSheetDialog.show();
+        dialogoBottomSheet.show();
 
     }
 
@@ -78,27 +73,27 @@ public class ChangePass extends AppCompatActivity {
         input.requestFocus();
     }
 
-    private void onShowPass (EditText etPass) {
+    private void onShowPass(EditText etContraseña) {
 
-        int cursorPosition = etPass.getSelectionStart();
+        int cursorPosition = etContraseña.getSelectionStart();
 
-        if (etPass.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+        if (etContraseña.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
             // Mostrar la contraseña
-            etPass.setTransformationMethod(null);
-            btCheckPass.setImageResource(R.drawable.check_pass_blocked);
+            etContraseña.setTransformationMethod(null);
+            btnComprobarContraseña.setImageResource(R.drawable.check_pass_blocked);
         } else {
             // Ocultar la contraseña
-            etPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            btCheckPass.setImageResource(R.drawable.check_pass_open);
+            etContraseña.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            btnComprobarContraseña.setImageResource(R.drawable.check_pass_open);
         }
 
         // Restaurar la posición del cursor
-        etPass.setSelection(cursorPosition);
+        etContraseña.setSelection(cursorPosition);
     }
 
     private void onSendChangeRequest () {
-        if (!etPass1.getText().toString().equals(etPass2.getText().toString())) {
-            showError(etPass2, "Las contraseñas no coinciden");
+        if (!etContraseña1.getText().toString().equals(etContraseña2.getText().toString())) {
+            showError(etContraseña2, "Las contraseñas no coinciden");
         }
         else {
             setRequest();
@@ -107,11 +102,11 @@ public class ChangePass extends AppCompatActivity {
 
     private void setRequest () {
 
-        JSONObject oBodyRequest = new JSONObject();
+        JSONObject oCuerpoPeticion = new JSONObject();
 
         try {
-            oBodyRequest.put("telefono", intent.getStringExtra("telefono"));
-            oBodyRequest.put("password", etPass2.getText().toString());
+            oCuerpoPeticion.put("telefono", intent.getStringExtra("telefono"));
+            oCuerpoPeticion.put("password", etContraseña2.getText().toString());
         } catch (JSONException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -119,7 +114,7 @@ public class ChangePass extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                 Server.getServer() + "v1/cambioPass",
-                oBodyRequest,
+                oCuerpoPeticion,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

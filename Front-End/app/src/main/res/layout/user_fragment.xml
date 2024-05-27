@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
-    tools:context=".User">
+    tools:context=".Usuario">
 
     <TextView
         android:id="@+id/fragment_user_username"

@@ -31,17 +31,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Options extends Fragment {
+public class Opciones extends Fragment {
 
-    private String sUser, sToken;
-    private ImageView imgvUser, imgvEditProfile, imgvAboutUs, imgvFAQS, imgvCloseSession;
-    private TextView tvUsername;
-    private Switch swDarkMode, swNotis, swPrivAcc;
+    private String sNomreUsuario, sToken;
+    private ImageView imgvUsuario, imgvEditarPerfil, imgvSobreNosotros, imgvFAQS, imgvCerrarSesion;
+    private TextView tvNombreUsuario;
+    private Switch swModoOscuro, swNotis, swCuentaPrivada;
     private Drawable drawable;
-    private int nScaleDP = 10;
+    private int sEscala = 10;
     private SharedPreferences sharedPreferences;
 
-    Boolean bNotis, bAcc;
+    Boolean bNotis, bCuenta;
 
 
     @Override
@@ -58,8 +58,8 @@ public class Options extends Fragment {
         // Obtener los datos de nuestro usuario y manejar los clicks de los img button
         setDataCLicks();
 
-        imgvEditProfile.setOnClickListener(v -> {
-            startActivity(new Intent(requireActivity(), UserSettings.class));
+        imgvEditarPerfil.setOnClickListener(v -> {
+            startActivity(new Intent(requireActivity(), OpcionesUsuario.class));
         });
 
         return view;
@@ -67,34 +67,34 @@ public class Options extends Fragment {
 
     private void getData () {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUser = sharedPreferences.getString("username", null);
+        sNomreUsuario = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
     }
 
     private void setIds(View view) {
-        tvUsername = view.findViewById(R.id.activity_options_username);
-        tvUsername.setText(sUser);
+        tvNombreUsuario = view.findViewById(R.id.activity_options_username);
+        tvNombreUsuario.setText(sNomreUsuario);
 
-        swDarkMode = view.findViewById(R.id.activity_options_darkMode);
+        swModoOscuro = view.findViewById(R.id.activity_options_darkMode);
         swNotis = view.findViewById(R.id.activity_options_notis);
-        swPrivAcc = view.findViewById(R.id.activity_options_accmode);
-        imgvUser = view.findViewById(R.id.activity_options_image);
+        swCuentaPrivada = view.findViewById(R.id.activity_options_accmode);
+        imgvUsuario = view.findViewById(R.id.activity_options_image);
 
-        imgvEditProfile = view.findViewById(R.id.activity_options_editProfile);
-        imgvAboutUs = view.findViewById(R.id.activity_options_info);
+        imgvEditarPerfil = view.findViewById(R.id.activity_options_editProfile);
+        imgvSobreNosotros = view.findViewById(R.id.activity_options_info);
         imgvFAQS = view.findViewById(R.id.activity_options_faqs);
-        imgvCloseSession = view.findViewById(R.id.activity_options_closseSes);
+        imgvCerrarSesion = view.findViewById(R.id.activity_options_closseSes);
     }
 
     private void setDataCLicks() {
         setUserData();
 
-        imgvEditProfile.setOnClickListener(v -> {
+        imgvEditarPerfil.setOnClickListener(v -> {
             //replace(new EditProfile());
         });
         imgvFAQS.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvAboutUs.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
-        imgvCloseSession.setOnClickListener(v -> onSendCloseSSRequest());
+        imgvSobreNosotros.setOnClickListener(v -> Toast.makeText(requireContext(), "Esta funcionalidad no esta disponible todavía.", Toast.LENGTH_SHORT).show());
+        imgvCerrarSesion.setOnClickListener(v -> onSendCloseSSRequest());
 
         swNotis.setOnClickListener(v -> {
             bNotis = !bNotis;
@@ -102,10 +102,10 @@ public class Options extends Fragment {
             onSendChengeSwitches("notificaciones", bNotis);
         });
 
-        swPrivAcc.setOnClickListener(v -> {
-            bAcc = !bAcc;
-            swPrivAcc.setChecked(bAcc);
-            onSendChengeSwitches("cuenta_privada", bAcc);
+        swCuentaPrivada.setOnClickListener(v -> {
+            bCuenta = !bCuenta;
+            swCuentaPrivada.setChecked(bCuenta);
+            onSendChengeSwitches("cuenta_privada", bCuenta);
         });
 
     }
@@ -113,7 +113,7 @@ public class Options extends Fragment {
     private void setUserData () {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                Server.getServer() + "v1/datosUsuario/" + sUser,
+                Server.getServer() + "v1/datosUsuario/" + sNomreUsuario,
                 null,
                 new Response.Listener<JSONObject>(){
                     @Override
@@ -121,7 +121,7 @@ public class Options extends Fragment {
 
                         // Necesario para que cuando se setean los switch, no se manden las peticiones al servidor
                         swNotis.setOnCheckedChangeListener(null);
-                        swPrivAcc.setOnCheckedChangeListener(null);
+                        swCuentaPrivada.setOnCheckedChangeListener(null);
 
                         // Seteamos los swatiches segun el user lo tenga en la BBDD y cargamos su imagen de usuario
                         try {
@@ -131,8 +131,8 @@ public class Options extends Fragment {
                             e.printStackTrace();
                         }
                         try {
-                            bAcc = response.getBoolean("cuenta_privada");
-                            swPrivAcc.setChecked(bAcc);
+                            bCuenta = response.getBoolean("cuenta_privada");
+                            swCuentaPrivada.setChecked(bCuenta);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -141,7 +141,7 @@ public class Options extends Fragment {
                             Glide.with(requireContext()).load(
                                             response.getString("avatar"))
                                     .apply(RequestOptions.circleCropTransform())
-                                    .into(imgvUser);
+                                    .into(imgvUsuario);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

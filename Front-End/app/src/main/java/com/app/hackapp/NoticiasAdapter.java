@@ -16,53 +16,53 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-public class news_adapter extends RecyclerView.Adapter<news_adapter.MyViewHolder>{
+public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.MyViewHolder>{
 
-    private final List<News> aNews;
+    private final List<NoticiasClase> aNoticias;
     private final LayoutInflater layoutInflater;
     private final Context context;
 
     //Constructor
-    public news_adapter(List<News> aNews, Context context) {
+    public NoticiasAdapter(List<NoticiasClase> aNoticias, Context context) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.aNews = aNews;
+        this.aNoticias = aNoticias;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public news_adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NoticiasAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.news_forum_card_view, null);
-        return new news_adapter.MyViewHolder(view);
+        return new NoticiasAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull news_adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NoticiasAdapter.MyViewHolder holder, int position) {
 
-        News notica = aNews.get(position);
+        NoticiasClase notica = aNoticias.get(position);
 
         holder.sID = String.valueOf(notica.getnId());
-        holder.sTitle.setText(notica.getsName());
+        holder.sTitulo.setText(notica.getsNombre());
         holder.sDesc.setText(notica.getsDescrip());
-        Glide.with(context).load(notica.getsLinkImage()).apply(RequestOptions.circleCropTransform()).into(holder.image);
+        Glide.with(context).load(notica.getsLinkImagen()).apply(RequestOptions.circleCropTransform()).into(holder.image);
 
     }
 
     @Override
-    public int getItemCount() { return aNews.size(); }
+    public int getItemCount() { return aNoticias.size(); }
 
     //Clase que nos permite obtener la vista de nuestro recyclerview
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
-        TextView sTitle, sDesc;
+        TextView sTitulo, sDesc;
         String sID = "";
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.iconImageView);
-            sTitle = itemView.findViewById(R.id.news_title);
+            sTitulo = itemView.findViewById(R.id.news_title);
             sDesc = itemView.findViewById(R.id.news_description);
 
             itemView.setOnClickListener(new View.OnClickListener() {
