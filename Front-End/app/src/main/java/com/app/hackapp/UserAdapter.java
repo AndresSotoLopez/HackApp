@@ -16,18 +16,31 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> {
 
     //Definicion de las variables
-    private final JSONArray aJsonObtecs;
+    private JSONArray aJsonObtecs, aFilterJsonObjects = new JSONArray();
+    private JSONObject oObjeto = new JSONObject();
     private final LayoutInflater layoutInflater;
     private final Context context;
 
     //Constructor
-    public UserAdapter(JSONArray aJsonObtecs, Context context) {
+    public UserAdapter(JSONArray aJsonObtecs, Context context, String sBusqueda) throws JSONException {
         this.layoutInflater = LayoutInflater.from(context);
-        this.aJsonObtecs = aJsonObtecs;
+        if (!sBusqueda.isEmpty()) {
+            for (int i = 0; i < aJsonObtecs.length(); i++) {
+                oObjeto = aJsonObtecs.getJSONObject(i);
+                if (oObjeto.getString("nombre").toLowerCase().contains(sBusqueda.toLowerCase())) {
+                    aFilterJsonObjects.put(oObjeto);
+                }
+            }
+            this.aJsonObtecs = aFilterJsonObjects;
+        }
+        else {
+            this.aJsonObtecs = aJsonObtecs;
+        }
         this.context = context;
     }
 

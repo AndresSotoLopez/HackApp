@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,11 @@ public class Home extends Fragment {
     private EditText etSearch;
 
     private String sToken = "";
+    private ExploitAdapter adapter = new ExploitAdapter();
+
+    //Creacion de la lista para guardar los datos de la peticion
+    List<Exploits> aExploits = new ArrayList<>();
+    private List<Exploits> aFilterExploits = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
@@ -64,14 +71,15 @@ public class Home extends Fragment {
             cContext.startActivity(intent);
         });
 
+        onSetArrayFiltrado();
+
         return view;
     }
 
     private void peticion(){
 
-        //Creacion de la lista para guardar los datos de la peticion
-        List<Exploits> aExploits = new ArrayList<>();
-
+        // Cada vez que se lance la peticion se borra la lista para que los items no se dupliquen
+        aExploits.clear();
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
@@ -89,7 +97,7 @@ public class Home extends Fragment {
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    ExploitAdapter adapter = new ExploitAdapter(aExploits, getActivity());
+                                    adapter = new ExploitAdapter(aExploits, getActivity());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -116,5 +124,37 @@ public class Home extends Fragment {
         };
 
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    private void onSetArrayFiltrado () {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                aFilterExploits.clear();
+                if (s.toString().isEmpty()) {
+                    aFilterExploits.addAll(aExploits);
+                } else {
+                    String sTexto = s.toString().toLowerCase();
+                    for (Exploits exploit : aExploits) {
+                        if (exploit.getsName().toLowerCase().contains(sTexto)) {
+                            aFilterExploits.add(exploit);
+                        }
+                    }
+                }
+                adapter = new ExploitAdapter(aFilterExploits, getActivity());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

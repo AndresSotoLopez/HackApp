@@ -187,7 +187,7 @@ public class ForumView extends AppCompatActivity {
     private void setData(Publicacion oPost) {
         tvUsername.setText(oPost.getsUsername());
         tvDesc.setText(oPost.getsDesc());
-        tvTest.setText(oPost.getsTest());
+        tvTest.setText(oPost.getsText());
         tvName.setText(oPost.getsNombre());
 
         Glide.with(ForumView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgbtnUser);

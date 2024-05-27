@@ -242,7 +242,12 @@ public class OtherUserActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                UserAdapter adapter = new UserAdapter(response, OtherUserActivity.this);
+                                UserAdapter adapter = null;
+                                try {
+                                    adapter = new UserAdapter(response, OtherUserActivity.this, "");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(OtherUserActivity.this));
                             }
