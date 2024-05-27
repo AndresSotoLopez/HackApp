@@ -30,11 +30,11 @@ import java.util.Map;
 
 public class NewsView extends AppCompatActivity {
 
-    private TextView tvUsername, tvName, tvDesc;
-    private ImageButton imgbtnUser;
-    private ImageView imgvNewsImage;
-    private String sToken, sID, sUsername;
-    private Intent intent, oNextAct;
+    private TextView tvNombreUsuario, tvNombre, tvDesc;
+    private ImageButton imtbtnUsuario;
+    private ImageView imgvImagenNoticia;
+    private String sToken, sID, sNombreUsuario;
+    private Intent intent, oProxAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class NewsView extends AppCompatActivity {
 
         //Control de intents
         intent = getIntent();
-        oNextAct = new Intent(this, OtherUserActivity.class);
+        oProxAct = new Intent(this, OtroUsuarioActivity.class);
 
         // Boton para volver atras
         ActionBar actionBar = getSupportActionBar();
@@ -57,12 +57,12 @@ public class NewsView extends AppCompatActivity {
         // Obtenemos el token de sesion de usuario
         getData();
 
-        peticion();
+        getPosts();
 
         // Vista del usuario que ha publicado
-        imgbtnUser.setOnClickListener(v -> {
-            if (!(tvUsername.getText().toString().equalsIgnoreCase(sUsername))) {
-                startActivity(oNextAct);
+        imtbtnUsuario.setOnClickListener(v -> {
+            if (!(tvNombreUsuario.getText().toString().equalsIgnoreCase(sNombreUsuario))) {
+                startActivity(oProxAct);
             }
         });
     }
@@ -70,20 +70,20 @@ public class NewsView extends AppCompatActivity {
     private void getData () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sUsername = sharedPreferences.getString("username", null);
+        sNombreUsuario = sharedPreferences.getString("username", null);
         sID = intent.getStringExtra("id_pub");
     }
 
     private void setIds () {
 
-        tvUsername = findViewById(R.id.fragment_news_view_text_Username);
+        tvNombreUsuario = findViewById(R.id.fragment_news_view_text_Username);
         tvDesc = findViewById(R.id.fragment_news_view_et_poc);
-        tvName = findViewById(R.id.fragment_news_view_et_newName);
-        imgvNewsImage = findViewById(R.id.fragment_news_view_et_newsImage);
-        imgbtnUser = findViewById(R.id.fragment_news_view_et_userImg);
+        tvNombre = findViewById(R.id.fragment_news_view_et_newName);
+        imgvImagenNoticia = findViewById(R.id.fragment_news_view_et_newsImage);
+        imtbtnUsuario = findViewById(R.id.fragment_news_view_et_userImg);
     }
 
-    private void peticion () {
+    private void getPosts() {
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
@@ -95,7 +95,7 @@ public class NewsView extends AppCompatActivity {
                                 try {
                                     JSONObject oObject = response.getJSONObject(0);
                                     Publicacion oPost = new Publicacion(oObject);
-                                    oNextAct.putExtra("seguido", oPost.getsUsername());
+                                    oProxAct.putExtra("seguido", oPost.getsUsuario());
                                     setData(oPost);
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
@@ -125,12 +125,12 @@ public class NewsView extends AppCompatActivity {
     }
 
     private void setData(Publicacion oPost) {
-        tvUsername.setText(oPost.getsUsername());
+        tvNombreUsuario.setText(oPost.getsUsuario());
         tvDesc.setText(oPost.getsDesc());
-        tvName.setText(oPost.getsNombre());
+        tvNombre.setText(oPost.getsNombre());
 
-        Glide.with(NewsView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgbtnUser);
-        Glide.with(NewsView.this).load(oPost.getsImagen()).into(imgvNewsImage);
+        Glide.with(NewsView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imtbtnUsuario);
+        Glide.with(NewsView.this).load(oPost.getsImagen()).into(imgvImagenNoticia);
 
     }
 }

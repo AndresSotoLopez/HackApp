@@ -31,7 +31,7 @@ import java.util.Map;
 public class Noticias extends Fragment {
 
     private RecyclerView recyclerView;
-    private String sUser = "", sToken = "";
+    private String sUsuario = "", sToken = "";
 
     Intent intent;
 
@@ -44,23 +44,23 @@ public class Noticias extends Fragment {
         getData();
 
         recyclerView = view.findViewById(R.id.fragment_news_recycler);
-        peticion();
+        setData();
 
         return view;
     }
 
     private void getData () {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUser = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
 
 
     }
 
-    private void peticion () {
+    private void setData() {
 
         //Creacion de la lista para guardar los datos de la peticion
-        List<News> aNews = new ArrayList<>();
+        List<NoticiasClase> aNews = new ArrayList<>();
 
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
@@ -73,13 +73,13 @@ public class Noticias extends Fragment {
                                 try {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
-                                        JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        News noticia = new News(jsonObject);
+                                        JSONObject oObject = response.getJSONObject(nIndex);
+                                        NoticiasClase noticia = new NoticiasClase(oObject);
                                         aNews.add(noticia);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    news_adapter adapter = new news_adapter(aNews, requireActivity());
+                                    NoticiasAdapter adapter = new NoticiasAdapter(aNews, requireActivity());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

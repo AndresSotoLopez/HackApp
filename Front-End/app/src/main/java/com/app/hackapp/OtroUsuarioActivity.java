@@ -33,16 +33,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OtherUserActivity extends AppCompatActivity {
+public class OtroUsuarioActivity extends AppCompatActivity {
 
-    private String sUser, sToken, sSeguido;
+    private String sUsuario, sToken, sSeguido;
     private Intent intent;
-    private TextView tvUsername, tvPost, tvFollowers, tvFollows, tvBio, tvText;
-    private ImageView imgvUser, imgImg;
-    private ImageButton imgbSettings;
+    private TextView tvNombreUsuario, tvPost, tvSeguidores, tvSeguidos, tvBio, tvTexto;
+    private ImageView imgvUsuario, imgImg;
+    private ImageButton imgBtnOpciones;
     private RecyclerView recyclerView;
     RequestQueue requestQueue;
-    private Button btnFollow;
+    private Button btnSeguir;
     private int nSoliID = -1;
 
     @Override
@@ -61,7 +61,7 @@ public class OtherUserActivity extends AppCompatActivity {
 
         // seteamos los ids
         setIds();
-        tvText.setVisibility(View.GONE);
+        tvTexto.setVisibility(View.GONE);
         imgImg.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
 
@@ -73,8 +73,8 @@ public class OtherUserActivity extends AppCompatActivity {
         getUserInfo();
 
 
-        btnFollow.setOnClickListener(v -> {
-            if (btnFollow.getText().toString().equalsIgnoreCase("seguir")) {
+        btnSeguir.setOnClickListener(v -> {
+            if (btnSeguir.getText().toString().equalsIgnoreCase("seguir")) {
                 onSendFollowRequest();
                 getUserInfo();
             } else {
@@ -87,21 +87,21 @@ public class OtherUserActivity extends AppCompatActivity {
 
     private void setIds () {
         tvPost = findViewById(R.id.activity_other_user_number_post);
-        tvFollowers = findViewById(R.id.activity_other_user_number_followers);
-        tvFollows = findViewById(R.id.activity_other_user_number_follows);
+        tvSeguidores = findViewById(R.id.activity_other_user_number_followers);
+        tvSeguidos = findViewById(R.id.activity_other_user_number_follows);
         tvBio = findViewById(R.id.activity_other_user_bio_text);
-        tvText = findViewById(R.id.activity_other_user_text);
+        tvTexto = findViewById(R.id.activity_other_user_text);
         recyclerView = findViewById(R.id.activity_other_user_recycler);
-        imgvUser = findViewById(R.id.activity_other_user_image);
-        imgbSettings = findViewById(R.id.fragment_user_settings);
-        tvUsername = findViewById(R.id.activity_other_user_username);
+        imgvUsuario = findViewById(R.id.activity_other_user_image);
+        imgBtnOpciones = findViewById(R.id.fragment_user_settings);
+        tvNombreUsuario = findViewById(R.id.activity_other_user_username);
         imgImg = findViewById(R.id.activity_other_user_img);
-        btnFollow = findViewById(R.id.activity_other_user_follow_button);
+        btnSeguir = findViewById(R.id.activity_other_user_follow_button);
     }
 
     private void getUserPreferences () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUser = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("username", null);
         sToken = sharedPreferences.getString("token", null);
     }
 
@@ -114,10 +114,10 @@ public class OtherUserActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            tvUsername.setText(sSeguido);
+                            tvNombreUsuario.setText(sSeguido);
                             tvPost.setText(String.valueOf(response.getInt("posts")));
-                            tvFollows.setText(String.valueOf(response.getInt("seguidos")));
-                            tvFollowers.setText(String.valueOf(response.getInt("seguidores")));
+                            tvSeguidos.setText(String.valueOf(response.getInt("seguidos")));
+                            tvSeguidores.setText(String.valueOf(response.getInt("seguidores")));
                             if (response.getString("biografia").equals(null)) {
                                 tvBio.setText(response.getString("biografia"));
                             }
@@ -125,10 +125,10 @@ public class OtherUserActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            Glide.with(OtherUserActivity.this).load(
+                            Glide.with(OtroUsuarioActivity.this).load(
                                             response.getString("avatar"))
                                     .apply(RequestOptions.circleCropTransform())
-                                    .into(imgvUser);
+                                    .into(imgvUsuario);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -161,7 +161,7 @@ public class OtherUserActivity extends AppCompatActivity {
     private void isFollowed (Boolean bPrivateAcc) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                Server.getServer() + "v1/comprobarSeguimiento?seguidor=" + sUser + "&seguido=" + sSeguido,
+                Server.getServer() + "v1/comprobarSeguimiento?seguidor=" + sUsuario + "&seguido=" + sSeguido,
                 null,
                 new Response.Listener<JSONObject>(){
                     @Override
@@ -174,19 +174,19 @@ public class OtherUserActivity extends AppCompatActivity {
                             if (isFollowing) {
                                 //Cambiar el boton y añadir objetos al recycler y muestro los datos
                                 recyclerView.setVisibility(View.VISIBLE);
-                                tvText.setVisibility(View.GONE);
+                                tvTexto.setVisibility(View.GONE);
                                 imgImg.setVisibility(View.GONE);
-                                btnFollow.setBackgroundResource(R.drawable.transparent_button_color_999999);
-                                btnFollow.setText("Siguiendo");
+                                btnSeguir.setBackgroundResource(R.drawable.transparent_button_color_999999);
+                                btnSeguir.setText("Siguiendo");
                                 getuserPosts();
                             }
                             else {
                                 //oculto el recycler, cambiar estilo boton a solicitado background y texto ocultar recycler y mostar imgview y texto
                                 recyclerView.setVisibility(View.GONE);
-                                tvText.setVisibility(View.VISIBLE);
+                                tvTexto.setVisibility(View.VISIBLE);
                                 imgImg.setVisibility(View.VISIBLE);
-                                btnFollow.setBackgroundResource(R.drawable.transparent_button_color_999999);
-                                btnFollow.setText("Solicitado");
+                                btnSeguir.setBackgroundResource(R.drawable.transparent_button_color_999999);
+                                btnSeguir.setText("Solicitado");
                             }
 
                         } catch (JSONException | NullPointerException e) {
@@ -202,17 +202,17 @@ public class OtherUserActivity extends AppCompatActivity {
                             if (statusCode == 404) {
                                 // Verificar si la cuenta es privada
                                 if (bPrivateAcc) {
-                                    btnFollow.setBackgroundResource(R.drawable.blue_button);
-                                    btnFollow.setText("Seguir");
+                                    btnSeguir.setBackgroundResource(R.drawable.blue_button);
+                                    btnSeguir.setText("Seguir");
                                     recyclerView.setVisibility(View.GONE);
-                                    tvText.setVisibility(View.VISIBLE);
+                                    tvTexto.setVisibility(View.VISIBLE);
                                     imgImg.setVisibility(View.VISIBLE);
                                 }
                                 else {
-                                    btnFollow.setBackgroundResource(R.drawable.blue_button);
-                                    btnFollow.setText("Seguir");
+                                    btnSeguir.setBackgroundResource(R.drawable.blue_button);
+                                    btnSeguir.setText("Seguir");
                                     recyclerView.setVisibility(View.VISIBLE);
-                                    tvText.setVisibility(View.GONE);
+                                    tvTexto.setVisibility(View.GONE);
                                     imgImg.setVisibility(View.GONE);
                                     getuserPosts();
                                 }
@@ -242,9 +242,14 @@ public class OtherUserActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                UserAdapter adapter = new UserAdapter(response, OtherUserActivity.this);
+                                UsuarioAdapter adapter = null;
+                                try {
+                                    adapter = new UsuarioAdapter(response, OtroUsuarioActivity.this, "");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 recyclerView.setAdapter(adapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(OtherUserActivity.this));
+                                recyclerView.setLayoutManager(new LinearLayoutManager(OtroUsuarioActivity.this));
                             }
                         },
                         new Response.ErrorListener() {
@@ -274,15 +279,15 @@ public class OtherUserActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(OtherUserActivity.this, "Solicitud enviada", Toast.LENGTH_SHORT).show();
-                        btnFollow.setBackgroundResource(R.drawable.transparent_button_color_999999);
-                        btnFollow.setText("Solicitado");
+                        Toast.makeText(OtroUsuarioActivity.this, "Solicitud enviada", Toast.LENGTH_SHORT).show();
+                        btnSeguir.setBackgroundResource(R.drawable.transparent_button_color_999999);
+                        btnSeguir.setText("Solicitado");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(OtherUserActivity.this, "No se ha podido realizar la solicitud", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OtroUsuarioActivity.this, "No se ha podido realizar la solicitud", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -306,15 +311,15 @@ public class OtherUserActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(OtherUserActivity.this, "Solicitud cancelada", Toast.LENGTH_SHORT).show();
-                        btnFollow.setBackgroundResource(R.drawable.blue_button);
-                        btnFollow.setText("Seguir");
+                        Toast.makeText(OtroUsuarioActivity.this, "Solicitud cancelada", Toast.LENGTH_SHORT).show();
+                        btnSeguir.setBackgroundResource(R.drawable.blue_button);
+                        btnSeguir.setText("Seguir");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(OtherUserActivity.this, "No se ha podido realizar la solicitud", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OtroUsuarioActivity.this, "No se ha podido realizar la solicitud", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {

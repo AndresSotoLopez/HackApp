@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +36,14 @@ public class Home extends Fragment {
 
     private RecyclerView recyclerView;
     private ImageButton btnNotis;
-    private EditText etSearch;
+    private EditText etBuscador;
 
     private String sToken = "";
+    private ExploitAdapter adapter = new ExploitAdapter();
+
+    //Creacion de la lista para guardar los datos de la peticion
+    List<Exploits> aExploits = new ArrayList<>();
+    private List<Exploits> aExploitsFiltrados = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) throws IllegalStateException{
@@ -46,8 +53,7 @@ public class Home extends Fragment {
         // Setear las variables
         recyclerView = view.findViewById(R.id.activity_home_exploits);
         btnNotis = view.findViewById(R.id.activity_home_notis);
-        etSearch = view.findViewById(R.id.activity_home_search);
-
+        etBuscador = view.findViewById(R.id.activity_home_search);
 
         // Obtener el SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
@@ -55,23 +61,24 @@ public class Home extends Fragment {
         sToken = sharedPreferences.getString("token", null);
 
         if (sToken != null) {
-            peticion();
+            onSendRequest();
         }
 
         btnNotis.setOnClickListener(v -> {
             Context cContext = v.getContext();
-            Intent intent = new Intent(cContext, NotificationsActivity.class);
+            Intent intent = new Intent(cContext, NotificacionesActivity.class);
             cContext.startActivity(intent);
         });
+
+        onSetArrayFiltrado();
 
         return view;
     }
 
-    private void peticion(){
+    private void onSendRequest(){
 
-        //Creacion de la lista para guardar los datos de la peticion
-        List<Exploits> aExploits = new ArrayList<>();
-
+        // Cada vez que se lance la peticion se borra la lista para que los items no se dupliquen
+        aExploits.clear();
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
@@ -83,13 +90,13 @@ public class Home extends Fragment {
                                 try {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
-                                        JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        Exploits exploits = new Exploits(jsonObject);
+                                        JSONObject oObjeto = response.getJSONObject(nIndex);
+                                        Exploits exploits = new Exploits(oObjeto);
                                         aExploits.add(exploits);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    ExploitAdapter adapter = new ExploitAdapter(aExploits, getActivity());
+                                    adapter = new ExploitAdapter(aExploits, getActivity());
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -116,5 +123,37 @@ public class Home extends Fragment {
         };
 
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    private void onSetArrayFiltrado () {
+        etBuscador.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                aExploitsFiltrados.clear();
+                if (s.toString().isEmpty()) {
+                    aExploitsFiltrados.addAll(aExploits);
+                } else {
+                    String sTexto = s.toString().toLowerCase();
+                    for (Exploits exploit : aExploits) {
+                        if (exploit.getsNombre().toLowerCase().contains(sTexto)) {
+                            aExploitsFiltrados.add(exploit);
+                        }
+                    }
+                }
+                adapter = new ExploitAdapter(aExploitsFiltrados, getActivity());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

@@ -1,15 +1,15 @@
 package com.app.hackapp;
 
-public class Comment {
+public class Comentario {
 
-    private String sUsername, sComment, sAvatar;
+    private String sUsername, sComentario, sAvatar;
     private Double fVal;
-    public Comment() {}
+    public Comentario() {}
 
-    public Comment(String sUserName, Double fVal, String sComment, String sAvatar) {
+    public Comentario(String sUserName, Double fVal, String sComment, String sAvatar) {
         this.fVal = fVal;
         this.sUsername = sUserName;
-        this.sComment = sComment;
+        this.sComentario = sComment;
         this.sAvatar = sAvatar;
     }
 
@@ -21,12 +21,12 @@ public class Comment {
         this.sUsername = sUsername;
     }
 
-    public String getsComment() {
-        return sComment;
+    public String getsComentario() {
+        return sComentario;
     }
 
-    public void setsComment(String sComment) {
-        this.sComment = sComment;
+    public void setsComentario(String sComentario) {
+        this.sComentario = sComentario;
     }
 
     public Double getfVal() {

@@ -5,14 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +29,10 @@ import java.io.UnsupportedEncodingException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    AppCompatButton btBottomSheet, btLogin, btCreaAcc, btForgotpass;
-    ImageButton btCheckPass;
-    private EditText etUser, etPass;
-    private String sUser, sPass;
+    AppCompatButton btnSheetDialog, btnLogin, btnCrearCuenta, btnCambiarContraseña;
+    ImageButton btnMostrarContraseña;
+    private EditText etNombreUsuario, etContraseña;
+    private String sUsuario, sContraseña;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -44,28 +40,28 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
 
         // Obtener todas las referencias de los botones.
-        btBottomSheet = findViewById(R.id.activity_login_button_termsAndConditions);
-        btLogin = findViewById(R.id.activity_login_button_login);
-        btCreaAcc = findViewById(R.id.activity_login_button_crearCuenta);
-        btForgotpass = findViewById(R.id.activity_login_button_forgotPassword);
-        btCheckPass = findViewById(R.id.activity_login_imagButton_password);
-        etUser = findViewById(R.id.activity_login_editeText_email);
-        etPass = findViewById(R.id.activity_login_editeText_password);
+        btnSheetDialog = findViewById(R.id.activity_login_button_termsAndConditions);
+        btnLogin = findViewById(R.id.activity_login_button_login);
+        btnCrearCuenta = findViewById(R.id.activity_login_button_crearCuenta);
+        btnCambiarContraseña = findViewById(R.id.activity_login_button_forgotPassword);
+        btnMostrarContraseña = findViewById(R.id.activity_login_imagButton_password);
+        etNombreUsuario = findViewById(R.id.activity_login_editeText_email);
+        etContraseña = findViewById(R.id.activity_login_editeText_password);
 
         // Obetener todos los datos de los campos edittext
-        btBottomSheet.setOnClickListener(v -> onShowBottomDialog());
-        btLogin.setOnClickListener(v -> {
+        btnSheetDialog.setOnClickListener(v -> onShowBottomDialog());
+        btnLogin.setOnClickListener(v -> {
             onSendLoginRequest();
         });
-        btCreaAcc.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, CreateAccActivity.class);
+        btnCrearCuenta.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, CrearCuentaActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
         });
-        btCheckPass.setOnClickListener(v -> onShowPass());
-        btForgotpass.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPass.class);
+        btnMostrarContraseña.setOnClickListener(v -> onShowPass());
+        btnCambiarContraseña.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ContraseñaOlvidada.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finishAffinity();
@@ -73,29 +69,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onShowBottomDialog () {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        BottomSheetDialog oBtmSheetDialog = new BottomSheetDialog(this);
 
         // Inflar el layout del Bottom Sheet Dialog
         View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
 
         // Establecer el contenido del BottomSheetDialog
-        bottomSheetDialog.setContentView(bottomSheetView);
+        oBtmSheetDialog.setContentView(bottomSheetView);
 
         // Mostrar el BottomSheetDialog
-        bottomSheetDialog.show();
+        oBtmSheetDialog.show();
 
     }
 
     private void onSendLoginRequest () {
 
-        sUser = etUser.getText().toString();
-        sPass = etPass.getText().toString();
+        sUsuario = etNombreUsuario.getText().toString();
+        sContraseña = etContraseña.getText().toString();
 
         JSONObject oBodyRequest = new JSONObject();
 
         try {
-            oBodyRequest.put("user", sUser);
-            oBodyRequest.put("password", sPass);
+            oBodyRequest.put("user", sUsuario);
+            oBodyRequest.put("password", sContraseña);
 
         } catch (JSONException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -134,26 +130,26 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
-        editor.putString("username", sUser);
+        editor.putString("username", sUsuario);
         editor.apply();
     }
 
     private void onShowPass () {
 
-        int cursorPosition = etPass.getSelectionStart();
+        int cursorPosition = etContraseña.getSelectionStart();
 
-        if (etPass.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+        if (etContraseña.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
             // Mostrar la contraseña
-            etPass.setTransformationMethod(null);
-            btCheckPass.setImageResource(R.drawable.check_pass_blocked);
+            etContraseña.setTransformationMethod(null);
+            btnMostrarContraseña.setImageResource(R.drawable.check_pass_blocked);
         } else {
             // Ocultar la contraseña
-            etPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            btCheckPass.setImageResource(R.drawable.check_pass_open);
+            etContraseña.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            btnMostrarContraseña.setImageResource(R.drawable.check_pass_open);
         }
 
         // Restaurar la posición del cursor
-        etPass.setSelection(cursorPosition);
+        etContraseña.setSelection(cursorPosition);
     }
 
     private void showError (EditText input, String s) {
@@ -175,23 +171,23 @@ public class LoginActivity extends AppCompatActivity {
                 String errorMessage = jsonObject.getString("Error");
 
                 if (nStatusCode == 404) {
-                    showError(etUser, errorMessage);
+                    showError(etNombreUsuario, errorMessage);
                 }
                 else if (nStatusCode == 401) {
-                    showError(etPass, errorMessage);
+                    showError(etContraseña, errorMessage);
                 }
                 else if (nStatusCode == 400) {
-                    if (etPass.getText().toString().isEmpty() && etUser.getText().toString().isEmpty()) {
-                        showError(etPass, "Contraseña vacía");
-                        showError(etUser, "Campo vacío");
+                    if (etContraseña.getText().toString().isEmpty() && etNombreUsuario.getText().toString().isEmpty()) {
+                        showError(etContraseña, "Contraseña vacía");
+                        showError(etNombreUsuario, "Campo vacío");
 
                     }
-                    else if (etPass.getText().toString().equals("") ) {
-                        showError(etPass, "Contraseña vacía");
+                    else if (etContraseña.getText().toString().equals("") ) {
+                        showError(etContraseña, "Contraseña vacía");
 
                     }
-                    else  if (etUser.getText().toString().isEmpty()) {
-                        showError(etUser, "Campo vacío");
+                    else  if (etNombreUsuario.getText().toString().isEmpty()) {
+                        showError(etNombreUsuario, "Campo vacío");
                     }
                 }
                 else {
@@ -200,11 +196,11 @@ public class LoginActivity extends AppCompatActivity {
 
             } catch (UnsupportedEncodingException | JSONException | NullPointerException e) {
                 e.printStackTrace();
-                if (etUser.getText().toString().isEmpty()) {
-                    showError(etUser, "Campo vacío");
+                if (etNombreUsuario.getText().toString().isEmpty()) {
+                    showError(etNombreUsuario, "Campo vacío");
                 }
-                else if (etPass.getText().toString().isEmpty()) {
-                    showError(etPass, "Contraseña vacía");
+                else if (etContraseña.getText().toString().isEmpty()) {
+                    showError(etContraseña, "Contraseña vacía");
                 }
             }
         }

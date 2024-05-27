@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +22,15 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Search extends Fragment {
+public class Buscar extends Fragment {
 
     private String sToken = "";
-    private EditText etSearchField;
+    private EditText etBuscador;
     private RecyclerView recyclerView;
 
     @Override
@@ -43,13 +46,16 @@ public class Search extends Fragment {
         getUsername();
 
         // obtenemos todos los post
-        getPosts();
+        getPosts("");
+
+        // comprobacion en tiempo para la busqueda
+        setRecyclerFiltrado();
 
         return view;
     }
 
     private void setIds (View view) {
-        etSearchField = view.findViewById(R.id.fragment_search_search);
+        etBuscador = view.findViewById(R.id.fragment_search_search);
         recyclerView = view.findViewById(R.id.fragment_search_recycler);
     }
 
@@ -58,7 +64,7 @@ public class Search extends Fragment {
         sToken = sharedPreferences.getString("token", null);
     }
 
-    private void getPosts () {
+    private void getPosts (String sBusqueda) {
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
                         Server.getServer() + "v1/publicacion/0",
@@ -67,7 +73,12 @@ public class Search extends Fragment {
                             @Override
                             public void onResponse(JSONArray response) {
                                 //Mostramos el recyclerview a traves de nuestro adapter
-                                UserAdapter adapter = new UserAdapter(response, requireActivity());
+                                UsuarioAdapter adapter = null;
+                                try {
+                                    adapter = new UsuarioAdapter(response, requireActivity(), sBusqueda);
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
                             }
@@ -88,5 +99,24 @@ public class Search extends Fragment {
             }
         };
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    private void setRecyclerFiltrado () {
+        etBuscador.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                getPosts(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

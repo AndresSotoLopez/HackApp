@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
-    tools:context=".UploadNoticias">
+    tools:context=".SubirNoticias">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_upload_noticias_buttons"

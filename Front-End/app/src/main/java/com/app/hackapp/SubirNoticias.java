@@ -26,22 +26,22 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UploadForum extends Fragment {
+public class SubirNoticias extends Fragment {
 
-    private Button btnNews, btnExploit, btnForo, btnPost;
-    private EditText etName, etTest, etDesc;
+    private Button btnNoticias, btnExploit, btnForo, btnPost;
+    private EditText etNombre, etLinkExt, etLingImg, etDesc;
     private String sToken;
-    private Fragment fNews, fExpl, fForum;
+    private Fragment fNoticias, fExpl, fForo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.upload__forum_fragment, container, false);
+        View view = inflater.inflate(R.layout.upload_noticias_fragment, container, false);
 
-        fNews = new UploadNoticias();
-        fExpl = new UploadExploit();
-        fForum = new UploadForum();
+        fNoticias = new SubirNoticias();
+        fExpl = new SubirExploit();
+        fForo = new SubirForum();
 
         // Obtenemos el token de sesion de usuario
         getData();
@@ -49,29 +49,33 @@ public class UploadForum extends Fragment {
         //Seteamos los ids de la vista
         setIds(view);
 
-        // Manejamos los clicks de los botones
-        btnNews.setOnClickListener(v -> replace(fNews));
-        btnExploit.setOnClickListener(v -> replace(fExpl));
-        btnForo.setOnClickListener(v -> replace(fForum));
+        // Mandamos la peticion Post
+        btnPost.setOnClickListener(v -> setData());
 
-        btnPost.setOnClickListener(v -> peticion());
+        // Manejamos los clicks de los botones
+        btnNoticias.setOnClickListener(v -> replace(fNoticias));
+        btnExploit.setOnClickListener(v -> replace(fExpl));
+        btnForo.setOnClickListener(v -> replace(fForo));
 
         return view;
     }
+
     private void getData () {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
     }
 
     private void setIds(View view) {
-        btnNews = view.findViewById(R.id.fragment_upload_forum_button_news);
-        btnExploit = view.findViewById(R.id.fragment_upload_forum_button_exploits);
-        btnForo = view.findViewById(R.id.fragment_upload_forum_button_forum);
+        btnNoticias = view.findViewById(R.id.fragment_upload_noticias_button_news);
+        btnExploit = view.findViewById(R.id.fragment_upload_noticias_button_exploits);
+        btnForo = view.findViewById(R.id.fragment_upload_noticias_button_forum);
 
-        etName = view.findViewById(R.id.fragment_upload_forum_et_newName);
-        etDesc = view.findViewById(R.id.fragment_upload_forum_et_desc);
-        etTest = view.findViewById(R.id.fragment_upload_forum_et_poc);
-        btnPost = view.findViewById(R.id.fragment_upload_forum_button_post);
+        etNombre = view.findViewById(R.id.fragment_upload_noticias_et_newName);
+        etLinkExt = view.findViewById(R.id.fragment_upload_noticias_et_linkext);
+        etLingImg = view.findViewById(R.id.fragment_upload_noticias_et_linkImage);
+        etDesc = view.findViewById(R.id.fragment_upload_noticias_et_desc);
+
+        btnPost = view.findViewById(R.id.fragment_upload_noticias_button_post);
     }
 
     // Funcion para mostrar marcar el edittext donde esta el error
@@ -80,13 +84,15 @@ public class UploadForum extends Fragment {
         input.requestFocus();
     }
 
+    // Comprobamos que los datos sean correctos antes de mandar la peticion
     private boolean checkData () {
-        String sName = etName.getText().toString(),
-                sTest = etTest.getText().toString(),
+        String sName = etNombre.getText().toString(),
+                sLInkExt = etLinkExt.getText().toString(),
+                sLinkImg = etLingImg.getText().toString(),
                 sDesc = etDesc.getText().toString();
 
         if (sName.isEmpty()) {
-            showError(etName, "El nombre no puede estar vacío");
+            showError(etNombre, "El nombre no puede estar vacío");
             return false;
         }
         if (sDesc.isEmpty()) {
@@ -94,27 +100,25 @@ public class UploadForum extends Fragment {
             return false;
         }
 
-        if (sTest.isEmpty()) {
-            showError(etTest, "Lo que has probado no puede estar vacío");
-            return false;
-        }
-
         return true;
     }
 
-    private void peticion () {
+    private void setData() {
+
+        String sNombre = etNombre.getText().toString(),
+                sLInkExt = etLinkExt.getText().toString(),
+                sLinkImg = etLingImg.getText().toString(),
+                sDesc = etDesc.getText().toString();
 
         if (checkData()) {
-            String sName = etName.getText().toString(),
-                    sTest = etTest.getText().toString(),
-                    sDesc = etDesc.getText().toString();
 
-            JSONObject jsonBody = new JSONObject();
+            JSONObject oJsonBody = new JSONObject();
             try {
-                jsonBody.put("nombre", sName);
-                jsonBody.put("tipo_publicacion", 3);
-                jsonBody.put("descripcion", sDesc);
-                jsonBody.put("probado", sTest);
+                oJsonBody.put("nombre", sNombre);
+                oJsonBody.put("tipo_publicacion", 1);
+                oJsonBody.put("link_externo", sLInkExt);
+                oJsonBody.put("imagen", sLinkImg);
+                oJsonBody.put("descripcion", sDesc);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -123,12 +127,12 @@ public class UploadForum extends Fragment {
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.POST,
                     Server.getServer() + "v1/nuevaPublicacion",
-                    jsonBody,
+                    oJsonBody,
                     new Response.Listener<JSONObject>(){
                         @Override
                         public void onResponse(JSONObject response) {
                             Toast.makeText(requireContext(), "Post subido correctament", Toast.LENGTH_SHORT).show();
-                            replace(fForum);
+                            deleteData();
                         }
                     },
                     new Response.ErrorListener() {
@@ -153,6 +157,12 @@ public class UploadForum extends Fragment {
         }
     }
 
+    private void deleteData() {
+        etNombre.setText("");
+        etLinkExt.setText("");
+        etLingImg.setText("");
+        etDesc.setText("");
+    }
 
     private void replace (Fragment fragment) {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();

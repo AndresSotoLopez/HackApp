@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class Publicacion {
 
     private int nID, nTipoPost, nGravedad;
-    private String sNombre, sDesc, sLinkExt, sImagen, sCVE, sTest, sUsername, sAvatar;
+    private String sNombre, sDesc, sLinkExt, sImagen, sCVE, Stexto, sUsuario, sAvatar;
 
     public Publicacion () {}
 
@@ -60,15 +60,15 @@ public class Publicacion {
         }
 
         try {
-            this.sTest = object.getString("probado");
+            this.Stexto = object.getString("probado");
         } catch (JSONException e) {
-            this.sTest = "";
+            this.Stexto = "";
         }
 
         try {
-            this.sUsername = object.getString("usuario");
+            this.sUsuario = object.getString("usuario");
         } catch (JSONException e) {
-            this.sUsername = "";
+            this.sUsuario = "";
         }
 
         try {
@@ -135,20 +135,20 @@ public class Publicacion {
         this.sCVE = sCVE;
     }
 
-    public String getsTest() {
-        return sTest;
+    public String getStexto() {
+        return Stexto;
     }
 
-    public void setsTest(String sTest) {
-        this.sTest = sTest;
+    public void setStexto(String stexto) {
+        this.Stexto = stexto;
     }
 
-    public String getsUsername() {
-        return sUsername;
+    public String getsUsuario() {
+        return sUsuario;
     }
 
-    public void setsUsername(String sUsername) {
-        this.sUsername = sUsername;
+    public void setsUsuario(String sUsuario) {
+        this.sUsuario = sUsuario;
     }
 
     public String getsAvatar() {

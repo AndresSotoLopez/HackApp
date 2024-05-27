@@ -30,13 +30,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ForumView extends AppCompatActivity {
+public class VistaForo extends AppCompatActivity {
 
-    private TextView tvUsername, tvName, tvDesc, tvTest;
-    private ImageButton imgbtnUser;
-    private String sToken, sID, sUsername;
+    private TextView tvNombreUsuario, tvNombre, tvDesc, tvProbado;
+    private ImageButton imgBtnUsuario;
+    private String sToken, sID, sNombrUsuario;
     private RecyclerView recyclerView;
-    private Intent intent, oNextAct;
+    private Intent intent, oProxAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class ForumView extends AppCompatActivity {
 
         //Control de intents
         intent = getIntent();
-        oNextAct = new Intent(this, OtherUserActivity.class);
+        oProxAct = new Intent(this, OtroUsuarioActivity.class);
 
         // Boton para volver atras
         ActionBar actionBar = getSupportActionBar();
@@ -62,9 +62,9 @@ public class ForumView extends AppCompatActivity {
         peticion();
 
         // Vista del usuario que ha publicado
-        imgbtnUser.setOnClickListener(v -> {
-            if (!(tvUsername.getText().toString().equalsIgnoreCase(sUsername))) {
-                startActivity(oNextAct);
+        imgBtnUsuario.setOnClickListener(v -> {
+            if (!(tvNombreUsuario.getText().toString().equalsIgnoreCase(sNombrUsuario))) {
+                startActivity(oProxAct);
             }
         });
     }
@@ -72,18 +72,18 @@ public class ForumView extends AppCompatActivity {
     private void getData () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sUsername = sharedPreferences.getString("username", null);
+        sNombrUsuario = sharedPreferences.getString("username", null);
         sID = intent.getStringExtra("id_pub");
     }
 
     private void setIds () {
 
-        tvUsername = findViewById(R.id.fragment_forum_view_text_Username);
+        tvNombreUsuario = findViewById(R.id.fragment_forum_view_text_Username);
         tvDesc = findViewById(R.id.fragment_forum_view_et_desc);
-        tvTest = findViewById(R.id.fragment_forum_view_et_poc);
-        tvName = findViewById(R.id.fragment_forum_view_et_newName);
+        tvProbado = findViewById(R.id.fragment_forum_view_et_poc);
+        tvNombre = findViewById(R.id.fragment_forum_view_et_newName);
 
-        imgbtnUser = findViewById(R.id.fragment_forum_view_et_userImg);
+        imgBtnUsuario = findViewById(R.id.fragment_forum_view_et_userImg);
 
         recyclerView = findViewById(R.id.fragment_forum_view_recycler);
     }
@@ -98,9 +98,9 @@ public class ForumView extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONArray response) {
                                 try {
-                                    JSONObject oObject = response.getJSONObject(0);
-                                    Publicacion oPost = new Publicacion(oObject);
-                                    oNextAct.putExtra("seguido", oPost.getsUsername());
+                                    JSONObject oObjeto = response.getJSONObject(0);
+                                    Publicacion oPost = new Publicacion(oObjeto);
+                                    oProxAct.putExtra("seguido", oPost.getsUsuario());
                                     setData(oPost);
                                     getComments();
                                 } catch (JSONException e) {
@@ -135,7 +135,7 @@ public class ForumView extends AppCompatActivity {
 
     private void getComments () {
 
-        List<Comment> oComentarios = new ArrayList<>();
+        List<Comentario> oComentarios = new ArrayList<>();
 
         //Creamos una peticion para obtener los datos del JSON
         JsonArrayRequest request = new JsonArrayRequest
@@ -149,14 +149,14 @@ public class ForumView extends AppCompatActivity {
                                     //Recorremos el array de datos de la peticion
                                     for (int nIndex = 0; nIndex < response.length(); nIndex++) {
                                         JSONObject jsonObject = response.getJSONObject(nIndex);
-                                        Comment oComment = new Comment(jsonObject.getString("usuario"), jsonObject.getDouble("valoracion"), jsonObject.getString("comentario"), jsonObject.getString("avatar"));
-                                        oComentarios.add(oComment);
+                                        Comentario oComentario = new Comentario(jsonObject.getString("usuario"), jsonObject.getDouble("valoracion"), jsonObject.getString("comentario"), jsonObject.getString("avatar"));
+                                        oComentarios.add(oComentario);
                                     }
 
                                     //Mostramos el recyclerview a traves de nuestro adapter
-                                    CommentAdapter adapter = new CommentAdapter(oComentarios, ForumView.this);
+                                    ComentarioAdapter adapter = new ComentarioAdapter(oComentarios, VistaForo.this);
                                     recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(ForumView.this));
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(VistaForo.this));
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -185,12 +185,12 @@ public class ForumView extends AppCompatActivity {
     }
 
     private void setData(Publicacion oPost) {
-        tvUsername.setText(oPost.getsUsername());
+        tvNombreUsuario.setText(oPost.getsUsuario());
         tvDesc.setText(oPost.getsDesc());
-        tvTest.setText(oPost.getsTest());
-        tvName.setText(oPost.getsNombre());
+        tvProbado.setText(oPost.getStexto());
+        tvNombre.setText(oPost.getsNombre());
 
-        Glide.with(ForumView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgbtnUser);
+        Glide.with(VistaForo.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imgBtnUsuario);
 
     }
 }

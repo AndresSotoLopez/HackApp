@@ -15,14 +15,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,14 +36,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class UserSettings extends AppCompatActivity {
+public class OpcionesUsuario extends AppCompatActivity {
 
-    private String sToken, sUser, sTelefono, sUri = "";
-    private EditText etName, etApe, etUsername, etBio, etEmail;
-    private ImageButton imgPass, imgDelete;
-    private ImageView imgUser;
+    private String sToken, sUsuario, sTelefono, sUri = "";
+    private EditText etNombre, etApe, etNombreUsuario, etBio, etEmail;
+    private ImageButton imgContraseña, imgBorrar;
+    private ImageView imgUsuario;
     private Button btnAvatar, btnGuardar;
-    private int nCode = 0;
+    private int nCodigo = 0;
     private RequestQueue requestQueue;
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -79,27 +75,27 @@ public class UserSettings extends AppCompatActivity {
 
         // Definimos las acciones de los botones
         btnGuardar.setOnClickListener(v -> checkErrors());
-        imgPass.setOnClickListener(v -> {
+        imgContraseña.setOnClickListener(v -> {
             onSendSms();
-            Intent intent = new Intent(UserSettings.this, ForgotPass.class);
+            Intent intent = new Intent(OpcionesUsuario.this, ContraseñaOlvidada.class);
             startActivity(intent);
         });
 
         btnAvatar.setOnClickListener(v -> openGallery());
 
-        imgDelete.setOnClickListener(v -> onSendDeleteAcc());
+        imgBorrar.setOnClickListener(v -> onSendDeleteAcc());
     }
 
     private void setIds () {
-        etName = findViewById(R.id.activity_user_edittext_user);
+        etNombre = findViewById(R.id.activity_user_edittext_user);
         etApe = findViewById(R.id.activity_user_edittext_ape);
-        etUsername = findViewById(R.id.activity_user_edittext_username);
+        etNombreUsuario = findViewById(R.id.activity_user_edittext_username);
         etBio = findViewById(R.id.activity_user_edittext_bio);
         etEmail = findViewById(R.id.activity_user_edittext_email);
 
-        imgPass = findViewById(R.id.activity_options_changepass);
-        imgDelete = findViewById(R.id.activity_options_closseSes);
-        imgUser = findViewById(R.id.activity_user_settings_img);
+        imgContraseña = findViewById(R.id.activity_options_changepass);
+        imgBorrar = findViewById(R.id.activity_options_closseSes);
+        imgUsuario = findViewById(R.id.activity_user_settings_img);
 
         btnAvatar = findViewById(R.id.activity_user_text_avatar);
         btnGuardar = findViewById(R.id.activity_user_settings_save);
@@ -108,19 +104,19 @@ public class UserSettings extends AppCompatActivity {
     private void getUserpref () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sUser = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("username", null);
     }
 
     private void getUserInfo () {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                Server.getServer() + "v1/datosUsuario/" + sUser,
+                Server.getServer() + "v1/datosUsuario/" + sUsuario,
                 null,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            etUsername.setText(sUser);
+                            etNombreUsuario.setText(sUsuario);
                             String sBio = response.getString("biografia");
                             if (!(sBio != null)) {
                                 etBio.setText(sBio);
@@ -129,16 +125,16 @@ public class UserSettings extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            Glide.with(UserSettings.this).load(
+                            Glide.with(OpcionesUsuario.this).load(
                                             response.getString("avatar"))
                                     .apply(RequestOptions.circleCropTransform())
-                                    .into(imgUser);
+                                    .into(imgUsuario);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
 
                         try {
-                            etName.setText(response.getString("nombre"));
+                            etNombre.setText(response.getString("nombre"));
                         } catch (JSONException | NullPointerException e) {
                             e.printStackTrace();
                         }
@@ -162,7 +158,7 @@ public class UserSettings extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UserSettings.this, "Error al cargar los datos del usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OpcionesUsuario.this, "Error al cargar los datos del usuario", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -182,15 +178,15 @@ public class UserSettings extends AppCompatActivity {
         JSONObject oBodyRequest = new JSONObject();
 
         try {
-            oBodyRequest.put("username", etUsername.getText().toString());
-            oBodyRequest.put("nombre", etName.getText().toString());
+            oBodyRequest.put("username", etNombreUsuario.getText().toString());
+            oBodyRequest.put("nombre", etNombre.getText().toString());
             oBodyRequest.put("apellidos", etApe.getText().toString());
             oBodyRequest.put("biografia", etBio.getText().toString());
             oBodyRequest.put("email", etEmail.getText().toString());
             oBodyRequest.put("avatar", sUri);
 
         } catch (JSONException e) {
-            Toast.makeText(UserSettings.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(OpcionesUsuario.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -200,13 +196,13 @@ public class UserSettings extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(UserSettings.this, "Datos Grabados Correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OpcionesUsuario.this, "Datos Grabados Correctamente", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UserSettings.this, getErrorMessage(error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OpcionesUsuario.this, getErrorMessage(error), Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -225,8 +221,8 @@ public class UserSettings extends AppCompatActivity {
     }
 
     private void checkErrors () {
-        if (etUsername.getText().toString().equalsIgnoreCase("")){
-            showError(etUsername, "Username vacío");
+        if (etNombreUsuario.getText().toString().equalsIgnoreCase("")){
+            showError(etNombreUsuario, "Username vacío");
         }
         else {
             onSendUserData();
@@ -234,16 +230,16 @@ public class UserSettings extends AppCompatActivity {
     }
 
     private static String getErrorMessage(VolleyError error) {
-        String message = "Error al subir los datos";
+        String sMensaje = "Error al subir los datos";
         if (error.networkResponse != null) {
             String data = new String(error.networkResponse.data);
-            message = "Error: " + data;
+            sMensaje = "Error: " + data;
         } else if (error.getCause() != null) {
-            message = error.getCause().getMessage();
+            sMensaje = error.getCause().getMessage();
         } else if (error.getMessage() != null) {
-            message = error.getMessage();
+            sMensaje = error.getMessage();
         }
-        return message;
+        return sMensaje;
     }
 
     private void showError (EditText input, String s) {
@@ -252,8 +248,8 @@ public class UserSettings extends AppCompatActivity {
     }
 
     private void setSMSPermisions () {
-        if (!(ContextCompat.checkSelfPermission(UserSettings.this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(UserSettings.this, new String[]{Manifest.permission.SEND_SMS}, 100);
+        if (!(ContextCompat.checkSelfPermission(OpcionesUsuario.this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(OpcionesUsuario.this, new String[]{Manifest.permission.SEND_SMS}, 100);
         }
 
     }
@@ -263,12 +259,12 @@ public class UserSettings extends AppCompatActivity {
 
         // Generar codigo sms
         Random random = new Random();
-        nCode = random.nextInt(9000) + 1000;
-        String sMessage = "From HackAPP\n\nDe parte de toda la comindad de ciberseguridad te damos las gracias por unirte a nosotros.\n\nTu código para verificarte es: " + nCode;
+        nCodigo = random.nextInt(9000) + 1000;
+        String sMensaje = "From HackAPP\n\nDe parte de toda la comindad de ciberseguridad te damos las gracias por unirte a nosotros.\n\nTu código para verificarte es: " + nCodigo;
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(sTelefono,null,sMessage, null, null);
+            smsManager.sendTextMessage(sTelefono,null,sMensaje, null, null);
         } catch (Exception e) {}
     }
 
@@ -294,7 +290,7 @@ public class UserSettings extends AppCompatActivity {
                                 editor.remove("username");
                                 editor.apply();
 
-                                startActivity(new Intent(UserSettings.this, LoginActivity.class));
+                                startActivity(new Intent(OpcionesUsuario.this, LoginActivity.class));
                             }
                         }
                     }
@@ -325,9 +321,9 @@ public class UserSettings extends AppCompatActivity {
             Uri imageUri = data.getData();
             sUri = imageUri.toString();
 
-            Glide.with(UserSettings.this).load(sUri)
+            Glide.with(OpcionesUsuario.this).load(sUri)
                     .apply(RequestOptions.circleCropTransform())
-                    .into(imgUser);
+                    .into(imgUsuario);
         }
     }
 

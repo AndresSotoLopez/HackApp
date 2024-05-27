@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.MyViewHolder>{
+public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAdapter.MyViewHolder>{
 
     private final List<Notificaciones> aNotis;
     private String sToken = "";
@@ -36,7 +36,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     private final Context context;
 
     //Constructor
-    public NotificationsAdapter(List<Notificaciones> aNotis, Context context) {
+    public NotificacionesAdapter(List<Notificaciones> aNotis, Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.aNotis = aNotis;
         this.context = context;
@@ -47,14 +47,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @NonNull
     @Override
-    public NotificationsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificacionesAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.friend_request_cell, null);
-        return new NotificationsAdapter.MyViewHolder(view);
+        return new NotificacionesAdapter.MyViewHolder(view);
     }
 
 
     @SuppressLint("SetTextI18n")
-    public void onBindViewHolder(@NonNull NotificationsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NotificacionesAdapter.MyViewHolder holder, int position) {
 
         Notificaciones noti = aNotis.get(position);
 
@@ -62,8 +62,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.sTitle.setText(noti.getsSeguido() + " ha solicitado seguirte");
         Glide.with(context).load(noti.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(holder.image);
 
-        holder.btnAccept.setOnClickListener(v -> onSendAcceptRequest(position, String.valueOf(noti.getnId()), holder));
-        holder.btnReject.setOnClickListener(v -> onSendRejectRequest(position, String.valueOf(noti.getnId()), holder));
+        holder.btnAceptar.setOnClickListener(v -> onSendAcceptRequest(position, String.valueOf(noti.getnId()), holder));
+        holder.btnRechazar.setOnClickListener(v -> onSendRejectRequest(position, String.valueOf(noti.getnId()), holder));
 
     }
 
@@ -80,8 +80,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                     public void onResponse(JSONObject response) {
                         try {
                             Toast.makeText(context, "Solicitud de amistad aceptada", Toast.LENGTH_SHORT).show();
-                            holder.btnAccept.setVisibility(View.INVISIBLE);
-                            holder.btnReject.setVisibility(View.INVISIBLE);
+                            holder.btnAceptar.setVisibility(View.INVISIBLE);
+                            holder.btnRechazar.setVisibility(View.INVISIBLE);
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
@@ -117,8 +117,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                         try {
                             aNotis.remove(position);
                             Toast.makeText(context, "Solicitud de amistad rechazada", Toast.LENGTH_SHORT).show();
-                            holder.btnAccept.setVisibility(View.INVISIBLE);
-                            holder.btnReject.setVisibility(View.INVISIBLE);
+                            holder.btnAceptar.setVisibility(View.INVISIBLE);
+                            holder.btnRechazar.setVisibility(View.INVISIBLE);
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
@@ -150,15 +150,15 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         TextView sTitle;
         String sID = "";
 
-        Button btnAccept, btnReject;
+        Button btnAceptar, btnRechazar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.user_img);
             sTitle = itemView.findViewById(R.id.username);
-            btnAccept = itemView.findViewById(R.id.accept);
-            btnReject = itemView.findViewById(R.id.reject);
+            btnAceptar = itemView.findViewById(R.id.accept);
+            btnRechazar = itemView.findViewById(R.id.reject);
 
         }
     }

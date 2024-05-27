@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class CustomSpinnerAdapter extends ArrayAdapter<CharSequence> {
+public class AdaptadorSpinnerPersonalizado extends ArrayAdapter<CharSequence> {
     private Context context;
     private int textColor;
 
-    public CustomSpinnerAdapter(Context context, int resource, List<CharSequence> objects, int textColor) {
+    public AdaptadorSpinnerPersonalizado(Context context, int resource, List<CharSequence> objects, int textColor) {
         super(context, resource, objects);
         this.context = context;
         this.textColor = textColor;
