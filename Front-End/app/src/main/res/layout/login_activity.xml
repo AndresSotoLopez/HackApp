@@ -64,7 +64,7 @@
         android:layout_marginTop="35dp"/>
 
     <EditText
-        android:id="@+id/activity_login_editeText_password"
+        android:id="@+id/activity_login_editeText_clave"
         android:layout_width="280sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -83,18 +83,18 @@
         app:layout_constraintTop_toBottomOf="@id/activity_login_editeText_email" />
 
     <ImageButton
-        android:id="@+id/activity_login_imagButton_password"
+        android:id="@+id/activity_login_imagButton_clave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/check_pass_open"
-        app:layout_constraintStart_toEndOf="@+id/activity_login_editeText_password"
+        app:layout_constraintStart_toEndOf="@+id/activity_login_editeText_clave"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_editeText_email" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/activity_login_button_forgotPassword"
+        android:id="@+id/activity_login_button_forgotclave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -105,13 +105,13 @@
         android:textColor="@color/HackAPPBlue"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_editeText_password" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_editeText_clave" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/activity_login_button_login"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/blue_button"
         android:fontFamily="@font/karma_medium"
         android:text="@string/activity.login.text.login"
@@ -120,7 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_button_forgotPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_button_forgotclave" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/activity_login_button_crearCuenta"

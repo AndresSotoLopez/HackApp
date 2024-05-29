@@ -43,10 +43,10 @@ public class LoginActivity extends AppCompatActivity {
         btnSheetDialog = findViewById(R.id.activity_login_button_termsAndConditions);
         btnLogin = findViewById(R.id.activity_login_button_login);
         btnCrearCuenta = findViewById(R.id.activity_login_button_crearCuenta);
-        btnCambiarContraseña = findViewById(R.id.activity_login_button_forgotPassword);
-        btnMostrarContraseña = findViewById(R.id.activity_login_imagButton_password);
+        btnCambiarContraseña = findViewById(R.id.activity_login_button_forgotclave);
+        btnMostrarContraseña = findViewById(R.id.activity_login_imagButton_clave);
         etNombreUsuario = findViewById(R.id.activity_login_editeText_email);
-        etContraseña = findViewById(R.id.activity_login_editeText_password);
+        etContraseña = findViewById(R.id.activity_login_editeText_clave);
 
         // Obetener todos los datos de los campos edittext
         btnSheetDialog.setOnClickListener(v -> onShowBottomDialog());
@@ -87,11 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         sUsuario = etNombreUsuario.getText().toString();
         sContraseña = etContraseña.getText().toString();
 
-        JSONObject oBodyRequest = new JSONObject();
+        JSONObject oCuerpo = new JSONObject();
 
         try {
-            oBodyRequest.put("user", sUsuario);
-            oBodyRequest.put("password", sContraseña);
+            oCuerpo.put("user", sUsuario);
+            oCuerpo.put("clave", sContraseña);
 
         } catch (JSONException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                 Server.getServer() + "v1/auth",
-                oBodyRequest,
+                oCuerpo,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
-        editor.putString("username", sUsuario);
+        editor.putString("Usuario", sUsuario);
         editor.apply();
     }
 

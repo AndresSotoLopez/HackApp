@@ -41,11 +41,11 @@ public class ChangePass extends AppCompatActivity {
 
         // Setear los botones
         btnBottomSheet = findViewById(R.id.activity_chpass_button_termsAndConditions);
-        btnComprobarContraseña = findViewById(R.id.activity_chpass_imagButton_password);
-        btnComprobarContraseña2 = findViewById(R.id.activity_chpass_imagButton_password2);
+        btnComprobarContraseña = findViewById(R.id.activity_chpass_imagButton_clave);
+        btnComprobarContraseña2 = findViewById(R.id.activity_chpass_imagButton_clave2);
         btnCambiarContraseña = findViewById(R.id.activity_chpass_button_send);
-        etContraseña1 = findViewById(R.id.activity_chpass_editeText_password);
-        etContraseña2 = findViewById(R.id.activity_chpass_editeText_password2);
+        etContraseña1 = findViewById(R.id.activity_chpass_editeText_clave);
+        etContraseña2 = findViewById(R.id.activity_chpass_editeText_clave2);
 
         btnBottomSheet.setOnClickListener(v -> onShowBottomDialog());
         btnComprobarContraseña.setOnClickListener(v -> onShowPass(etContraseña1));
@@ -106,7 +106,7 @@ public class ChangePass extends AppCompatActivity {
 
         try {
             oCuerpoPeticion.put("telefono", intent.getStringExtra("telefono"));
-            oCuerpoPeticion.put("password", etContraseña2.getText().toString());
+            oCuerpoPeticion.put("clave", etContraseña2.getText().toString());
         } catch (JSONException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/fragment_forum_view_text_Username"
+        android:id="@+id/fragment_forum_view_text_Usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -33,9 +33,9 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#878787"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_forum_view_text_Username"
-        app:layout_constraintStart_toStartOf="@id/fragment_forum_view_text_Username"
-        app:layout_constraintEnd_toEndOf="@id/fragment_forum_view_text_Username"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_forum_view_text_Usuario"
+        app:layout_constraintStart_toStartOf="@id/fragment_forum_view_text_Usuario"
+        app:layout_constraintEnd_toEndOf="@id/fragment_forum_view_text_Usuario"
         android:layout_marginTop="25dp"/>
 
 

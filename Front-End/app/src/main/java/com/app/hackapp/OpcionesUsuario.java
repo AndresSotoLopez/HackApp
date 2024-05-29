@@ -89,7 +89,7 @@ public class OpcionesUsuario extends AppCompatActivity {
     private void setIds () {
         etNombre = findViewById(R.id.activity_user_edittext_user);
         etApe = findViewById(R.id.activity_user_edittext_ape);
-        etNombreUsuario = findViewById(R.id.activity_user_edittext_username);
+        etNombreUsuario = findViewById(R.id.activity_user_edittext_Usuario);
         etBio = findViewById(R.id.activity_user_edittext_bio);
         etEmail = findViewById(R.id.activity_user_edittext_email);
 
@@ -104,7 +104,7 @@ public class OpcionesUsuario extends AppCompatActivity {
     private void getUserpref () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sUsuario = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("Usuario", null);
     }
 
     private void getUserInfo () {
@@ -118,7 +118,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                         try {
                             etNombreUsuario.setText(sUsuario);
                             String sBio = response.getString("biografia");
-                            if (!(sBio != null)) {
+                            if (!sBio.equals("null")) {
                                 etBio.setText(sBio);
                             }
                         } catch (JSONException | NullPointerException e) {
@@ -178,7 +178,7 @@ public class OpcionesUsuario extends AppCompatActivity {
         JSONObject oBodyRequest = new JSONObject();
 
         try {
-            oBodyRequest.put("username", etNombreUsuario.getText().toString());
+            oBodyRequest.put("Usuario", etNombreUsuario.getText().toString());
             oBodyRequest.put("nombre", etNombre.getText().toString());
             oBodyRequest.put("apellidos", etApe.getText().toString());
             oBodyRequest.put("biografia", etBio.getText().toString());
@@ -222,7 +222,7 @@ public class OpcionesUsuario extends AppCompatActivity {
 
     private void checkErrors () {
         if (etNombreUsuario.getText().toString().equalsIgnoreCase("")){
-            showError(etNombreUsuario, "Username vacío");
+            showError(etNombreUsuario, "Usuario vacío");
         }
         else {
             onSendUserData();
@@ -287,7 +287,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.remove("token");
-                                editor.remove("username");
+                                editor.remove("Usuario");
                                 editor.apply();
 
                                 startActivity(new Intent(OpcionesUsuario.this, LoginActivity.class));

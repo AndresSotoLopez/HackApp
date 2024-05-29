@@ -57,7 +57,7 @@
                 android:layout_toRightOf="@+id/imageview_rounded">
 
                 <TextView
-                    android:id="@+id/username"
+                    android:id="@+id/Usuario"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"

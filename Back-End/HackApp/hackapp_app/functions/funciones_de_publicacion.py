@@ -42,7 +42,7 @@ class publicacion:
         if sUsername :
 
             for oPost in Publicacion.objects.all():
-                if oPost.usuario.username == sUsername:
+                if oPost.usuario.Usuario == sUsername:
                     aPublicacion.append(oPost.to_json())
 
             return aPublicacion

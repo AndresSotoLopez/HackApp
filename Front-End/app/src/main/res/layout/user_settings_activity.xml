@@ -103,10 +103,10 @@
         android:layout_marginStart="15dp"/>
 
     <TextView
-        android:id="@+id/activity_user_label_username"
+        android:id="@+id/activity_user_label_Usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username:"
+        android:text="Usuario:     "
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/activity_user_label_apellidos"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,12 +114,12 @@
         android:layout_marginTop="25dp"/>
 
     <EditText
-        android:id="@+id/activity_user_edittext_username"
+        android:id="@+id/activity_user_edittext_Usuario"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:backgroundTint="#999999"
         app:layout_constraintTop_toBottomOf="@id/activity_user_label_apellidos"
-        app:layout_constraintStart_toEndOf="@id/activity_user_label_username"
+        app:layout_constraintStart_toEndOf="@id/activity_user_label_Usuario"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="13sp"
         android:textColor="@color/white"
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:text="Biografía: "
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/activity_user_label_username"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_Usuario"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"/>
@@ -148,7 +148,7 @@
         android:textColorHint="@color/gris_HackAPP"
         android:textColor="@color/white"
         android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/activity_user_label_username"
+        app:layout_constraintTop_toBottomOf="@id/activity_user_label_Usuario"
         app:layout_constraintStart_toEndOf="@id/activity_user_label_bio"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"

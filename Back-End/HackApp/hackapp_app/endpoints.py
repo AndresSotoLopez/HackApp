@@ -20,18 +20,18 @@ class usuarios:
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             sUser = oData.get('user', None)
-            sPassword = oData.get('password', None)
+            sPassword = oData.get('clave', None)
 
             if not sUser or not sPassword:
                 return JsonResponse({"Error": "Faltan valores o campos invalidos"}, status=400)
             
             # Comprobaciñon del input del usuario.
             try:
-                oUsuario = Usuario.objects.get(email=sUser) if '@' in sUser else Usuario.objects.get(username=sUser)
+                oUsuario = Usuario.objects.get(email=sUser) if '@' in sUser else Usuario.objects.get(Usuario=sUser)
             except Usuario.DoesNotExist:
                 return JsonResponse({"Error": "Usuario no encontrado"}, status=404)
             
-            if oUsuario.password != hashlib.sha384(sPassword.encode()).hexdigest():
+            if oUsuario.clave != hashlib.sha384(sPassword.encode()).hexdigest():
                 return JsonResponse({"Error": "Contraseña no valida"}, status=401)
 
             # Generacion de token
@@ -67,11 +67,11 @@ class usuarios:
                 return JsonResponse({"Error": "Error en JSON enviada"}, status=400)
 
             # Obtención y comprobación de los campos unique.
-            sUsername = oData.get('username')
+            sUsername = oData.get('Usuario')
             sEmail = oData.get('email')
             nTelefono = oData.get('telefono')
 
-            if Usuario.objects.filter(username=sUsername).exists():
+            if Usuario.objects.filter(Usuario=sUsername).exists():
                 return JsonResponse({"Error": "Nombre de usuario en uso"}, status=401)
         
             if Usuario.objects.filter(email=sEmail).exists():
@@ -84,7 +84,7 @@ class usuarios:
             funciones_de_usuario.usuario.crear_usuario(oData)
             sToken = funciones_de_usuario.usuario.gen_token()
 
-            oUsuario = Usuario.objects.get(email=sEmail) if '@' in sEmail else Usuario.objects.get(username=sUsername)
+            oUsuario = Usuario.objects.get(email=sEmail) if '@' in sEmail else Usuario.objects.get(Usuario=sUsername)
             Sesiones(usuario=oUsuario, token=sToken).save()
 
             return JsonResponse({"token" : sToken}, status=200)
@@ -128,10 +128,10 @@ class usuarios:
         
         oUsuario = Sesiones.objects.get(token=sToken).usuario
 
-        if(oData.get('username')):
-            if Usuario.objects.filter(username=oData.get('username')).exists() and Sesiones.objects.get(token=sToken).usuario.username != oData.get('username'):
+        if(oData.get('Usuario')):
+            if Usuario.objects.filter(Usuario=oData.get('Usuario')).exists() and Sesiones.objects.get(token=sToken).usuario.Usuario != oData.get('Usuario'):
                 return JsonResponse({"Error": "Nombre de usuario en uso"}, status=401)
-            oUsuario.username = oData.get('username')
+            oUsuario.Usuario = oData.get('Usuario')
             
         if(oData.get('nombre')):
             oUsuario.nombre = oData.get('nombre')
@@ -142,7 +142,7 @@ class usuarios:
         if(oData.get('avatar') and oData.get('avatar') != ""):
             oUsuario.avatar = oData.get('avatar')
 
-        if(oData.get('email')):
+        if(oData.get('email') != Sesiones.objects.get(token=sToken).usuario.email and oData.get('email') != None):
             if Usuario.objects.filter(email=oData.get('email')).exists():
                 return JsonResponse({"Error": "Email en uso"}, status=401)
             oUsuario.email = oData.get('email')
@@ -152,8 +152,8 @@ class usuarios:
         else:
             oUsuario.biografia = oData.get('biografia')
 
-        if(oData.get('password')):
-            oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+        if(oData.get('clave')):
+            oUsuario.clave = hashlib.sha384(oData.get('clave').encode()).hexdigest()
 
         if 'notificaciones' in oData:
             oUsuario.notificaciones = oData['notificaciones']
@@ -180,13 +180,13 @@ class usuarios:
         if not oUsuario:
             return JsonResponse({"Error": "Usuario no encontrado"}, status=404)
         
-        oUsuario.password = hashlib.sha384(oData.get('password').encode()).hexdigest()
+        oUsuario.clave = hashlib.sha384(oData.get('clave').encode()).hexdigest()
         oUsuario.save()
 
         return JsonResponse({"Info": "Contraseña cambiada correctamente"}, status=200)
         
     
-    def get_usuario (request, username) :
+    def get_usuario (request, usuario) :
         if request.method != 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
@@ -200,7 +200,7 @@ class usuarios:
             return JsonResponse({"Error": "Token no encontrado"}, status=404)
         
         # Se obtienen los datos del usuario
-        oUsuario = Usuario.objects.get(username=username).to_json()
+        oUsuario = Usuario.objects.get(Usuario=usuario).to_json()
 
         return JsonResponse(oUsuario, status=200)
     
@@ -213,6 +213,7 @@ class publicaciones():
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
         oData = json.loads(request.body)
+        sToken = request.headers.get('token')
 
         #Validar Json enviado
         if not funciones_de_publicacion.publicacion.comprobar_body_data(oData, schemas_de_publicacion.schemas.oMainSchema):
@@ -220,6 +221,7 @@ class publicaciones():
         
         # Creación de la publicación.
         funciones_de_publicacion.publicacion.crear_publicaciones(oData, request.headers.get('token'))
+        Sesiones.objects.get(token=sToken).usuario.posts += 1
         return JsonResponse({"Info": "Publicacion creada correctamente"}, status=200)
     
     @validar_token
@@ -227,7 +229,7 @@ class publicaciones():
         if request.method!= 'GET':
             return JsonResponse({"Error": "Metodo no permitido"}, status=405)
         
-        sUsername = request.GET.get("username", None)
+        sUsername = request.GET.get("Usuario", None)
         nTipoNoticia = request.GET.get("tipoNoticia", None)
 
         aPublicacion = []
@@ -387,6 +389,14 @@ class solicitudes:
 
             try:
                 oSolicitud = Solicitud.objects.get(id=nId)
+                oSeguido = oSolicitud.seguido
+                if (oSeguido.seguidos != 0):
+                    oSeguido.seguidos-= 1
+                oSeguido.save()
+                oSeguidor = oSolicitud.seguidor
+                if (oSeguidor.seguidores != 0):
+                    oSeguidor.seguidores -= 1
+                oSeguidor.save()
                 oSolicitud.delete()
                 return JsonResponse({},status=200)
             except:
@@ -407,11 +417,16 @@ class solicitudes:
         if sUsername is None:
             return JsonResponse({"Error": "Parametro user no proporcionado"}, status=400)
         
-        oSeguidor = Usuario.objects.get(username=sUsername)
+        oSeguidor = Usuario.objects.get(Usuario=sUsername)
         oSeguido = Sesiones.objects.get(token=sToken).usuario
 
         if oSeguidor.cuenta_privada:
             bEstado = True
+        else:
+            oSeguido.seguidos += 1
+            oSeguidor.seguidores += 1
+            oSeguido.save()
+            oSeguidor.save()
         
         oNuevaSolicitud = Solicitud (
             seguidor = oSeguidor,
@@ -435,9 +450,7 @@ class solicitudes:
             return JsonResponse({"Error": "Parametros no proporcionados"}, status=400)
         
         oSeguido = Sesiones.objects.get(token=sToken).usuario
-        oSeguidor= Usuario.objects.get(username=nSeguido)
-
-        print(Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists())
+        oSeguidor= Usuario.objects.get(Usuario=nSeguido)
 
         if Solicitud.objects.filter(seguidor=oSeguidor, seguido=oSeguido).exists():
             if Solicitud.objects.get(seguidor=oSeguidor, seguido=oSeguido).estado is True:

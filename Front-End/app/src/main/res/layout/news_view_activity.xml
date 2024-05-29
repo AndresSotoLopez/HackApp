@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/fragment_news_view_text_Username"
+        android:id="@+id/fragment_news_view_text_Usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -33,9 +33,9 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#878787"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_news_view_text_Username"
-        app:layout_constraintStart_toStartOf="@id/fragment_news_view_text_Username"
-        app:layout_constraintEnd_toEndOf="@id/fragment_news_view_text_Username"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_news_view_text_Usuario"
+        app:layout_constraintStart_toStartOf="@id/fragment_news_view_text_Usuario"
+        app:layout_constraintEnd_toEndOf="@id/fragment_news_view_text_Usuario"
         android:layout_marginTop="25dp"/>
 
 
@@ -79,7 +79,7 @@
         android:text="Descripción"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_news_view_et_poc"
+        app:layout_constraintBottom_toTopOf="@id/scroll"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="15dp"/>
 
@@ -92,14 +92,10 @@
         app:layout_constraintEnd_toEndOf="@id/fragment_news_view_text2"
         android:layout_marginTop="25dp"/>
 
-    <TextView
-        android:id="@+id/fragment_news_view_et_poc"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="0dp"
         android:layout_height="300dp"
-        android:textColor="@color/white"
-        android:textColorHint="#999999"
-        android:textSize="15sp"
-        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +103,25 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/desc_upload_color_999999"
-        android:gravity="top"/>
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/fragment_news_view_et_poc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textColorHint="#999999"
+            android:textSize="15sp"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="top"/>
+    </ScrollView>
+
+
 
 
 

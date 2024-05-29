@@ -39,7 +39,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.My
         Comentario oComentario = lComentarios.get(position);
 
         Glide.with(context).load(oComentario.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(holder.image);
-        holder.sUserName.setText(oComentario.getsUsername());
+        holder.sUsuario.setText(oComentario.getsUsuario());
         holder.sVal.setText(String.valueOf(oComentario.getfVal()));
         holder.sComentario.setText(oComentario.getsComentario());
     }
@@ -52,13 +52,13 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.My
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image;
-        TextView sUserName, sComentario, sVal;
+        TextView sUsuario, sComentario, sVal;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.user_img);
-            sUserName = itemView.findViewById(R.id.user_name);
+            sUsuario = itemView.findViewById(R.id.user_name);
             sVal = itemView.findViewById(R.id.valoracion);
             sComentario = itemView.findViewById(R.id.comment);
         }

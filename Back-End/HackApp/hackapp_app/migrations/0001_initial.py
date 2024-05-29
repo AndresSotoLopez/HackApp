@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(max_length=50, unique=True)),
                 ('biografia', models.CharField(blank=True, max_length=200, null=True)),
                 ('email', models.EmailField(max_length=254, unique=True)),
-                ('password', models.CharField(max_length=100)),
+                ('clave', models.CharField(max_length=100)),
                 ('ct', models.IntegerField(default=0)),
                 ('telefono', models.IntegerField(default=999999999)),
                 ('avatar', models.URLField(max_length=100, null=True)),

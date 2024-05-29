@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class Opciones extends Fragment {
 
-    private String sNomreUsuario, sToken;
+    private String sNomreUsuario, sToken, sBio = "";
     private ImageView imgvUsuario, imgvEditarPerfil, imgvSobreNosotros, imgvFAQS, imgvCerrarSesion;
     private TextView tvNombreUsuario;
     private Switch swModoOscuro, swNotis, swCuentaPrivada;
@@ -67,12 +67,12 @@ public class Opciones extends Fragment {
 
     private void getData () {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sNomreUsuario = sharedPreferences.getString("username", null);
+        sNomreUsuario = sharedPreferences.getString("Usuario", null);
         sToken = sharedPreferences.getString("token", null);
     }
 
     private void setIds(View view) {
-        tvNombreUsuario = view.findViewById(R.id.activity_options_username);
+        tvNombreUsuario = view.findViewById(R.id.activity_options_Usuario);
         tvNombreUsuario.setText(sNomreUsuario);
 
         swModoOscuro = view.findViewById(R.id.activity_options_darkMode);
@@ -146,6 +146,11 @@ public class Opciones extends Fragment {
                             throw new RuntimeException(e);
                         }
 
+                        try {
+                            sBio = response.getString("biografia");
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -186,7 +191,7 @@ public class Opciones extends Fragment {
                         sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.remove("token");
-                        editor.remove("username");
+                        editor.remove("Usuario");
                         editor.apply();
 
                         startActivity(new Intent(requireContext(), LoginActivity.class));
@@ -212,6 +217,7 @@ public class Opciones extends Fragment {
 
         try {
             oBodyRequest.put(sClave, bChecked);
+            oBodyRequest.put("biografia", sBio);
 
         } catch (JSONException e) {
             Toast.makeText(requireContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

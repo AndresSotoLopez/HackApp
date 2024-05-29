@@ -50,10 +50,10 @@ public class Usuario extends Fragment {
         requestQueue = Volley.newRequestQueue(requireContext());
 
         // Obtenemos el nombre de usuario y el token
-        getUsername();
+        getUsuario();
 
         // Seteamos el nombre de usuario a la vista
-        tvNombreUsuario = view.findViewById(R.id.fragment_user_username);
+        tvNombreUsuario = view.findViewById(R.id.fragment_user_Usuario);
 
         // Asiganmos los id a los textview, obtenemos los datos del usuario y luego los asignamos.
         tvPost = view.findViewById(R.id.fragment_user_number_post);
@@ -76,9 +76,9 @@ public class Usuario extends Fragment {
         return view;
     }
 
-    private void getUsername () {
+    private void getUsuario () {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUsuario = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("Usuario", null);
         sToken = sharedPreferences.getString("token", null);
     }
     private void getUserInfo () {
@@ -95,7 +95,7 @@ public class Usuario extends Fragment {
                             tvSeguidos.setText(String.valueOf(response.getInt("seguidos")));
                             tvSeguidores.setText(String.valueOf(response.getInt("seguidores")));
                             String sBio = response.getString("biografia");
-                            if (!(sBio != null)) {
+                            if (!sBio.equals("null")) {
                                 tvBio.setText(sBio);
                             }
                         } catch (JSONException | NullPointerException e) {
@@ -133,7 +133,7 @@ public class Usuario extends Fragment {
     private void getuserPosts () {
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/publicacion/0?username="+ sUsuario,
+                        Server.getServer() + "v1/publicacion/0?Usuario="+ sUsuario,
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override

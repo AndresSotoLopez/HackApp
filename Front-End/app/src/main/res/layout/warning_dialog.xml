@@ -60,6 +60,7 @@
             android:layout_marginTop="12dp"
             android:backgroundTint="@color/verde_succes"
             android:text="Continuar"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_warning_text_adviseText"

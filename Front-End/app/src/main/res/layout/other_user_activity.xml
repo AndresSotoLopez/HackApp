@@ -8,7 +8,7 @@
     tools:context=".Usuario">
 
     <TextView
-        android:id="@+id/activity_other_user_username"
+        android:id="@+id/activity_other_user_Usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -23,10 +23,10 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#878787"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_other_user_username"
-        app:layout_constraintEnd_toEndOf="@+id/activity_other_user_username"
-        app:layout_constraintStart_toStartOf="@+id/activity_other_user_username"
-        app:layout_constraintTop_toTopOf="@+id/activity_other_user_username"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_other_user_Usuario"
+        app:layout_constraintEnd_toEndOf="@+id/activity_other_user_Usuario"
+        app:layout_constraintStart_toStartOf="@+id/activity_other_user_Usuario"
+        app:layout_constraintTop_toTopOf="@+id/activity_other_user_Usuario"
         android:layout_marginTop="25dp"/>
 
     <ImageView
@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/user_image_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_other_user_username" />
+        app:layout_constraintTop_toBottomOf="@id/activity_other_user_Usuario" />
 
     <LinearLayout
         android:id="@+id/activity_other_user_post_layout"
