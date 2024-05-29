@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/activity_login_hackAppLogo" />
 
     <EditText
-        android:id="@+id/activity_chpass_editeText_password"
+        android:id="@+id/activity_chpass_editeText_clave"
         android:layout_width="280sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -48,13 +48,13 @@
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="#878787"
-        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_clave"
         app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_chpass_changePass" />
 
     <ImageButton
-        android:id="@+id/activity_chpass_imagButton_password"
+        android:id="@+id/activity_chpass_imagButton_clave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_chpass_changePass" />
 
     <EditText
-        android:id="@+id/activity_chpass_editeText_password2"
+        android:id="@+id/activity_chpass_editeText_clave2"
         android:layout_width="280sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -80,13 +80,13 @@
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="#878787"
-        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_password2"
+        app:layout_constraintEnd_toStartOf="@id/activity_chpass_imagButton_clave2"
         app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_chpass_editeText_password" />
+        app:layout_constraintTop_toBottomOf="@id/activity_chpass_editeText_clave" />
 
     <ImageButton
-        android:id="@+id/activity_chpass_imagButton_password2"
+        android:id="@+id/activity_chpass_imagButton_clave2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -95,7 +95,7 @@
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/check_pass_open"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_clave" />
 
 
 
@@ -111,7 +111,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_password2"
+        app:layout_constraintTop_toBottomOf="@+id/activity_chpass_editeText_clave2"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"/>
 

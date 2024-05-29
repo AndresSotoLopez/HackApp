@@ -46,7 +46,7 @@ public class NotificacionesActivity extends AppCompatActivity {
         setIds();
 
         //Obtenemos el token del usuario
-        getUsername();
+        getUsuario();
 
         // Obtenemos las notificaciones del usuario
         setData();
@@ -54,7 +54,7 @@ public class NotificacionesActivity extends AppCompatActivity {
 
     public void setIds() {
         rRecycler = findViewById(R.id.activity_notifications_recycler);
-        tvUsuario = findViewById(R.id.activity_notifications_username);
+        tvUsuario = findViewById(R.id.activity_notifications_Usuario);
     }
 
     private void setData() {
@@ -109,7 +109,7 @@ public class NotificacionesActivity extends AppCompatActivity {
 
     }
 
-    private void getUsername () {
+    private void getUsuario () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
     }

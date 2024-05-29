@@ -43,7 +43,7 @@ public class Buscar extends Fragment {
         setIds(view);
 
         // obtenemos el token de usuario
-        getUsername();
+        getUsuario();
 
         // obtenemos todos los post
         getPosts("");
@@ -59,7 +59,7 @@ public class Buscar extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_search_recycler);
     }
 
-    private void getUsername () {
+    private void getUsuario () {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
     }

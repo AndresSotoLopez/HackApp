@@ -3,6 +3,7 @@ package com.app.hackapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,13 +71,13 @@ public class NewsView extends AppCompatActivity {
     private void getData () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sNombreUsuario = sharedPreferences.getString("username", null);
+        sNombreUsuario = sharedPreferences.getString("Usuario", null);
         sID = intent.getStringExtra("id_pub");
     }
 
     private void setIds () {
 
-        tvNombreUsuario = findViewById(R.id.fragment_news_view_text_Username);
+        tvNombreUsuario = findViewById(R.id.fragment_news_view_text_Usuario);
         tvDesc = findViewById(R.id.fragment_news_view_et_poc);
         tvNombre = findViewById(R.id.fragment_news_view_et_newName);
         imgvImagenNoticia = findViewById(R.id.fragment_news_view_et_newsImage);
@@ -130,7 +131,11 @@ public class NewsView extends AppCompatActivity {
         tvNombre.setText(oPost.getsNombre());
 
         Glide.with(NewsView.this).load(oPost.getsAvatar()).apply(RequestOptions.circleCropTransform()).into(imtbtnUsuario);
-        Glide.with(NewsView.this).load(oPost.getsImagen()).into(imgvImagenNoticia);
+        if (!oPost.getsImagen().equals("")){
+            Glide.with(NewsView.this).load(oPost.getsImagen()).fitCenter().into(imgvImagenNoticia);
+            imgvImagenNoticia.setBackgroundColor(Color.TRANSPARENT);
+        }
+
 
     }
 }

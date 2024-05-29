@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NoticiasClase {
-    private String sNombre = "", sDescrip = "", sLink_expdb = "", sLinkExt = "", sLinkImagen = "", sUsername = "";
+    private String sNombre = "", sDescrip = "", sLink_expdb = "", sLinkExt = "", sLinkImagen = "", sUsuario = "";
     private int nId = 0;
 
     public NoticiasClase() {}
@@ -15,7 +15,7 @@ public class NoticiasClase {
         this.sDescrip = oObject.getString("descripcion");
         this.sLinkExt = oObject.getString("link_externo");
         this.sLinkImagen = oObject.getString("imagen");
-        this.sUsername = oObject.getString("usuario");
+        this.sUsuario = oObject.getString("usuario");
     }
 
     public String getsNombre() {

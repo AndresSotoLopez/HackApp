@@ -2,23 +2,23 @@ package com.app.hackapp;
 
 public class Comentario {
 
-    private String sUsername, sComentario, sAvatar;
+    private String sUsuario, sComentario, sAvatar;
     private Double fVal;
     public Comentario() {}
 
-    public Comentario(String sUserName, Double fVal, String sComment, String sAvatar) {
+    public Comentario(String sUsuario, Double fVal, String sComment, String sAvatar) {
         this.fVal = fVal;
-        this.sUsername = sUserName;
+        this.sUsuario = sUsuario;
         this.sComentario = sComment;
         this.sAvatar = sAvatar;
     }
 
-    public String getsUsername() {
-        return sUsername;
+    public String getsUsuario() {
+        return sUsuario;
     }
 
-    public void setsUsername(String sUsername) {
-        this.sUsername = sUsername;
+    public void setsUsuario(String sUsuario) {
+        this.sUsuario = sUsuario;
     }
 
     public String getsComentario() {

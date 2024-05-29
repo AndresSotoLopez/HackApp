@@ -156,7 +156,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
             super(itemView);
 
             image = itemView.findViewById(R.id.user_img);
-            sTitle = itemView.findViewById(R.id.username);
+            sTitle = itemView.findViewById(R.id.Usuario);
             btnAceptar = itemView.findViewById(R.id.accept);
             btnRechazar = itemView.findViewById(R.id.reject);
 

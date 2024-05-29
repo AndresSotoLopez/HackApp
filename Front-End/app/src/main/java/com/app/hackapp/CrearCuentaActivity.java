@@ -63,11 +63,11 @@ public class CrearCuentaActivity extends AppCompatActivity {
         etNombre = findViewById(R.id.activity_login_editeText_name);
         etApellidos = findViewById(R.id.activity_login_editeText_secondName);
         etCorreo = findViewById(R.id.activity_creatAcc_editeText_email);
-        etContraseña = findViewById(R.id.activity_creatAcc_editeText_password);
-        etUsuario = findViewById(R.id.activity_creatAcc_editeText_username);
+        etContraseña = findViewById(R.id.activity_creatAcc_editeText_clave);
+        etUsuario = findViewById(R.id.activity_creatAcc_editeText_Usuario);
         etTelefono = findViewById(R.id.activity_creatAcc_editeText_telefono);
         btnCrearCuenta = findViewById(R.id.activity_creatAcc_button_crearCuanta);
-        btnComprobarContraseña = findViewById(R.id.activity_creatAcc_imagButton_password);
+        btnComprobarContraseña = findViewById(R.id.activity_creatAcc_imagButton_clave);
         btnBottomSheet = findViewById(R.id.activity_creatAcc_button_termsAndConditions);
         btLogin = findViewById(R.id.activity_creatAcc_button_login);
 
@@ -192,9 +192,9 @@ public class CrearCuentaActivity extends AppCompatActivity {
         try {
             oBodyRequest.put("nombre", sNombre);
             oBodyRequest.put("apellidos", sApellidos);
-            oBodyRequest.put("password", sContraseña);
+            oBodyRequest.put("clave", sContraseña);
             oBodyRequest.put("email", sEmail);
-            oBodyRequest.put("username", sUsuario);
+            oBodyRequest.put("Usuario", sUsuario);
             oBodyRequest.put("ct", nCC);
             oBodyRequest.put("telefono", nTelefono);
             oBodyRequest.put("posts", 0);
@@ -240,12 +240,12 @@ public class CrearCuentaActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void setToken (String token, String sUsername) {
+    private void setToken (String token, String sUsuario) {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
-        editor.putString("username", sUsername);
+        editor.putString("Usuario", sUsuario);
         editor.apply();
     }
 

@@ -6,7 +6,7 @@
     <!--Login Activity-->
     <string name="activity.login.text.bienvenidoDeNuevo">Bienvenido de nuevo</string>
     <string name="activity.login.text.iniciaSesion">Inicia sesión para continuar</string>
-    <string name="activity.login.hint.email">Username o Email</string>
+    <string name="activity.login.hint.email">Usuario o Email</string>
     <string name="activity.login.hint.contraseña">Contraseña</string>
     <string name="activity.login.text.forgotPass">¿Has olvidado la contraseña?</string>
     <string name="activity.login.text.login">Iniciar sesión</string>
@@ -18,7 +18,7 @@
     <string name="activity.createAcc.hint.name">Nombre</string>
     <string name="activity.createAcc.hint.secondName">Apellidos</string>
     <string name="activity.createAcc.hint.email">Email</string>
-    <string name="activity.createAcc.hint.username">Username</string>
+    <string name="activity.createAcc.hint.Usuario">Usuario</string>
     <string name="activity.createAcc.hint.cc">34</string>
     <string name="activity.createAcc.hint.telefono">123456789</string>
 

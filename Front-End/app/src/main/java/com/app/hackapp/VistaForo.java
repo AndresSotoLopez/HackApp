@@ -72,13 +72,13 @@ public class VistaForo extends AppCompatActivity {
     private void getData () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         sToken = sharedPreferences.getString("token", null);
-        sNombrUsuario = sharedPreferences.getString("username", null);
+        sNombrUsuario = sharedPreferences.getString("Usuario", null);
         sID = intent.getStringExtra("id_pub");
     }
 
     private void setIds () {
 
-        tvNombreUsuario = findViewById(R.id.fragment_forum_view_text_Username);
+        tvNombreUsuario = findViewById(R.id.fragment_forum_view_text_Usuario);
         tvDesc = findViewById(R.id.fragment_forum_view_et_desc);
         tvProbado = findViewById(R.id.fragment_forum_view_et_poc);
         tvNombre = findViewById(R.id.fragment_forum_view_et_newName);

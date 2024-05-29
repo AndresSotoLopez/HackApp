@@ -51,7 +51,7 @@ public class Noticias extends Fragment {
 
     private void getData () {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUsuario = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("Usuario", null);
         sToken = sharedPreferences.getString("token", null);
 
 

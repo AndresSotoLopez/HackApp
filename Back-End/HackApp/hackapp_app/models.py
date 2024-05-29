@@ -6,10 +6,10 @@ from django.core.validators import MinValueValidator
 class Usuario(models.Model):
     nombre = models.CharField(max_length=20)
     apellidos = models.CharField(max_length=50)
-    username = models.CharField(max_length=50, unique=True)
+    Usuario = models.CharField(max_length=50, unique=True)
     biografia = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
+    clave = models.CharField(max_length=100)
     ct = models.IntegerField(default=0)
     telefono = models.IntegerField(default=999999999)
     avatar = models.URLField(max_length=100, null=True)
@@ -24,10 +24,9 @@ class Usuario(models.Model):
         ])
     cuenta_privada = models.BooleanField(default=False)
     notificaciones = models.BooleanField(default=True)
-    sms_code = models.IntegerField(default=999999, null=True)
 
     def get_name(self):
-        return self.username
+        return self.Usuario
     
     def get_avatar(self):
         return self.avatar
@@ -37,10 +36,10 @@ class Usuario(models.Model):
             'id': self.id,
             'nombre': self.nombre,
             'apellidos': self.apellidos,
-            'username': self.username,
+            'Usuario': self.Usuario,
             'biografia': self.biografia,
             'email': self.email,
-            'password': self.password,
+            'clave': self.clave,
             'ct': self.ct,
             'telefono': self.telefono,
             'avatar': self.avatar,
@@ -49,7 +48,6 @@ class Usuario(models.Model):
             'seguidos': self.seguidos,
             'cuenta_privada': self.cuenta_privada,
             'notificaciones': self.notificaciones,
-            'sms_code': self.sms_code,
         }
     
 class Publicacion(models.Model):
@@ -90,7 +88,7 @@ class Publicacion(models.Model):
             'gravedad': self.gravedad,
             'cve': self.cve,
             'probado': self.probado,
-            'usuario': self.usuario.username,
+            'usuario': self.usuario.Usuario,
             'avatar': self.usuario.avatar,
         }
 

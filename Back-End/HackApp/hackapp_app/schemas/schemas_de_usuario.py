@@ -4,9 +4,9 @@ class schemas():
         "type": "object",
         "properties": {
             "user": {"type": "string"},
-            "password": {"type": "string"}
+            "clave": {"type": "string"}
             },
-        "required": ["user", "password"]
+        "required": ["user", "clave"]
     }
 
     oSchema = {
@@ -14,10 +14,10 @@ class schemas():
         "properties": {
             "nombre": {"type": "string", "maxLength": 20},
             "apellidos": {"type": "string", "maxLength": 50},
-            "username": {"type": "string", "maxLength": 50},
+            "Usuario": {"type": "string", "maxLength": 50},
             "biografia": {"type": ["string", "null"], "maxLength": 200},
             "email": {"type": "string", "format": "email"},
-            "password": {"type": "string", "maxLength": 100},
+            "clave": {"type": "string", "maxLength": 100},
             "ct": {"type": "integer", "default": 0},
             "telefono": {"type": "integer", "default": 999999999},
             "avatar": {"type": ["string", "null"], "format": "uri", "maxLength": 100},
@@ -28,14 +28,14 @@ class schemas():
             "notificaciones": {"type": "boolean", "default": True},
             "sms_code": {"type": ["integer", "null"], "default": 999999, "unique": True}
         },
-        "required": ["nombre", "apellidos", "username", "email", "password"]
+        "required": ["nombre", "apellidos", "Usuario", "email", "clave"]
     }
 
     oCambioDatosSchema = {
         "type": "object",
         "properties": {
-            "username": {"type": "string"},
-            "password": {"type": "string"},
+            "Usuario": {"type": "string"},
+            "clave": {"type": "string"},
             "email": {"type": "string"},
             "nombre": {"type": "string"},
             "apellidos": {"type": "string"},
@@ -53,7 +53,7 @@ class schemas():
         "type": "object",
         "properties": {
             "telefono": {"type": "string"},
-            "password": {"type": "string"},
+            "clave": {"type": "string"},
         },
-        "required": ["telefono", "password"]
+        "required": ["telefono", "clave"]
     }

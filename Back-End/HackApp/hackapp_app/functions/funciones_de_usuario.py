@@ -21,10 +21,10 @@ class usuario:
         usuario = Usuario(
             nombre=oData.get('nombre'),
             apellidos=oData.get('apellidos'),
-            username=oData.get('username'),
+            Usuario=oData.get('Usuario'),
             biografia=oData.get('biografia'),
             email=oData.get('email'),
-            password=hashlib.sha384(oData.get('password').encode()).hexdigest(),
+            clave=hashlib.sha384(oData.get('clave').encode()).hexdigest(),
             ct=oData.get('ct'), 
             telefono=oData.get('telefono'),
             avatar=oData.get('avatar'),

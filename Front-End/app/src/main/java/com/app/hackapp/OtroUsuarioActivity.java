@@ -94,14 +94,14 @@ public class OtroUsuarioActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activity_other_user_recycler);
         imgvUsuario = findViewById(R.id.activity_other_user_image);
         imgBtnOpciones = findViewById(R.id.fragment_user_settings);
-        tvNombreUsuario = findViewById(R.id.activity_other_user_username);
+        tvNombreUsuario = findViewById(R.id.activity_other_user_Usuario);
         imgImg = findViewById(R.id.activity_other_user_img);
         btnSeguir = findViewById(R.id.activity_other_user_follow_button);
     }
 
     private void getUserPreferences () {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sUsuario = sharedPreferences.getString("username", null);
+        sUsuario = sharedPreferences.getString("Usuario", null);
         sToken = sharedPreferences.getString("token", null);
     }
 
@@ -236,7 +236,7 @@ public class OtroUsuarioActivity extends AppCompatActivity {
     private void getuserPosts () {
         JsonArrayRequest request = new JsonArrayRequest
                 (Request.Method.GET,
-                        Server.getServer() + "v1/publicacion/0?username="+sSeguido,
+                        Server.getServer() + "v1/publicacion/0?Usuario="+sSeguido,
                         null,
                         new Response.Listener<JSONArray>(){
                             @Override
