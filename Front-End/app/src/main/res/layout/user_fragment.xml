@@ -100,7 +100,7 @@
             android:id="@+id/fragment_user_text_followers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_user_followers"
+            android:text="Seguidores"
             android:textSize="14sp"
             android:textColor="@color/white"/>
     </LinearLayout>
@@ -127,7 +127,7 @@
             android:id="@+id/fragment_user_text_follows"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_user_follows"
+            android:text="Seguidos"
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>

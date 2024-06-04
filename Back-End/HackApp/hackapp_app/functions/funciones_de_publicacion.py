@@ -32,7 +32,7 @@ class publicacion:
             probado=oData.get('probado'),
             usuario=Sesiones.objects.get(token=sToken).usuario,
         )
-
+        Sesiones.objects.get(token=sToken).usuario.posts += 1
         oPost.save()
 
     def filtrar_publicaciones (sUsername, nTipoNoticia) :
