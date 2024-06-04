@@ -55,7 +55,7 @@ En HackAPP, nuestra misión es crear una gran comunidad donde las personas apasi
 
 - Lo primero es descargar el repositorio. Podeis hacerlo pulsando en la parte superior en _**SOURCE**_ y en _**Descargar**_.
 - Una vez descargado, extraeis los archivos en la ruta que vosotros querais e iniciais una terminal en esa ruta.
-- A continuación, os colocais dentro de la carpeta **BACK-END** y ejecutais el siguiente comando:
+- A continuación, os colocais dentro de la carpeta **BACK-END/HackAPP** y ejecutais el siguiente comando:
 
   > python3 manage.py runserver
 
